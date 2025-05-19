@@ -36,6 +36,7 @@ const OrdersPage = async (props: {
               <TableHead>DATE</TableHead>
               <TableHead>TOTAL</TableHead>
               <TableHead>PAID</TableHead>
+              <TableHead>SHIPPED</TableHead>
               <TableHead>DELIVERED</TableHead>
               <TableHead>ACTIONS</TableHead>
             </TableRow>
@@ -52,6 +53,11 @@ const OrdersPage = async (props: {
                   {order.isPaid && order.paidAt
                     ? formatDateTime(order.paidAt).dateTime
                     : 'Not Paid'}
+                </TableCell>
+                <TableCell>
+                  {order.isShipped && order.shippedAt
+                    ? formatDateTime(order.shippedAt).dateTime
+                    : 'Not Shipped'}
                 </TableCell>
                 <TableCell>
                   {order.isDelivered && order.deliveredAt

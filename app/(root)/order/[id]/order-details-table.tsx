@@ -26,6 +26,7 @@ import {
   approvePayPalOrder,
   updateOrderToPaidCOD,
   deliverOrder,
+  shipOrder,
 } from '@/lib/actions/order.actions';
 import StripePayment from './stripe-payment';
 
@@ -53,6 +54,8 @@ const OrderDetailsTable = ({
     isPaid,
     paidAt,
     deliveredAt,
+    isShipped,
+    shippedAt,
   } = order;
 
   const { toast } = useToast();
@@ -139,6 +142,31 @@ const OrderDetailsTable = ({
     );
   };
 
+  // Button to mark order as shipped
+  const MarkAsShippedButton = () => {
+    const [isPending, startTransition] = useTransition();
+    const { toast } = useToast();
+
+    return (
+      <Button
+        type='button'
+        disabled={isPending}
+        onClick={() =>
+          startTransition(async () => {
+            const res = await shipOrder(order.id);
+            toast({
+              variant: res.success ? 'default' : 'destructive',
+              description: res.message,
+            });
+          })
+        }
+        className="mb-2"
+      >
+        {isPending ? 'processing...' : 'Mark As Shipped'}
+      </Button>
+    );
+  };
+
   return (
     <>
       <h1 className='py-4 text-2xl'>Order {formatId(id)}</h1>
@@ -157,7 +185,7 @@ const OrderDetailsTable = ({
               )}
             </CardContent>
           </Card>
-          <Card className='my-2'>
+          <Card>
             <CardContent className='p-4 gap-4'>
               <h2 className='text-xl pb-4'>Shipping Address</h2>
               <p>{shippingAddress.fullName}</p>
@@ -165,6 +193,13 @@ const OrderDetailsTable = ({
                 {shippingAddress.streetAddress}, {shippingAddress.city}
                 {shippingAddress.postalCode}, {shippingAddress.country}
               </p>
+              {isShipped ? (
+                <Badge variant='secondary' className="mr-2">
+                  Shipped at {formatDateTime(shippedAt!).dateTime}
+                </Badge>
+              ) : (
+                <Badge variant='destructive' className="mr-2">Not Shipped</Badge>
+              )}
               {isDelivered ? (
                 <Badge variant='secondary'>
                   Delivered at {formatDateTime(deliveredAt!).dateTime}
@@ -261,7 +296,8 @@ const OrderDetailsTable = ({
               {isAdmin && !isPaid && paymentMethod === 'CashOnDelivery' && (
                 <MarkAsPaidButton />
               )}
-              {isAdmin && isPaid && !isDelivered && <MarkAsDeliveredButton />}
+              {isAdmin && isPaid && !isShipped && <MarkAsShippedButton />}
+              {isAdmin && isPaid && isShipped && !isDelivered && <MarkAsDeliveredButton />}
             </CardContent>
           </Card>
         </div>

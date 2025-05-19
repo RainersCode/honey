@@ -442,3 +442,34 @@ export async function deliverOrder(orderId: string) {
     return { success: false, message: formatError(error) };
   }
 }
+
+// Update order to shipped
+export async function shipOrder(orderId: string) {
+  try {
+    const order = await prisma.order.findFirst({
+      where: {
+        id: orderId,
+      },
+    });
+
+    if (!order) throw new Error('Order not found');
+    
+    // Update order to shipped
+    await prisma.order.update({
+      where: { id: orderId },
+      data: {
+        isShipped: true,
+        shippedAt: new Date(),
+      },
+    });
+
+    revalidatePath(`/order/${orderId}`);
+
+    return {
+      success: true,
+      message: 'Order has been marked as shipped',
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}

@@ -8,10 +8,12 @@ import { useToast } from '@/hooks/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { addItemToCart } from '@/lib/actions/cart.actions';
 import { useTransition } from 'react';
+import { useCart } from '@/lib/context/cart-context';
 
 const SimpleAddToCart = ({ item }: { item: CartItem }) => {
   const router = useRouter();
   const { toast } = useToast();
+  const { updateCart } = useCart();
   const [isPending, startTransition] = useTransition();
 
   const handleAddToCart = async () => {
@@ -25,6 +27,9 @@ const SimpleAddToCart = ({ item }: { item: CartItem }) => {
         });
         return;
       }
+
+      // Update cart context
+      await updateCart();
 
       toast({
         description: res.message,

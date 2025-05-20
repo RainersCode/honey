@@ -7,11 +7,12 @@ import { useToast } from '@/hooks/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.actions';
 import { useTransition } from 'react';
+import { useCart } from '@/lib/context/cart-context';
 
 const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
   const router = useRouter();
   const { toast } = useToast();
-
+  const { updateCart } = useCart();
   const [isPending, startTransition] = useTransition();
 
   const handleAddToCart = async () => {
@@ -25,6 +26,9 @@ const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) =>
         });
         return;
       }
+
+      // Update cart context
+      await updateCart();
 
       // Handle success add to cart
       toast({
@@ -47,12 +51,20 @@ const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) =>
     startTransition(async () => {
       const res = await removeItemFromCart(item.productId);
 
+      if (!res.success) {
+        toast({
+          variant: 'destructive',
+          description: res.message,
+        });
+        return;
+      }
+
+      // Update cart context
+      await updateCart();
+
       toast({
-        variant: res.success ? 'default' : 'destructive',
         description: res.message,
       });
-
-      return;
     });
   };
 

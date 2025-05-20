@@ -1,45 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { getMyCart } from '@/lib/actions/cart.actions';
-import { Cart } from '@/types';
+import { useCart } from '@/lib/context/cart-context';
 
 const CartCount = () => {
-  const [itemCount, setItemCount] = useState(0);
-
-  useEffect(() => {
-    const updateCartCount = async () => {
-      try {
-        const cart = await getMyCart() as Cart | undefined;
-        const count = cart?.items.reduce((sum, item) => sum + item.qty, 0) || 0;
-        setItemCount(count);
-      } catch (error) {
-        console.error('Error fetching cart:', error);
-      }
-    };
-
-    updateCartCount();
-
-    // Update cart count when cart is modified
-    const handleCartUpdate = () => {
-      updateCartCount();
-    };
-
-    // Update cart count when the page becomes visible again
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        updateCartCount();
-      }
-    };
-
-    window.addEventListener('cartUpdate', handleCartUpdate);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      window.removeEventListener('cartUpdate', handleCartUpdate);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, []);
+  const { cart } = useCart();
+  
+  const itemCount = cart?.items.reduce((sum, item) => sum + item.qty, 0) || 0;
 
   if (itemCount === 0) return null;
 

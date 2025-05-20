@@ -24,7 +24,7 @@ const Header = () => {
                   className='object-contain'
                 />
               </div>
-              <span className='hidden sm:block font-serif text-2xl text-[#1D1D1F] tracking-tight font-medium'>
+              <span className='hidden sm:block font-serif text-2xl text-[#4A3F35] tracking-tight font-medium'>
                 {APP_NAME}
               </span>
             </Link>
@@ -32,25 +32,25 @@ const Header = () => {
             <nav className='flex items-center gap-6 sm:gap-8'>
               <Link 
                 href='/'
-                className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
+                className='text-[#4A3F35] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
                 HOME
               </Link>
               <Link 
                 href='/about'
-                className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
+                className='text-[#4A3F35] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
                 ABOUT US
               </Link>
               <Link 
                 href='/search'
-                className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
+                className='text-[#4A3F35] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
                 PRODUCTS
               </Link>
               <Link 
                 href='/contact'
-                className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
+                className='text-[#4A3F35] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
                 CONTACT
               </Link>

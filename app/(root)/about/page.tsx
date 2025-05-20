@@ -9,14 +9,15 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-[400px] w-full">
+      <section className="relative h-[400px] w-full rounded-xl overflow-hidden">
         <Image
-          src="/images/honey-farm-hero.jpg"
-          alt="Honey Farm"
+          src="/images/about-us/about us.jpg"
+          alt="Our honey farm beehives in spring with blooming trees"
           fill
-          className="object-cover brightness-[0.85]"
+          className="object-cover"
           priority
         />
+        <div className="absolute inset-0 bg-black/30 rounded-xl" />
         <div className="absolute inset-0 flex items-center justify-center">
           <h1 className="text-4xl md:text-5xl font-serif text-white text-center">
             Our Story

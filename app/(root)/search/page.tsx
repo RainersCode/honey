@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { SearchIcon } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { capitalizeWords } from '@/lib/utils';
+import Image from 'next/image';
 
 const sortOrders = [
   { label: 'Newest', value: 'newest' },
@@ -93,6 +94,34 @@ const SearchPage = async (props: {
 
   const categories = await getAllCategories();
 
+  // Category cards data
+  const categoryCards = [
+    {
+      name: 'All Products',
+      image: '/images/hero-section/alternative-medicine-concept-ingredients-for-flu-2024-10-18-04-51-28-utc.jpg',
+      description: 'Browse our complete collection of natural honey products',
+      category: 'all'
+    },
+    {
+      name: 'Honey',
+      image: '/images/categories/honey.jpg',
+      description: 'Pure, natural honey with rich flavors and golden hues',
+      category: 'honey'
+    },
+    {
+      name: 'Beeswax',
+      image: '/images/categories/beeswax.jpg',
+      description: 'Natural beeswax products for home and wellness',
+      category: 'beeswax'
+    },
+    {
+      name: 'Honeycomb',
+      image: '/images/categories/honeycomb.jpg',
+      description: 'Fresh, raw honeycomb straight from the hive',
+      category: 'honeycomb'
+    }
+  ];
+
   // Prepare breadcrumb items
   const breadcrumbItems = [];
   if (category !== 'all') {
@@ -113,43 +142,93 @@ const SearchPage = async (props: {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Breadcrumbs */}
-      <div className="mb-8">
-        <Breadcrumb items={breadcrumbItems.map(item => ({
-          ...item,
-          label: capitalizeWords(item.label)
-        }))} />
+      <Breadcrumb items={breadcrumbItems} />
+      
+      {/* Category Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-8">
+        {categoryCards.map((cat) => (
+          <Link 
+            href={getFilterUrl({ c: cat.category })}
+            key={cat.name}
+            className={`group relative overflow-hidden rounded-xl h-[200px] bg-[#FFFBF8] transition-transform duration-300 hover:-translate-y-1 ${
+              (cat.category === 'all' && category === 'all') || category === cat.category 
+                ? 'ring-2 ring-[#FF7A3D]' 
+                : ''
+            }`}
+          >
+            <div className="absolute inset-0">
+              <Image
+                src={cat.image}
+                alt={cat.name}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors duration-300"></div>
+            </div>
+            <div className="relative h-full flex flex-col justify-center items-center text-center p-6">
+              <h3 className="text-2xl font-serif mb-2 text-white">{cat.name}</h3>
+              <p className="text-white/90 text-sm mb-4">{cat.description}</p>
+              <div className={`px-6 py-2 rounded-full text-sm font-medium text-white transition-all duration-300 ${
+                (cat.category === 'all' && category === 'all') || category === cat.category
+                  ? 'bg-[#FF7A3D] opacity-100' 
+                  : 'bg-[#FF7A3D] opacity-0 group-hover:opacity-100'
+              }`}>
+                {(cat.category === 'all' && category === 'all') || category === cat.category 
+                  ? 'Currently Viewing' 
+                  : 'View Products'}
+              </div>
+            </div>
+          </Link>
+        ))}
       </div>
 
-      <div className='grid md:grid-cols-5 md:gap-8'>
-        {/* Filters Sidebar */}
-        <div className='md:col-span-1'>
-          <Card className="bg-white/50 border-[#FF7A3D]/10">
-            <CardHeader className="pb-3">
-              <CardTitle className="font-serif text-xl text-[#1D1D1F]">Search Products</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form action='/search' method='GET' className='space-y-4'>
-                <div className="space-y-2">
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Left sidebar */}
+        <div className="w-full lg:w-64 flex-shrink-0">
+          <Card className="sticky top-4">
+            <CardContent className="p-6">
+              {/* Search */}
+              <div className="space-y-3 mb-6">
+                <h3 className='font-serif text-xl text-[#1D1D1F]'>Search</h3>
+                <form action="/search" method="GET" className="flex gap-2">
                   <Input
-                    name='q'
-                    type='text'
-                    placeholder='Search honey products...'
+                    type="text"
+                    name="q"
                     defaultValue={q !== 'all' ? q : ''}
-                    className='w-full bg-white/50 border-[#FF7A3D]/20 focus-visible:ring-[#FF7A3D]/20 placeholder:text-gray-400'
+                    placeholder="Search products..."
+                    className="flex-1"
                   />
-                  <Button 
-                    type='submit' 
-                    className='w-full bg-[#FF7A3D] hover:bg-[#ff6a2a] text-white transition-colors'
-                  >
-                    <SearchIcon className='h-4 w-4 mr-2' />
-                    Search
+                  <Button type="submit" size="icon">
+                    <SearchIcon className="w-4 h-4" />
                   </Button>
+                </form>
+              </div>
+
+              <Separator className="my-6" />
+
+              {/* Sort */}
+              <div className="space-y-3 mb-6">
+                <h3 className='font-serif text-xl text-[#1D1D1F]'>Sort By</h3>
+                <div className='space-y-2'>
+                  {sortOrders.map((x) => (
+                    <Link
+                      key={x.value}
+                      className={`block py-2 px-3 rounded-lg transition-colors hover:bg-[#FF7A3D]/5 ${
+                        sort === x.value 
+                          ? 'bg-[#FF7A3D]/10 text-[#FF7A3D] font-medium' 
+                          : 'text-gray-600'
+                      }`}
+                      href={getFilterUrl({ s: x.value })}
+                    >
+                      {x.label}
+                    </Link>
+                  ))}
                 </div>
-              </form>
+              </div>
 
-              <Separator className="my-4 bg-[#FF7A3D]/10" />
+              <Separator className="my-6" />
 
+              {/* Categories */}
               <div className="space-y-3">
                 <h3 className='font-serif text-xl text-[#1D1D1F]'>Categories</h3>
                 <div className='space-y-2'>
@@ -182,80 +261,18 @@ const SearchPage = async (props: {
           </Card>
         </div>
 
-        <div className='md:col-span-4 space-y-6'>
-          {/* Active Filters & Sort */}
-          <Card className="bg-white/50 border-[#FF7A3D]/10">
-            <CardContent className="pt-6">
-              <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
-                {/* Active Filters */}
-                <div className='flex flex-wrap items-center gap-2'>
-                  {q !== 'all' && q !== '' && (
-                    <Badge variant="secondary" className="bg-[#FF7A3D]/5 text-[#FF7A3D] hover:bg-[#FF7A3D]/10">
-                      Search: {q}
-                    </Badge>
-                  )}
-                  {category !== 'all' && category !== '' && (
-                    <Badge variant="secondary" className="bg-[#FF7A3D]/5 text-[#FF7A3D] hover:bg-[#FF7A3D]/10">
-                      Category: {capitalizeWords(category)}
-                    </Badge>
-                  )}
-                  {(q !== 'all' && q !== '') ||
-                  (category !== 'all' && category !== '') ? (
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      asChild 
-                      className="text-[#FF7A3D] hover:text-[#ff6a2a] hover:bg-[#FF7A3D]/5"
-                    >
-                      <Link href='/search'>Clear All</Link>
-                    </Button>
-                  ) : null}
-                </div>
-
-                {/* Sort Options */}
-                <div className='flex items-center gap-3'>
-                  <span className='text-gray-600 text-sm'>Sort by:</span>
-                  <div className='flex gap-2'>
-                    {sortOrders.map((s) => (
-                      <Link
-                        key={s.value}
-                        className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                          sort === s.value 
-                            ? 'bg-[#FF7A3D]/10 text-[#FF7A3D] font-medium' 
-                            : 'hover:bg-[#FF7A3D]/5 text-gray-600'
-                        }`}
-                        href={getFilterUrl({ s: s.value })}
-                      >
-                        {s.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Products Grid */}
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-            {products.data.length === 0 ? (
-              <Card className="col-span-full border-[#FF7A3D]/10">
-                <CardContent className="pt-6 text-center">
-                  <p className='text-gray-600'>No products found</p>
-                  <Button 
-                    variant="link" 
-                    asChild 
-                    className="mt-2 text-[#FF7A3D] hover:text-[#ff6a2a]"
-                  >
-                    <Link href='/search'>Clear filters</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ) : (
-              products.data.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))
-            )}
+        {/* Product grid */}
+        <div className="flex-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.data.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
+          {products.data.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-500">No products found</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

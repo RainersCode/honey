@@ -174,6 +174,32 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                 )}
               />
             </div>
+            <div className='flex flex-col md:flex-row gap-5'>
+              <FormField
+                control={form.control}
+                name='phoneNumber'
+                render={({
+                  field,
+                }: {
+                  field: ControllerRenderProps<
+                    z.infer<typeof shippingAddressSchema>,
+                    'phoneNumber'
+                  >;
+                }) => (
+                  <FormItem className='w-full'>
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl>
+                      <Input 
+                        type="tel"
+                        placeholder='Enter phone number' 
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <div className='flex gap-2'>
               <Button type='submit' disabled={isPending}>
                 {isPending ? (

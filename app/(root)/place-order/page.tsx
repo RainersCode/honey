@@ -53,6 +53,7 @@ const PlaceOrderPage = async () => {
                 {userAddress.streetAddress}, {userAddress.city}{' '}
                 {userAddress.postalCode}, {userAddress.country}{' '}
               </p>
+              <p className='mt-1'>Phone: {userAddress.phoneNumber}</p>
               <div className='mt-3'>
                 <Link href='/shipping-address'>
                   <Button variant='outline'>Edit</Button>

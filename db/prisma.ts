@@ -89,3 +89,15 @@ export const prisma = new PrismaClient({ adapter }).$extends({
     },
   },
 });
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
+
+export const prismaSingleton =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    log: ['query'],
+  });
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prismaSingleton;

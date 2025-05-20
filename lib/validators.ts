@@ -76,6 +76,7 @@ export const shippingAddressSchema = z.object({
   city: z.string().min(3, 'City must be at least 3 characters'),
   postalCode: z.string().min(3, 'Postal code must be at least 3 characters'),
   country: z.string().min(3, 'Country must be at least 3 characters'),
+  phoneNumber: z.string().min(5, 'Phone number is required').regex(/^[+]?[\d\s-()]+$/, 'Invalid phone number format'),
   lat: z.number().optional(),
   lng: z.number().optional(),
 });

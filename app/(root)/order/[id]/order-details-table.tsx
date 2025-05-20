@@ -190,9 +190,10 @@ const OrderDetailsTable = ({
               <h2 className='text-xl pb-4'>Shipping Address</h2>
               <p>{shippingAddress.fullName}</p>
               <p className='mb-2'>
-                {shippingAddress.streetAddress}, {shippingAddress.city}
+                {shippingAddress.streetAddress}, {shippingAddress.city},{' '}
                 {shippingAddress.postalCode}, {shippingAddress.country}
               </p>
+              <p className='mb-2'>Phone: {shippingAddress.phoneNumber}</p>
               {isShipped ? (
                 <Badge variant='secondary' className="mr-2">
                   Shipped at {formatDateTime(shippedAt!).dateTime}

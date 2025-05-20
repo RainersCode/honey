@@ -25,6 +25,7 @@ export const shippingAddressDefaultValues = {
   city: '',
   postalCode: '',
   country: '',
+  phoneNumber: '',
 };
 
 export const PAYMENT_METHODS = process.env.PAYMENT_METHODS

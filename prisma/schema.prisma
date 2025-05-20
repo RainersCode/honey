@@ -37,6 +37,8 @@ model User {
   role          String    @default("user")
   address       Json?     @db.Json
   paymentMethod String?
+  resetToken    String?   @unique
+  resetTokenExpiry DateTime? @db.Timestamp(6)
   createdAt     DateTime  @default(now()) @db.Timestamp(6)
   updatedAt     DateTime  @updatedAt
   account       Account[]

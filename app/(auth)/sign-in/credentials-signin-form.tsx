@@ -45,7 +45,12 @@ const CredentialsSignInForm = () => {
           />
         </div>
         <div>
-          <Label htmlFor='password'>Password</Label>
+          <div className='flex justify-between items-center'>
+            <Label htmlFor='password'>Password</Label>
+            <Link href='/forgot-password' className='text-sm text-muted-foreground hover:text-foreground'>
+              Forgot password?
+            </Link>
+          </div>
           <Input
             id='password'
             name='password'

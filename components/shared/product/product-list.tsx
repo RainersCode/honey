@@ -1,14 +1,8 @@
 import ProductCard from './product-card';
 import { Product } from '@/types';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
+import ProductCarousel from './product-carousel-list';
 
-const ProductList = ({
+const ProductList = async ({
   data,
   title,
   limit,
@@ -26,25 +20,7 @@ const ProductList = ({
         <div className='w-20 h-1 bg-[#FF7A3D] mx-auto rounded-full'></div>
       </div>
       {data.length > 0 ? (
-        <div className='relative'>
-          <Carousel
-            opts={{
-              align: 'start',
-              loop: true,
-            }}
-            className='w-full'
-          >
-            <CarouselContent className='-ml-4'>
-              {limitedData.map((product: Product) => (
-                <CarouselItem key={product.slug} className='pl-4 basis-full sm:basis-1/2 lg:basis-1/4'>
-                  <ProductCard product={product} />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className='hidden md:flex -left-12' />
-            <CarouselNext className='hidden md:flex -right-12' />
-          </Carousel>
-        </div>
+        <ProductCarousel products={limitedData} />
       ) : (
         <div>
           <p>No products found</p>

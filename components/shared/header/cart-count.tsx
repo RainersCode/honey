@@ -20,6 +20,11 @@ const CartCount = () => {
 
     updateCartCount();
 
+    // Update cart count when cart is modified
+    const handleCartUpdate = () => {
+      updateCartCount();
+    };
+
     // Update cart count when the page becomes visible again
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
@@ -27,9 +32,11 @@ const CartCount = () => {
       }
     };
 
+    window.addEventListener('cartUpdate', handleCartUpdate);
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
+      window.removeEventListener('cartUpdate', handleCartUpdate);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);

@@ -4,10 +4,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import ProductPrice from './product-price';
 import { Product } from '@/types';
 import Rating from './rating';
+import SimpleAddToCart from './simple-add-to-cart';
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <Card className='w-full bg-[#FFFBF8] hover:shadow-lg transition-shadow duration-300 group relative overflow-hidden h-full'>
+    <Card className='w-full bg-white hover:shadow-lg transition-shadow duration-300 group relative overflow-hidden h-full'>
       <div className='relative h-[250px]'>
         <Image
           src={product.images[0]}
@@ -27,24 +28,33 @@ const ProductCard = ({ product }: { product: Product }) => {
           </div>
         )}
       </div>
-      <Link href={`/product/${product.slug}`} className='absolute inset-0'></Link>
-      <CardContent className='relative p-4 bg-black/60 text-white backdrop-blur-sm flex flex-col h-[calc(100%-250px)]'>
+      <Link href={`/product/${product.slug}`} className='absolute inset-0 z-10'></Link>
+      <CardContent className='relative p-4 bg-white/90 backdrop-blur-[2px] flex flex-col h-[calc(100%-250px)]'>
         <div className='text-[#FF7A3D] font-medium mb-1 text-sm'>{product.brand}</div>
         <Link href={`/product/${product.slug}`} className='group-hover:text-[#FF7A3D] transition-colors duration-200'>
-          <h2 className='font-serif text-base font-medium line-clamp-2 mb-2'>{product.name}</h2>
+          <h2 className='font-serif text-base font-medium line-clamp-2 mb-2 text-[#1D1D1F]'>{product.name}</h2>
         </Link>
         <div className='flex justify-between items-center gap-4 mt-auto mb-2'>
           <Rating value={Number(product.rating)} />
           {product.stock > 0 ? (
-            <ProductPrice value={Number(product.price)} className='font-medium text-base' />
+            <ProductPrice value={Number(product.price)} className='font-medium text-base text-[#1D1D1F]' />
           ) : (
-            <p className='text-red-400 font-medium'>Out Of Stock</p>
+            <p className='text-red-500 font-medium'>Out Of Stock</p>
           )}
         </div>
         {product.stock > 0 && (
-          <button className='w-full bg-[#FF7A3D] text-white py-1.5 rounded-lg hover:bg-[#FF7A3D]/90 transition-colors duration-200 text-sm'>
-            Add to Cart
-          </button>
+          <div className='relative z-20'>
+            <SimpleAddToCart
+              item={{
+                productId: product.id,
+                name: product.name,
+                slug: product.slug,
+                price: product.price,
+                qty: 1,
+                image: product.images[0],
+              }}
+            />
+          </div>
         )}
       </CardContent>
     </Card>

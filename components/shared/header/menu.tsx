@@ -18,11 +18,11 @@ const Menu = () => {
         asChild 
         variant='ghost' 
         size='sm'
-        className='text-[#1D1D1F] hover:text-[#FF7A3D] transition-colors relative'
+        className='text-[#1D1D1F] hover:text-[#FF7A3D] transition-all duration-300 relative group'
       >
         <Link href='/cart' className='flex items-center gap-2'>
           <div className="relative">
-            <ShoppingBasket className='h-5 w-5 stroke-[1.5]' />
+            <ShoppingBasket className='h-5 w-5 stroke-[1.5] transition-transform duration-300 group-hover:scale-110' />
             <CartCount />
           </div>
           <span className='hidden sm:inline text-sm font-medium'>Cart</span>
@@ -36,12 +36,12 @@ const Menu = () => {
             <Button 
               variant='ghost' 
               size='sm'
-              className='text-[#1D1D1F] hover:text-[#FF7A3D] transition-colors'
+              className='text-[#1D1D1F] hover:text-[#FF7A3D] transition-all duration-300'
             >
-              <MenuIcon className='h-5 w-5 stroke-[1.5]' />
+              <MenuIcon className='h-5 w-5 stroke-[1.5] transition-transform duration-300 hover:scale-110' />
             </Button>
           </SheetTrigger>
-          <SheetContent className='bg-[#FFFBF8]'>
+          <SheetContent className='bg-[#FFFBF8]/95 backdrop-blur-md'>
             <SheetHeader>
               <SheetTitle className='text-[#1D1D1F] font-serif'>Menu</SheetTitle>
             </SheetHeader>
@@ -49,28 +49,35 @@ const Menu = () => {
               <Button 
                 asChild 
                 variant='ghost'
-                className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-colors'
+                className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-all duration-300 hover:translate-x-1'
+              >
+                <Link href='/'>Home</Link>
+              </Button>
+              <Button 
+                asChild 
+                variant='ghost'
+                className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-all duration-300 hover:translate-x-1'
               >
                 <Link href='/about'>About Us</Link>
               </Button>
               <Button 
                 asChild 
                 variant='ghost'
-                className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-colors'
+                className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-all duration-300 hover:translate-x-1'
               >
                 <Link href='/search'>Products</Link>
               </Button>
               <Button 
                 asChild 
                 variant='ghost'
-                className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-colors'
+                className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-all duration-300 hover:translate-x-1'
               >
                 <Link href='/contact'>Contact</Link>
               </Button>
               <Button 
                 asChild 
                 variant='ghost'
-                className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-colors'
+                className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-all duration-300 hover:translate-x-1'
               >
                 <Link href='/cart' className='flex items-center gap-2 relative'>
                   <div className="relative">

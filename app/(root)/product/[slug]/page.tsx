@@ -4,7 +4,7 @@ import { getProductBySlug } from '@/lib/actions/product.actions';
 import { notFound } from 'next/navigation';
 import ProductPrice from '@/components/shared/product/product-price';
 import ProductImages from '@/components/shared/product/product-images';
-import AddToCart from '@/components/shared/product/add-to-cart';
+import QuantityCartControl from '@/components/shared/product/quantity-cart-control';
 import { getMyCart } from '@/lib/actions/cart.actions';
 import ReviewList from './review-list';
 import { auth } from '@/auth';
@@ -72,7 +72,7 @@ const ProductDetailsPage = async (props: {
                 </div>
                 {product.stock > 0 && (
                   <div className='flex-center'>
-                    <AddToCart
+                    <QuantityCartControl
                       cart={cart}
                       item={{
                         productId: product.id,

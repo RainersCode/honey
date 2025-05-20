@@ -4,9 +4,6 @@ import {
   getFeaturedProducts,
 } from '@/lib/actions/product.actions';
 import ProductCarousel from '@/components/shared/product/product-carousel';
-import ViewAllProductsButton from '@/components/view-all-products-button';
-import IconBoxes from '@/components/icon-boxes';
-import DealCountdown from '@/components/deal-countdown';
 import Image from 'next/image';
 import Link from 'next/link';
 import ProductCategories from '@/components/product-categories';
@@ -53,9 +50,6 @@ const Homepage = async () => {
       )}
       <ProductList data={latestProducts} title='Newest Arrivals' limit={4} />
       <ClientTestimonials />
-      <ViewAllProductsButton />
-      <DealCountdown />
-      <IconBoxes />
     </>
   );
 };

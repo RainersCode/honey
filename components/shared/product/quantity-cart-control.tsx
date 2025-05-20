@@ -110,4 +110,4 @@ const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) =>
   );
 };
 
-export default QuantityCartControl;
+export default QuantityCartControl; 

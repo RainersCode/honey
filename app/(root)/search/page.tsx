@@ -5,76 +5,56 @@ import {
   getAllCategories,
 } from '@/lib/actions/product.actions';
 import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Breadcrumb } from '@/components/ui/breadcrumb';
+import { Input } from '@/components/ui/input';
+import { SearchIcon } from 'lucide-react';
 
-const prices = [
-  {
-    name: '$1 to $50',
-    value: '1-50',
-  },
-  {
-    name: '$51 to $100',
-    value: '51-100',
-  },
-  {
-    name: '$101 to $200',
-    value: '101-200',
-  },
-  {
-    name: '$201 to $500',
-    value: '201-500',
-  },
-  {
-    name: '$501 to $1000',
-    value: '501-1000',
-  },
+const sortOrders = [
+  { label: 'Newest', value: 'newest' },
+  { label: 'Price: Low to High', value: 'lowest' },
+  { label: 'Price: High to Low', value: 'highest' },
 ];
-
-const ratings = [4, 3, 2, 1];
-
-const sortOrders = ['newest', 'lowest', 'highest', 'rating'];
 
 export async function generateMetadata(props: {
   searchParams: Promise<{
     q: string;
     category: string;
-    price: string;
-    rating: string;
   }>;
 }) {
   const {
     q = 'all',
     category = 'all',
-    price = 'all',
-    rating = 'all',
   } = await props.searchParams;
 
   const isQuerySet = q && q !== 'all' && q.trim() !== '';
   const isCategorySet =
     category && category !== 'all' && category.trim() !== '';
-  const isPriceSet = price && price !== 'all' && price.trim() !== '';
-  const isRatingSet = rating && rating !== 'all' && rating.trim() !== '';
 
-  if (isQuerySet || isCategorySet || isPriceSet || isRatingSet) {
+  if (isQuerySet || isCategorySet) {
     return {
       title: `
-      Search ${isQuerySet ? q : ''} 
-      ${isCategorySet ? `: Category ${category}` : ''}
-      ${isPriceSet ? `: Price ${price}` : ''}
-      ${isRatingSet ? `: Rating ${rating}` : ''}`,
+      ${isQuerySet ? `Search: ${q}` : ''} 
+      ${isCategorySet ? `Category: ${category}` : ''}`,
     };
   } else {
     return {
-      title: 'Search Products',
+      title: 'Our Products',
     };
   }
 }
+
+const capitalizeWords = (str: string) => {
+  return str.split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
 
 const SearchPage = async (props: {
   searchParams: Promise<{
     q?: string;
     category?: string;
-    price?: string;
-    rating?: string;
     sort?: string;
     page?: string;
   }>;
@@ -82,8 +62,6 @@ const SearchPage = async (props: {
   const {
     q = 'all',
     category = 'all',
-    price = 'all',
-    rating = 'all',
     sort = 'newest',
     page = '1',
   } = await props.searchParams;
@@ -91,23 +69,20 @@ const SearchPage = async (props: {
   // Construct filter url
   const getFilterUrl = ({
     c,
-    p,
     s,
-    r,
     pg,
+    query,
   }: {
     c?: string;
-    p?: string;
     s?: string;
-    r?: string;
     pg?: string;
+    query?: string;
   }) => {
-    const params = { q, category, price, rating, sort, page };
-
+    const params = { q, category, sort, page };
+    
+    if (query !== undefined) params.q = query;
     if (c) params.category = c;
-    if (p) params.price = p;
     if (s) params.sort = s;
-    if (r) params.rating = r;
     if (pg) params.page = pg;
 
     return `/search?${new URLSearchParams(params).toString()}`;
@@ -116,127 +91,157 @@ const SearchPage = async (props: {
   const products = await getAllProducts({
     query: q,
     category,
-    price,
-    rating,
     sort,
     page: Number(page),
   });
 
   const categories = await getAllCategories();
 
+  // Prepare breadcrumb items
+  const breadcrumbItems = [];
+  if (category !== 'all') {
+    breadcrumbItems.push({
+      label: 'Products',
+      href: '/search'
+    });
+    breadcrumbItems.push({
+      label: category,
+      href: getFilterUrl({ c: category })
+    });
+  } else {
+    breadcrumbItems.push({
+      label: 'Products',
+      href: '/search'
+    });
+  }
+
   return (
-    <div className='grid md:grid-cols-5 md:gap-5'>
-      <div className='filter-links'>
-        {/* Category Links */}
-        <div className='text-xl mb-2 mt-3'>Department</div>
-        <div>
-          <ul className='space-y-1'>
-            <li>
-              <Link
-                className={`${
-                  (category === 'all' || category === '') && 'font-bold'
-                }`}
-                href={getFilterUrl({ c: 'all' })}
-              >
-                Any
-              </Link>
-            </li>
-            {categories.map((x) => (
-              <li key={x.category}>
-                <Link
-                  className={`${category === x.category && 'font-bold'}`}
-                  href={getFilterUrl({ c: x.category })}
-                >
-                  {x.category}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        {/* Price Links */}
-        <div className='text-xl mb-2 mt-8'>Price</div>
-        <div>
-          <ul className='space-y-1'>
-            <li>
-              <Link
-                className={`${price === 'all' && 'font-bold'}`}
-                href={getFilterUrl({ p: 'all' })}
-              >
-                Any
-              </Link>
-            </li>
-            {prices.map((p) => (
-              <li key={p.value}>
-                <Link
-                  className={`${price === p.value && 'font-bold'}`}
-                  href={getFilterUrl({ p: p.value })}
-                >
-                  {p.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        {/* Rating Links */}
-        <div className='text-xl mb-2 mt-8'>Customer Ratings</div>
-        <div>
-          <ul className='space-y-1'>
-            <li>
-              <Link
-                className={`${rating === 'all' && 'font-bold'}`}
-                href={getFilterUrl({ r: 'all' })}
-              >
-                Any
-              </Link>
-            </li>
-            {ratings.map((r) => (
-              <li key={r}>
-                <Link
-                  className={`${rating === r.toString() && 'font-bold'}`}
-                  href={getFilterUrl({ r: `${r}` })}
-                >
-                  {`${r} stars & up`}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Breadcrumbs */}
+      <div className="mb-8">
+        <Breadcrumb items={breadcrumbItems.map(item => ({
+          ...item,
+          label: capitalizeWords(item.label)
+        }))} />
       </div>
-      <div className='md:col-span-4 space-y-4'>
-        <div className='flex-between flex-col md:flex-row my-4'>
-          <div className='flex items-center'>
-            {q !== 'all' && q !== '' && 'Query: ' + q}
-            {category !== 'all' && category !== '' && 'Category: ' + category}
-            {price !== 'all' && ' Price: ' + price}
-            {rating !== 'all' && ' Rating: ' + rating + ' stars & up'}
-            &nbsp;
-            {(q !== 'all' && q !== '') ||
-            (category !== 'all' && category !== '') ||
-            rating !== 'all' ||
-            price !== 'all' ? (
-              <Button variant={'link'} asChild>
-                <Link href='/search'>Clear</Link>
-              </Button>
-            ) : null}
-          </div>
-          <div>
-            Sort by{' '}
-            {sortOrders.map((s) => (
-              <Link
-                key={s}
-                className={`mx-2 ${sort == s && 'font-bold'}`}
-                href={getFilterUrl({ s })}
-              >
-                {s}
-              </Link>
-            ))}
+
+      <div className='grid md:grid-cols-5 md:gap-8'>
+        {/* Filters Sidebar */}
+        <div className='md:col-span-1 bg-white/50 p-6 rounded-xl border border-amber-100'>
+          <div className='space-y-6'>
+            {/* Search */}
+            <div>
+              <h3 className='text-xl font-serif mb-4'>Search</h3>
+              <form action='/search' method='GET' className='space-y-2'>
+                <Input
+                  name='q'
+                  type='text'
+                  placeholder='Search products...'
+                  defaultValue={q !== 'all' ? q : ''}
+                  className='w-full bg-white/50 border-amber-200 focus-visible:ring-amber-200'
+                />
+                <Button type='submit' className='w-full bg-amber-600 hover:bg-amber-700'>
+                  <SearchIcon className='h-4 w-4 mr-2' />
+                  Search
+                </Button>
+              </form>
+            </div>
+
+            <Separator className="bg-amber-100" />
+
+            {/* Category Filter */}
+            <div>
+              <h3 className='text-xl font-serif mb-4'>Categories</h3>
+              <ul className='space-y-3'>
+                <li>
+                  <Link
+                    className={`block transition-colors hover:text-amber-600 text-lg ${
+                      (category === 'all' || category === '') ? 'text-amber-600 font-medium' : 'text-gray-600'
+                    }`}
+                    href={getFilterUrl({ c: 'all' })}
+                  >
+                    All Products
+                  </Link>
+                </li>
+                {categories.map((x) => (
+                  <li key={x.category}>
+                    <Link
+                      className={`block transition-colors hover:text-amber-600 text-lg ${
+                        category === x.category ? 'text-amber-600 font-medium' : 'text-gray-600'
+                      }`}
+                      href={getFilterUrl({ c: x.category })}
+                    >
+                      {capitalizeWords(x.category)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
-          {products.data.length === 0 && <div>No products found</div>}
-          {products.data.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+
+        {/* Products Grid */}
+        <div className='md:col-span-4 space-y-6'>
+          {/* Active Filters & Sort */}
+          <div className='bg-white/50 p-4 rounded-xl border border-amber-100'>
+            <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
+              {/* Active Filters */}
+              <div className='flex flex-wrap items-center gap-2'>
+                {q !== 'all' && q !== '' && (
+                  <Badge variant="secondary" className="bg-amber-50 text-amber-700 hover:bg-amber-100">
+                    Search: {q}
+                  </Badge>
+                )}
+                {category !== 'all' && category !== '' && (
+                  <Badge variant="secondary" className="bg-amber-50 text-amber-700 hover:bg-amber-100">
+                    Category: {capitalizeWords(category)}
+                  </Badge>
+                )}
+                {(q !== 'all' && q !== '') ||
+                (category !== 'all' && category !== '') ? (
+                  <Button variant="ghost" size="sm" asChild className="text-amber-600 hover:text-amber-700 hover:bg-amber-50">
+                    <Link href='/search'>Clear All</Link>
+                  </Button>
+                ) : null}
+              </div>
+
+              {/* Sort Options */}
+              <div className='flex items-center gap-2 text-sm'>
+                <span className='text-gray-600'>Sort by:</span>
+                <div className='flex gap-2'>
+                  {sortOrders.map((s) => (
+                    <Link
+                      key={s.value}
+                      className={`px-3 py-1 rounded-full transition-colors ${
+                        sort === s.value 
+                          ? 'bg-amber-100 text-amber-700' 
+                          : 'hover:bg-amber-50 text-gray-600'
+                      }`}
+                      href={getFilterUrl({ s: s.value })}
+                    >
+                      {s.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Products */}
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+            {products.data.length === 0 ? (
+              <div className='col-span-full text-center py-8'>
+                <p className='text-gray-600'>No products found</p>
+                <Button variant="link" asChild className="mt-2 text-amber-600">
+                  <Link href='/search'>Clear filters</Link>
+                </Button>
+              </div>
+            ) : (
+              products.data.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>

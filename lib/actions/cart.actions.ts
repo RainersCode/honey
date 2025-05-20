@@ -65,6 +65,11 @@ export async function addItemToCart(data: CartItem) {
       // Revalidate product page
       revalidatePath(`/product/${product.slug}`);
 
+      // Dispatch cart update event
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('cartUpdate'));
+      }
+
       return {
         success: true,
         message: `${product.name} added to cart`,
@@ -105,6 +110,11 @@ export async function addItemToCart(data: CartItem) {
 
       revalidatePath(`/product/${product.slug}`);
 
+      // Dispatch cart update event
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('cartUpdate'));
+      }
+
       return {
         success: true,
         message: `${product.name} ${
@@ -113,9 +123,10 @@ export async function addItemToCart(data: CartItem) {
       };
     }
   } catch (error) {
+    console.error('Error adding item to cart:', error);
     return {
       success: false,
-      message: formatError(error),
+      message: 'Failed to add item to cart',
     };
   }
 }
@@ -192,11 +203,20 @@ export async function removeItemFromCart(productId: string) {
 
     revalidatePath(`/product/${product.slug}`);
 
+    // Dispatch cart update event
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('cartUpdate'));
+    }
+
     return {
       success: true,
-      message: `${product.name} was removed from cart`,
+      message: 'Item removed from cart successfully',
     };
   } catch (error) {
-    return { success: false, message: formatError(error) };
+    console.error('Error removing item from cart:', error);
+    return {
+      success: false,
+      message: 'Failed to remove item from cart',
+    };
   }
 }

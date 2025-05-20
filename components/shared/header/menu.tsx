@@ -51,28 +51,28 @@ const Menu = () => {
                 variant='ghost'
                 className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-all duration-300 hover:translate-x-1'
               >
-                <Link href='/'>Home</Link>
+                <Link href='/'>HOME</Link>
               </Button>
               <Button 
                 asChild 
                 variant='ghost'
                 className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-all duration-300 hover:translate-x-1'
               >
-                <Link href='/about'>About Us</Link>
+                <Link href='/about'>ABOUT US</Link>
               </Button>
               <Button 
                 asChild 
                 variant='ghost'
                 className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-all duration-300 hover:translate-x-1'
               >
-                <Link href='/search'>Products</Link>
+                <Link href='/search'>PRODUCTS</Link>
               </Button>
               <Button 
                 asChild 
                 variant='ghost'
                 className='justify-start text-[#1D1D1F] hover:text-[#FF7A3D] transition-all duration-300 hover:translate-x-1'
               >
-                <Link href='/contact'>Contact</Link>
+                <Link href='/contact'>CONTACT</Link>
               </Button>
               <Button 
                 asChild 
@@ -84,7 +84,7 @@ const Menu = () => {
                     <ShoppingBasket className='h-5 w-5 stroke-[1.5]' />
                     <CartCount />
                   </div>
-                  <span>Cart</span>
+                  <span>CART</span>
                 </Link>
               </Button>
             </div>

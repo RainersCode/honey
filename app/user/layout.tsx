@@ -2,7 +2,8 @@ import { APP_NAME } from '@/lib/constants';
 import Image from 'next/image';
 import Link from 'next/link';
 import Menu from '@/components/shared/header/menu';
-import MainNav from './main-nav';
+import HeaderContainer from '@/components/shared/header/header-container';
+import Footer from '@/components/shared/footer';
 
 export default function UserLayout({
   children,
@@ -10,29 +11,63 @@ export default function UserLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <div className='flex flex-col'>
-        <div className='border-b container mx-auto'>
-          <div className='flex items-center h-16 px-4'>
-            <Link href='/' className='w-22'>
-              <Image
-                src='/images/logo.svg'
-                height={48}
-                width={48}
-                alt={APP_NAME}
-              />
+    <div className='flex min-h-screen flex-col'>
+      <HeaderContainer>
+        <div className='max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8'>
+          <div className='flex items-center justify-between gap-4'>
+            <Link 
+              href='/' 
+              className='flex items-center gap-3 transition-all duration-300 hover:opacity-80'
+            >
+              <div className='relative'>
+                <Image
+                  src='/images/logo.svg'
+                  alt={`${APP_NAME} logo`}
+                  height={36}
+                  width={36}
+                  priority={true}
+                  className='object-contain'
+                />
+              </div>
+              <span className='hidden sm:block font-serif text-2xl text-[#1D1D1F] tracking-tight font-medium'>
+                {APP_NAME}
+              </span>
             </Link>
-            <MainNav className='mx-6' />
-            <div className='ml-auto items-center flex space-x-4'>
+            <nav className='flex items-center gap-6 sm:gap-8'>
+              <Link 
+                href='/'
+                className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
+              >
+                HOME
+              </Link>
+              <Link 
+                href='/about'
+                className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
+              >
+                ABOUT US
+              </Link>
+              <Link 
+                href='/search'
+                className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
+              >
+                PRODUCTS
+              </Link>
+              <Link 
+                href='/contact'
+                className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
+              >
+                CONTACT
+              </Link>
               <Menu />
-            </div>
+            </nav>
           </div>
         </div>
-
-        <div className='flex-1 space-y-4 p-8 pt-6 container mx-auto'>
-          {children}
-        </div>
-      </div>
-    </>
+      </HeaderContainer>
+      <div className="h-[72px]" /> {/* Spacer for fixed header */}
+      <main className='flex-1 wrapper py-8'>
+        {children}
+      </main>
+      <Footer />
+    </div>
   );
 }

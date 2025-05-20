@@ -6,11 +6,11 @@ import React from 'react';
 
 const links = [
   {
-    title: 'Profile',
+    title: 'PROFILE',
     href: '/user/profile',
   },
   {
-    title: 'Orders',
+    title: 'ORDERS',
     href: '/user/orders',
   },
 ];
@@ -22,7 +22,7 @@ const MainNav = ({
   const pathname = usePathname();
   return (
     <nav
-      className={cn('flex items-center space-x-4 lg:space-x-6', className)}
+      className={cn('flex items-center gap-6 sm:gap-8', className)}
       {...props}
     >
       {links.map((item) => (
@@ -30,8 +30,8 @@ const MainNav = ({
           key={item.href}
           href={item.href}
           className={cn(
-            'text-sm font-medium transition-colors hover:text-primary',
-            pathname.includes(item.href) ? '' : 'text-muted-foreground'
+            'text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full',
+            pathname === item.href && 'text-[#FF7A3D] after:w-full'
           )}
         >
           {item.title}

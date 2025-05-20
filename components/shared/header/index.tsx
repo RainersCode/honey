@@ -34,25 +34,25 @@ const Header = () => {
                 href='/'
                 className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
-                Home
+                HOME
               </Link>
               <Link 
                 href='/about'
                 className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
-                About Us
+                ABOUT US
               </Link>
               <Link 
                 href='/search'
                 className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
-                Products
+                PRODUCTS
               </Link>
               <Link 
                 href='/contact'
                 className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
-                Contact
+                CONTACT
               </Link>
               <Menu />
             </nav>

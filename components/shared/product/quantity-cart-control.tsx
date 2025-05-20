@@ -1,13 +1,14 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { Plus, Minus, Loader } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import { Cart, CartItem } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.actions';
 import { useTransition } from 'react';
 import { useCart } from '@/lib/context/cart-context';
+import LoadingSpinner from '@/components/ui/loading-spinner';
 
 const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
   const router = useRouter();
@@ -83,7 +84,7 @@ const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) =>
         disabled={isPending}
       >
         {isPending ? (
-          <Loader className='h-4 w-4 animate-spin' />
+          <LoadingSpinner size="sm" />
         ) : (
           <Minus className='h-4 w-4' />
         )}
@@ -98,7 +99,7 @@ const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) =>
         disabled={isPending}
       >
         {isPending ? (
-          <Loader className='h-4 w-4 animate-spin' />
+          <LoadingSpinner size="sm" />
         ) : (
           <Plus className='h-4 w-4' />
         )}
@@ -112,7 +113,7 @@ const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) =>
       disabled={isPending}
     >
       {isPending ? (
-        <Loader className='h-4 w-4 animate-spin' />
+        <LoadingSpinner size="sm" />
       ) : (
         <>
           Add To Cart

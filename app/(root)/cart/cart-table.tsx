@@ -2,8 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { useTransition } from 'react';
-import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.actions';
-import { ArrowRight, Loader, Minus, Plus } from 'lucide-react';
+import { ArrowRight, Loader, ShoppingBag } from 'lucide-react';
 import { Cart, CartItem } from '@/types';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -16,150 +15,115 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatCurrency } from '@/lib/utils';
-
-// NOTE: The code here has changed from the original course code so that the
-// Buttons no longer share the same state and show the loader independently from
-// other items in the cart
-function AddButton({ item }: { item: CartItem }) {
-  const { toast } = useToast();
-  const [isPending, startTransition] = useTransition();
-  return (
-    <Button
-      disabled={isPending}
-      variant='outline'
-      type='button'
-      onClick={() =>
-        startTransition(async () => {
-          const res = await addItemToCart(item);
-
-          if (!res.success) {
-            toast({
-              variant: 'destructive',
-              description: res.message,
-            });
-          }
-        })
-      }
-    >
-      {isPending ? (
-        <Loader className='w-4 h-4 animate-spin' />
-      ) : (
-        <Plus className='w-4 h-4' />
-      )}
-    </Button>
-  );
-}
-
-function RemoveButton({ item }: { item: CartItem }) {
-  const { toast } = useToast();
-  const [isPending, startTransition] = useTransition();
-  return (
-    <Button
-      disabled={isPending}
-      variant='outline'
-      type='button'
-      onClick={() =>
-        startTransition(async () => {
-          const res = await removeItemFromCart(item.productId);
-
-          if (!res.success) {
-            toast({
-              variant: 'destructive',
-              description: res.message,
-            });
-          }
-        })
-      }
-    >
-      {isPending ? (
-        <Loader className='w-4 h-4 animate-spin' />
-      ) : (
-        <Minus className='w-4 h-4' />
-      )}
-    </Button>
-  );
-}
+import QuantityCartControl from '@/components/shared/product/quantity-cart-control';
 
 const CartTable = ({ cart }: { cart?: Cart }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   return (
-    <>
-      <h1 className='py-4 h2-bold'>Shopping Cart</h1>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="text-center mb-10">
+        <h1 className="text-3xl font-serif text-[#1D1D1F] mb-2">Shopping Cart</h1>
+        <div className="w-20 h-1 bg-[#FF7A3D] mx-auto rounded-full"></div>
+      </div>
+
       {!cart || cart.items.length === 0 ? (
-        <div>
-          Cart is empty. <Link href='/'>Go Shopping</Link>
-        </div>
+        <Card className="max-w-md mx-auto text-center p-8">
+          <div className="flex flex-col items-center gap-4">
+            <ShoppingBag className="w-16 h-16 text-[#FF7A3D]/30" />
+            <h2 className="text-xl font-serif text-[#1D1D1F]">Your cart is empty</h2>
+            <p className="text-[#1D1D1F]/70 mb-4">Looks like you haven't added any items to your cart yet.</p>
+            <Link href='/search'>
+              <Button 
+                className="bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white transition-colors duration-300"
+              >
+                Continue Shopping
+              </Button>
+            </Link>
+          </div>
+        </Card>
       ) : (
-        <div className='grid md:grid-cols-4 md:gap-5'>
+        <div className='grid md:grid-cols-4 md:gap-6'>
           <div className='overflow-x-auto md:col-span-3'>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Item</TableHead>
-                  <TableHead className='text-center'>Quantity</TableHead>
-                  <TableHead className='text-right'>Price</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {cart.items.map((item) => (
-                  <TableRow key={item.slug}>
-                    <TableCell>
-                      <Link
-                        href={`/product/${item.slug}`}
-                        className='flex items-center'
-                      >
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          width={50}
-                          height={50}
-                        />
-                        <span className='px-2'>{item.name}</span>
-                      </Link>
-                    </TableCell>
-                    <TableCell className='flex-center gap-2'>
-                      <RemoveButton item={item} />
-                      <span>{item.qty}</span>
-                      <AddButton item={item} />
-                    </TableCell>
-                    <TableCell className='text-right'>${item.price}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <Card className="border-[#FF7A3D]/10">
+              <CardHeader className="pb-3">
+                <CardTitle className="font-serif text-xl text-[#1D1D1F]">Cart Items</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="text-[#1D1D1F]/70">Item</TableHead>
+                      <TableHead className="text-center text-[#1D1D1F]/70">Quantity</TableHead>
+                      <TableHead className="text-right text-[#1D1D1F]/70">Price</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {cart.items.map((item) => (
+                      <TableRow key={item.slug} className="hover:bg-[#FF7A3D]/5 transition-colors duration-300">
+                        <TableCell>
+                          <Link
+                            href={`/product/${item.slug}`}
+                            className='flex items-center group'
+                          >
+                            <div className="relative w-16 h-16 rounded-lg overflow-hidden">
+                              <Image
+                                src={item.image}
+                                alt={item.name}
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                            </div>
+                            <span className='px-3 font-medium text-[#1D1D1F] group-hover:text-[#FF7A3D] transition-colors duration-300'>{item.name}</span>
+                          </Link>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center justify-center">
+                            <QuantityCartControl cart={cart} item={item} />
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right font-medium text-[#1D1D1F]">
+                          {formatCurrency(item.price)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
           </div>
 
-          <Card>
-            <CardContent className='p-4 gap-4'>
-              <div className='pb-3 text-xl'>
-                Subtotal ({cart.items.reduce((a, c) => a + c.qty, 0)}):
-                <span className='font-bold'>
-                  {formatCurrency(cart.itemsPrice)}
-                </span>
+          <Card className="border-[#FF7A3D]/10 h-fit">
+            <CardHeader className="pb-3">
+              <CardTitle className="font-serif text-xl text-[#1D1D1F]">Order Summary</CardTitle>
+            </CardHeader>
+            <CardContent className='space-y-4'>
+              <div className="flex justify-between items-center text-[#1D1D1F]">
+                <span className="text-[#1D1D1F]/70">Items ({cart.items.reduce((a, c) => a + c.qty, 0)})</span>
+                <span className="font-medium">{formatCurrency(cart.itemsPrice)}</span>
               </div>
               <Button
-                className='w-full'
+                className="w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white transition-colors duration-300"
                 disabled={isPending}
                 onClick={() =>
                   startTransition(() => router.push('/shipping-address'))
                 }
               >
                 {isPending ? (
-                  <Loader className='w-4 h-4 animate-spin' />
+                  <Loader className='w-4 h-4 animate-spin mr-2' />
                 ) : (
-                  <ArrowRight className='w-4 h-4' />
-                )}{' '}
+                  <ArrowRight className='w-4 h-4 mr-2' />
+                )}
                 Proceed to Checkout
               </Button>
             </CardContent>
           </Card>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

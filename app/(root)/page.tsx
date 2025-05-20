@@ -48,7 +48,44 @@ const Homepage = async () => {
       {featuredProducts.length > 0 && (
         <ProductCarousel data={featuredProducts} />
       )}
+      
       <ProductList data={latestProducts} title='Newest Arrivals' limit={4} />
+
+      {/* About Us Section */}
+      <section className="relative w-full py-20">
+        <div className="absolute inset-0 w-[99vw] left-[50%] translate-x-[-50%] bg-[#FFFBF8]" />
+        <div className="relative max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-lg">
+              <Image
+                src="/images/about-us/about us.jpg"
+                alt="Our honey farm beehives in spring with blooming trees"
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-700"
+              />
+            </div>
+            <div className="space-y-6">
+              <h2 className="text-4xl font-serif text-[#1D1D1F]">Our Honey Farm</h2>
+              <div className="w-20 h-1 bg-[#FF7A3D] rounded-full"></div>
+              <p className="text-gray-700 text-lg leading-relaxed">
+                Nestled in the heart of nature, our honey farm is home to thriving bee colonies that produce some of the finest honey you'll ever taste. Our beehives are carefully placed in pristine locations, surrounded by blooming trees and wildflowers, ensuring our bees have access to the best nectar sources throughout the season.
+              </p>
+              <p className="text-gray-700 text-lg leading-relaxed">
+                We take pride in our sustainable beekeeping practices, maintaining the delicate balance between nature and tradition. Each hive is managed with care and respect, allowing our bees to thrive while producing pure, natural honey that captures the essence of our local flora.
+              </p>
+              <div className="pt-4">
+                <Link
+                  href="/about"
+                  className="inline-block bg-[#FF7A3D] text-white px-8 py-4 rounded-full font-medium hover:bg-[#ff6a2a] transition-colors text-lg"
+                >
+                  Learn More About Us
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <ClientTestimonials />
     </>
   );

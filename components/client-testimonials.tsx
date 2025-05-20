@@ -25,7 +25,6 @@ const testimonials = [
 const ClientTestimonials = () => {
   return (
     <div className="relative w-full">
-      <div className="absolute inset-0 w-[99vw] left-[50%] translate-x-[-50%] bg-[#FFFBF8]" />
       <section className="relative pt-16">
         <div className="max-w-[1440px] mx-auto">
           <div className="max-w-3xl mx-auto px-4">
@@ -44,7 +43,7 @@ const ClientTestimonials = () => {
                 <CarouselContent className="px-2 py-4">
                   {testimonials.map((testimonial, index) => (
                     <CarouselItem key={index}>
-                      <div className="bg-white rounded-2xl p-10 shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-all duration-300 mx-auto max-w-2xl border border-gray-100">
+                      <div className="bg-[#FFFBF8] rounded-2xl p-10 shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-all duration-300 mx-auto max-w-2xl border border-[#FFE4D2]">
                         <div className="flex justify-center mb-8">
                           {[...Array(testimonial.rating)].map((_, i) => (
                             <span key={i} className="text-[#FF7A3D] text-2xl">★</span>

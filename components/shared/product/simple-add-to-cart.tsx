@@ -2,13 +2,14 @@
 
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { Loader, ShoppingBag } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { CartItem } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { addItemToCart } from '@/lib/actions/cart.actions';
 import { useTransition } from 'react';
 import { useCart } from '@/lib/context/cart-context';
+import LoadingSpinner from '@/components/ui/loading-spinner';
 
 const SimpleAddToCart = ({ item }: { item: CartItem }) => {
   const router = useRouter();
@@ -54,7 +55,7 @@ const SimpleAddToCart = ({ item }: { item: CartItem }) => {
       disabled={isPending}
     >
       {isPending ? (
-        <Loader className='h-4 w-4 animate-spin' />
+        <LoadingSpinner size="sm" className="text-[#FF7A3D]" />
       ) : (
         <>
           <ShoppingBag className='h-4 w-4 mr-2 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-8deg]' />

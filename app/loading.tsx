@@ -1,18 +1,10 @@
-import Image from 'next/image';
-import loader from '@/assets/loader.gif';
+import LoadingSpinner from '@/components/ui/loading-spinner';
 
 const LoadingPage = () => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        width: '100vw',
-      }}
-    >
-      <Image src={loader} height={150} width={150} alt='Loading...' />
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-[#FFFBF8]/80 backdrop-blur-sm">
+      <LoadingSpinner size="lg" />
+      <p className="mt-4 text-[#1D1D1F] font-medium animate-pulse">Loading...</p>
     </div>
   );
 };

@@ -22,6 +22,7 @@ import { ArrowRight, Loader, MapPin } from 'lucide-react';
 import { updateUserAddress } from '@/lib/actions/user.actions';
 import { shippingAddressDefaultValues } from '@/lib/constants';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
   const router = useRouter();
@@ -221,6 +222,88 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                         />
                       </FormControl>
                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="agreeToTerms"
+                  render={({
+                    field,
+                  }: {
+                    field: ControllerRenderProps<
+                      z.infer<typeof shippingAddressSchema>,
+                      'agreeToTerms'
+                    >;
+                  }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          className="border-2 border-[#FFBF8A] data-[state=checked]:bg-[#FF7A3D] data-[state=checked]:text-white"
+                        />
+                      </FormControl>
+                      <FormLabel className="text-sm font-normal">
+                        I have read and agree to the Distance Contract
+                      </FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="agreeToPrivacyPolicy"
+                  render={({
+                    field,
+                  }: {
+                    field: ControllerRenderProps<
+                      z.infer<typeof shippingAddressSchema>,
+                      'agreeToPrivacyPolicy'
+                    >;
+                  }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          className="border-2 border-[#FFBF8A] data-[state=checked]:bg-[#FF7A3D] data-[state=checked]:text-white"
+                        />
+                      </FormControl>
+                      <FormLabel className="text-sm font-normal">
+                        I agree to the terms of use and privacy policy
+                      </FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="rememberDetails"
+                  render={({
+                    field,
+                  }: {
+                    field: ControllerRenderProps<
+                      z.infer<typeof shippingAddressSchema>,
+                      'rememberDetails'
+                    >;
+                  }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          className="border-2 border-[#FFBF8A] data-[state=checked]:bg-[#FF7A3D] data-[state=checked]:text-white"
+                        />
+                      </FormControl>
+                      <FormLabel className="text-sm font-normal">
+                        Remember my data on this device
+                      </FormLabel>
                     </FormItem>
                   )}
                 />

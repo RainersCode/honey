@@ -26,6 +26,9 @@ export const shippingAddressDefaultValues = {
   postalCode: '',
   country: '',
   phoneNumber: '',
+  agreeToTerms: false,
+  agreeToPrivacyPolicy: false,
+  rememberDetails: false,
 };
 
 export const PAYMENT_METHODS = process.env.PAYMENT_METHODS

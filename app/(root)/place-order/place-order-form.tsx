@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Check } from 'lucide-react';
+import { Check, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useFormStatus } from 'react-dom';
 import { createOrder } from '@/lib/actions/order.actions';
@@ -23,19 +23,27 @@ const PlaceOrderForm = () => {
   const PlaceOrderButton = () => {
     const { pending } = useFormStatus();
     return (
-      <Button disabled={pending} className='w-full bg-[#FF7A3D] text-white hover:bg-[#ff6a2a] transition-all duration-300'>
+      <Button 
+        disabled={pending} 
+        className="w-full bg-[#FF7A3D] hover:bg-[#ff6a24] text-white font-medium text-lg py-6"
+      >
         {pending ? (
-          <LoadingSpinner size="sm" className="mr-2" />
+          <div className="flex items-center justify-center">
+            <LoadingSpinner size="sm" className="mr-2" />
+            <span>Processing Order...</span>
+          </div>
         ) : (
-          <Check className='w-4 h-4 mr-2' />
+          <div className="flex items-center justify-center">
+            <ShoppingBag className="w-5 h-5 mr-2" />
+            <span>Place Order</span>
+          </div>
         )}
-        Place Order
       </Button>
     );
   };
 
   return (
-    <form onSubmit={handleSubmit} className='w-full'>
+    <form onSubmit={handleSubmit} className="w-full">
       <PlaceOrderButton />
     </form>
   );

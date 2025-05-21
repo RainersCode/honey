@@ -6,34 +6,59 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Metadata } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
+import { APP_NAME } from '@/lib/constants';
 import ForgotPasswordForm from './forgot-password-form';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
-  title: 'Forgot Password',
+  title: 'Reset Password',
 };
 
-export default async function ForgotPasswordPage() {
-  // Redirect to home if user is already logged in
+const ForgotPasswordPage = async (props: {
+  searchParams: Promise<{
+    callbackUrl: string;
+  }>;
+}) => {
+  const { callbackUrl } = await props.searchParams;
+
   const session = await auth();
-  if (session?.user) {
-    redirect('/');
+
+  if (session) {
+    return redirect(callbackUrl || '/');
   }
 
   return (
-    <div className='container flex h-screen w-screen flex-col items-center justify-center'>
-      <Card className='w-full max-w-lg'>
-        <CardHeader className='space-y-1'>
-          <CardTitle className='text-2xl text-center'>Forgot Password</CardTitle>
-          <CardDescription className='text-center'>
-            Enter your email address and we'll send you a link to reset your password
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ForgotPasswordForm />
-        </CardContent>
-      </Card>
+    <div className="min-h-[calc(100vh-144px)] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md">
+        <Card className="bg-white/90 backdrop-blur-[2px] shadow-md hover:shadow-lg transition-shadow duration-300">
+          <CardHeader className="space-y-6 pb-8 pt-6 border-b border-[#FFE4D2]">
+            <Link href="/" className="flex justify-center">
+              <Image
+                src="/images/logo.svg"
+                width={120}
+                height={120}
+                alt={`${APP_NAME} logo`}
+                priority={true}
+                className="hover:opacity-90 transition-opacity duration-200"
+              />
+            </Link>
+            <div className="space-y-2">
+              <CardTitle className="text-2xl font-serif text-center text-[#1D1D1F]">Reset Your Password</CardTitle>
+              <CardDescription className="text-center text-muted-foreground">
+                Enter your email address and we'll send you a password reset link
+              </CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent className="pt-8">
+            <ForgotPasswordForm />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
-} 
+};
+
+export default ForgotPasswordPage; 

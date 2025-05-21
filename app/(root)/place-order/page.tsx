@@ -5,7 +5,7 @@ import { ShippingAddress } from '@/types';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import CheckoutSteps from '@/components/shared/checkout-steps';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,6 +19,7 @@ import {
 import Image from 'next/image';
 import { formatCurrency } from '@/lib/utils';
 import PlaceOrderForm from './place-order-form';
+import { CreditCard, MapPin, Package, Pencil } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Place Order',
@@ -40,106 +41,155 @@ const PlaceOrderPage = async () => {
   const userAddress = user.address as ShippingAddress;
 
   return (
-    <>
+    <div className="wrapper py-8">
       <CheckoutSteps current={3} />
-      <h1 className='py-4 text-2xl'>Place Order</h1>
-      <div className='grid md:grid-cols-3 md:gap-5'>
-        <div className='md:col-span-2 overflow-x-auto space-y-4'>
-          <Card>
-            <CardContent className='p-4 gap-4'>
-              <h2 className='text-xl pb-4'>Shipping Address</h2>
-              <p>{userAddress.fullName}</p>
-              <p>
-                {userAddress.streetAddress}, {userAddress.city}{' '}
-                {userAddress.postalCode}, {userAddress.country}{' '}
-              </p>
-              <p className='mt-1'>Phone: {userAddress.phoneNumber}</p>
-              <div className='mt-3'>
-                <Link href='/shipping-address'>
-                  <Button variant='outline'>Edit</Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className='p-4 gap-4'>
-              <h2 className='text-xl pb-4'>Payment Method</h2>
-              <p>{user.paymentMethod}</p>
-              <div className='mt-3'>
-                <Link href='/payment-method'>
-                  <Button variant='outline'>Edit</Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className='p-4 gap-4'>
-              <h2 className='text-xl pb-4'>Order Items</h2>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Item</TableHead>
-                    <TableHead>Quantity</TableHead>
-                    <TableHead>Price</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {cart.items.map((item) => (
-                    <TableRow key={item.slug}>
-                      <TableCell>
-                        <Link
-                          href={`/product/{item.slug}`}
-                          className='flex items-center'
-                        >
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            width={50}
-                            height={50}
-                          />
-                          <span className='px-2'>{item.name}</span>
-                        </Link>
-                      </TableCell>
-                      <TableCell>
-                        <span className='px-2'>{item.qty}</span>
-                      </TableCell>
-                      <TableCell className='text-right'>
-                        ${item.price}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-center gap-2 text-[#FF7A3D] mb-8">
+          <Package className="w-6 h-6" />
+          <h1 className="text-2xl font-serif">Review Your Order</h1>
         </div>
-        <div>
-          <Card>
-            <CardContent className='p-4 gap-4 space-y-4'>
-              <div className='flex justify-between'>
-                <div>Items</div>
-                <div>{formatCurrency(cart.itemsPrice)}</div>
-              </div>
-              <div className='flex justify-between'>
-                <div>Tax</div>
-                <div>{formatCurrency(cart.taxPrice)}</div>
-              </div>
-              <div className='flex justify-between'>
-                <div>Shipping</div>
-                <div>{formatCurrency(cart.shippingPrice)}</div>
-              </div>
-              <div className='flex justify-between'>
-                <div>Total</div>
-                <div>{formatCurrency(cart.totalPrice)}</div>
-              </div>
-              <PlaceOrderForm />
-            </CardContent>
-          </Card>
+        
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="md:col-span-2 space-y-6">
+            {/* Shipping Address Card */}
+            <Card className="bg-white/90 backdrop-blur-[2px] shadow-md hover:shadow-lg transition-shadow duration-300">
+              <CardHeader className="border-b border-[#FFE4D2] pb-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-5 h-5 text-[#FF7A3D]" />
+                    <CardTitle className="text-xl font-serif">Shipping Address</CardTitle>
+                  </div>
+                  <Link href="/shipping-address">
+                    <Button variant="outline" size="sm" className="text-[#FF7A3D] border-[#FFE4D2] hover:bg-[#FFF5EE]">
+                      <Pencil className="w-4 h-4 mr-1" />
+                      Edit
+                    </Button>
+                  </Link>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <div className="space-y-2 text-[#1D1D1F]">
+                  <p className="font-medium">{userAddress.fullName}</p>
+                  <p className="text-muted-foreground">
+                    {userAddress.streetAddress}, {userAddress.city}{' '}
+                    {userAddress.postalCode}, {userAddress.country}
+                  </p>
+                  <p className="text-muted-foreground">Phone: {userAddress.phoneNumber}</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Payment Method Card */}
+            <Card className="bg-white/90 backdrop-blur-[2px] shadow-md hover:shadow-lg transition-shadow duration-300">
+              <CardHeader className="border-b border-[#FFE4D2] pb-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <CreditCard className="w-5 h-5 text-[#FF7A3D]" />
+                    <CardTitle className="text-xl font-serif">Payment Method</CardTitle>
+                  </div>
+                  <Link href="/payment-method">
+                    <Button variant="outline" size="sm" className="text-[#FF7A3D] border-[#FFE4D2] hover:bg-[#FFF5EE]">
+                      <Pencil className="w-4 h-4 mr-1" />
+                      Edit
+                    </Button>
+                  </Link>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <p className="text-[#1D1D1F] font-medium">{user.paymentMethod}</p>
+              </CardContent>
+            </Card>
+
+            {/* Order Items Card */}
+            <Card className="bg-white/90 backdrop-blur-[2px] shadow-md hover:shadow-lg transition-shadow duration-300">
+              <CardHeader className="border-b border-[#FFE4D2] pb-4">
+                <div className="flex items-center gap-2">
+                  <Package className="w-5 h-5 text-[#FF7A3D]" />
+                  <CardTitle className="text-xl font-serif">Order Items</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-[#FFE4D2]">
+                        <TableHead className="text-[#1D1D1F]">Item</TableHead>
+                        <TableHead className="text-[#1D1D1F]">Quantity</TableHead>
+                        <TableHead className="text-[#1D1D1F] text-right">Price</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {cart.items.map((item) => (
+                        <TableRow key={item.slug} className="border-[#FFE4D2]">
+                          <TableCell className="py-4">
+                            <Link
+                              href={`/product/${item.slug}`}
+                              className="flex items-center hover:text-[#FF7A3D] transition-colors duration-200"
+                            >
+                              <div className="relative w-16 h-16 rounded-md overflow-hidden">
+                                <Image
+                                  src={item.image}
+                                  alt={item.name}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </div>
+                              <span className="ml-3 font-medium">{item.name}</span>
+                            </Link>
+                          </TableCell>
+                          <TableCell className="text-[#1D1D1F]">
+                            {item.qty}
+                          </TableCell>
+                          <TableCell className="text-right font-medium text-[#1D1D1F]">
+                            {formatCurrency(item.price)}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Order Summary Card */}
+          <div>
+            <Card className="bg-white/90 backdrop-blur-[2px] shadow-md hover:shadow-lg transition-shadow duration-300 sticky top-24">
+              <CardHeader className="border-b border-[#FFE4D2] pb-4">
+                <CardTitle className="text-xl font-serif text-[#1D1D1F]">Order Summary</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <div className="space-y-4">
+                  <div className="flex justify-between text-[#1D1D1F]">
+                    <span>Items</span>
+                    <span className="font-medium">{formatCurrency(cart.itemsPrice)}</span>
+                  </div>
+                  <div className="flex justify-between text-[#1D1D1F]">
+                    <span>Tax</span>
+                    <span className="font-medium">{formatCurrency(cart.taxPrice)}</span>
+                  </div>
+                  <div className="flex justify-between text-[#1D1D1F]">
+                    <span>Shipping</span>
+                    <span className="font-medium">{formatCurrency(cart.shippingPrice)}</span>
+                  </div>
+                  <div className="pt-4 border-t border-[#FFE4D2]">
+                    <div className="flex justify-between text-[#1D1D1F]">
+                      <span className="text-lg font-medium">Total</span>
+                      <span className="text-lg font-medium text-[#FF7A3D]">
+                        {formatCurrency(cart.totalPrice)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="pt-4">
+                    <PlaceOrderForm />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

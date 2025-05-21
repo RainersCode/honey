@@ -18,9 +18,10 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Loader } from 'lucide-react';
+import { ArrowRight, Loader, MapPin } from 'lucide-react';
 import { updateUserAddress } from '@/lib/actions/user.actions';
 import { shippingAddressDefaultValues } from '@/lib/constants';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
   const router = useRouter();
@@ -52,22 +53,27 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
   };
 
   return (
-    <>
-      <div className='max-w-md mx-auto space-y-4'>
-        <h1 className='h2-bold mt-4'>Shipping Address</h1>
-        <p className='text-sm text-muted-foreground'>
-          Please enter and address to ship to
-        </p>
-        <Form {...form}>
-          <form
-            method='post'
-            className='space-y-4'
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
-            <div className='flex flex-col md:flex-row gap-5'>
+    <div className="wrapper py-8">
+      <Card className="max-w-2xl mx-auto bg-white/90 backdrop-blur-[2px] shadow-md hover:shadow-lg transition-shadow duration-300">
+        <CardHeader className="space-y-2 border-b border-[#FFE4D2] pb-6">
+          <div className="flex items-center gap-2 text-[#FF7A3D]">
+            <MapPin className="w-5 h-5" />
+            <CardTitle className="text-2xl font-serif">Shipping Address</CardTitle>
+          </div>
+          <CardDescription>
+            Please enter the address where you'd like your honey products delivered
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <Form {...form}>
+            <form
+              method="post"
+              className="space-y-6"
+              onSubmit={form.handleSubmit(onSubmit)}
+            >
               <FormField
                 control={form.control}
-                name='fullName'
+                name="fullName"
                 render={({
                   field,
                 }: {
@@ -76,20 +82,23 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                     'fullName'
                   >;
                 }) => (
-                  <FormItem className='w-full'>
-                    <FormLabel>Full Name</FormLabel>
+                  <FormItem>
+                    <FormLabel className="text-[#1D1D1F]">Full Name</FormLabel>
                     <FormControl>
-                      <Input placeholder='Enter full name' {...field} />
+                      <Input 
+                        placeholder="Enter full name" 
+                        {...field}
+                        className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            </div>
-            <div className='flex flex-col md:flex-row gap-5'>
+
               <FormField
                 control={form.control}
-                name='streetAddress'
+                name="streetAddress"
                 render={({
                   field,
                 }: {
@@ -98,122 +107,149 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                     'streetAddress'
                   >;
                 }) => (
-                  <FormItem className='w-full'>
-                    <FormLabel>Address</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Enter address' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className='flex flex-col md:flex-row gap-5'>
-              <FormField
-                control={form.control}
-                name='city'
-                render={({
-                  field,
-                }: {
-                  field: ControllerRenderProps<
-                    z.infer<typeof shippingAddressSchema>,
-                    'city'
-                  >;
-                }) => (
-                  <FormItem className='w-full'>
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Enter city' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className='flex flex-col md:flex-row gap-5'>
-              <FormField
-                control={form.control}
-                name='postalCode'
-                render={({
-                  field,
-                }: {
-                  field: ControllerRenderProps<
-                    z.infer<typeof shippingAddressSchema>,
-                    'postalCode'
-                  >;
-                }) => (
-                  <FormItem className='w-full'>
-                    <FormLabel>Postal Code</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Enter postal code' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className='flex flex-col md:flex-row gap-5'>
-              <FormField
-                control={form.control}
-                name='country'
-                render={({
-                  field,
-                }: {
-                  field: ControllerRenderProps<
-                    z.infer<typeof shippingAddressSchema>,
-                    'country'
-                  >;
-                }) => (
-                  <FormItem className='w-full'>
-                    <FormLabel>Country</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Enter country' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className='flex flex-col md:flex-row gap-5'>
-              <FormField
-                control={form.control}
-                name='phoneNumber'
-                render={({
-                  field,
-                }: {
-                  field: ControllerRenderProps<
-                    z.infer<typeof shippingAddressSchema>,
-                    'phoneNumber'
-                  >;
-                }) => (
-                  <FormItem className='w-full'>
-                    <FormLabel>Phone Number</FormLabel>
+                  <FormItem>
+                    <FormLabel className="text-[#1D1D1F]">Street Address</FormLabel>
                     <FormControl>
                       <Input 
-                        type="tel"
-                        placeholder='Enter phone number' 
-                        {...field} 
+                        placeholder="Enter street address" 
+                        {...field}
+                        className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            </div>
-            <div className='flex gap-2'>
-              <Button type='submit' disabled={isPending}>
-                {isPending ? (
-                  <Loader className='w-4 h-4 animate-spin' />
-                ) : (
-                  <ArrowRight className='w-4 h-4' />
-                )}{' '}
-                Continue
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </div>
-    </>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="city"
+                  render={({
+                    field,
+                  }: {
+                    field: ControllerRenderProps<
+                      z.infer<typeof shippingAddressSchema>,
+                      'city'
+                    >;
+                  }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#1D1D1F]">City</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="Enter city" 
+                          {...field}
+                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="postalCode"
+                  render={({
+                    field,
+                  }: {
+                    field: ControllerRenderProps<
+                      z.infer<typeof shippingAddressSchema>,
+                      'postalCode'
+                    >;
+                  }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#1D1D1F]">Postal Code</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="Enter postal code" 
+                          {...field}
+                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="country"
+                  render={({
+                    field,
+                  }: {
+                    field: ControllerRenderProps<
+                      z.infer<typeof shippingAddressSchema>,
+                      'country'
+                    >;
+                  }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#1D1D1F]">Country</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="Enter country" 
+                          {...field}
+                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({
+                    field,
+                  }: {
+                    field: ControllerRenderProps<
+                      z.infer<typeof shippingAddressSchema>,
+                      'phoneNumber'
+                    >;
+                  }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#1D1D1F]">Phone Number</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="tel"
+                          placeholder="Enter phone number" 
+                          {...field}
+                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="pt-4">
+                <Button 
+                  type="submit" 
+                  disabled={isPending}
+                  className="w-full md:w-auto bg-[#FF7A3D] hover:bg-[#ff6a24] text-white"
+                >
+                  {isPending ? (
+                    <>
+                      <Loader className="w-4 h-4 animate-spin mr-2" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      Continue to Payment
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </>
+                  )}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

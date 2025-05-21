@@ -31,27 +31,32 @@ const SignInPage = async (props: {
   }
 
   return (
-    <div className='w-full max-w-md mx-auto'>
-      <Card>
-        <CardHeader className='space-y-4'>
-          <Link href='/' className='flex-center'>
-            <Image
-              src='/images/logo.svg'
-              width={100}
-              height={100}
-              alt={`${APP_NAME} logo`}
-              priority={true}
-            />
-          </Link>
-          <CardTitle className='text-center'>Sign In</CardTitle>
-          <CardDescription className='text-center'>
-            Sign in to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent className='space-y-4'>
-          <CredentialsSignInForm />
-        </CardContent>
-      </Card>
+    <div className="min-h-[calc(100vh-144px)] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md">
+        <Card className="bg-white/90 backdrop-blur-[2px] shadow-md hover:shadow-lg transition-shadow duration-300">
+          <CardHeader className="space-y-6 pb-8 pt-6 border-b border-[#FFE4D2]">
+            <Link href="/" className="flex justify-center">
+              <Image
+                src="/images/logo.svg"
+                width={120}
+                height={120}
+                alt={`${APP_NAME} logo`}
+                priority={true}
+                className="hover:opacity-90 transition-opacity duration-200"
+              />
+            </Link>
+            <div className="space-y-2">
+              <CardTitle className="text-2xl font-serif text-center text-[#1D1D1F]">Welcome Back</CardTitle>
+              <CardDescription className="text-center text-muted-foreground">
+                Sign in to your account to continue
+              </CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent className="pt-8">
+            <CredentialsSignInForm />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

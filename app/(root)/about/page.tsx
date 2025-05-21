@@ -40,7 +40,7 @@ export default function AboutPage() {
           </div>
           <div className="relative h-[400px] rounded-2xl overflow-hidden">
             <Image
-              src="/images/beekeeper.jpg"
+              src="/images/about-us/beekeeper.jpg"
               alt="Beekeeper tending to hives"
               fill
               className="object-cover"
@@ -101,7 +101,7 @@ export default function AboutPage() {
         <section className="grid md:grid-cols-2 gap-12 items-center">
           <div className="relative h-[400px] rounded-2xl overflow-hidden order-2 md:order-1">
             <Image
-              src="/images/honey-jars.jpg"
+              src="/images/about-us/honey-jar.jpg"
               alt="Honey jars in sunlight"
               fill
               className="object-cover"

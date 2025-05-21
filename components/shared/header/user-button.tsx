@@ -19,13 +19,12 @@ const UserButton = async () => {
     return (
       <Button 
         asChild
-        variant="ghost"
         size="sm"
-        className="text-[#1D1D1F] hover:text-[#FF7A3D] transition-all duration-300 relative group"
+        className="bg-gradient-to-br from-[#FF7A3D] to-[#FF9A6A] text-white hover:from-[#FF9A6A] hover:to-[#FF7A3D] transition-all duration-300 hover:scale-105 shadow-sm hover:shadow-md"
       >
         <Link href='/sign-in' className="flex items-center gap-2">
-          <UserIcon className="h-5 w-5 stroke-[1.5] transition-transform duration-300 group-hover:scale-110" />
-          <span className="hidden sm:inline text-sm font-medium">Sign In</span>
+          <UserIcon className="h-5 w-5 stroke-[1.5]" />
+          <span className="text-sm font-medium">Sign In</span>
         </Link>
       </Button>
     );

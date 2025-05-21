@@ -26,6 +26,9 @@ export const shippingAddressDefaultValues = {
   postalCode: '',
   country: '',
   phoneNumber: '',
+  deliveryMethod: 'home',
+  omnivaLocationId: '',
+  omnivaLocationDetails: null,
   agreeToTerms: false,
   agreeToPrivacyPolicy: false,
   rememberDetails: false,
@@ -69,3 +72,18 @@ export const SENDER_EMAIL = process.env.SENDER_EMAIL || 'onboarding@resend.dev';
 export const forgotPasswordDefaultValues = {
   email: '',
 };
+
+export const DELIVERY_METHODS = [
+  {
+    id: 'home',
+    name: 'Home Delivery',
+    description: 'Delivery to your address',
+    price: 10.00,
+  },
+  {
+    id: 'omniva',
+    name: 'Omniva Parcel Machine',
+    description: 'Pickup from Omniva parcel locker',
+    price: 2.80,
+  },
+] as const;

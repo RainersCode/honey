@@ -19,7 +19,29 @@ export type Product = z.infer<typeof insertProductSchema> & {
 
 export type Cart = z.infer<typeof insertCartSchema>;
 export type CartItem = z.infer<typeof cartItemSchema>;
-export type ShippingAddress = z.infer<typeof shippingAddressSchema>;
+export type ShippingAddress = {
+  fullName: string;
+  streetAddress: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  phoneNumber: string;
+  deliveryMethod: 'home' | 'omniva';
+  omnivaLocationId?: string;
+  omnivaLocationDetails?: {
+    id: string;
+    name: string;
+    address: string;
+    city: string;
+    country: string;
+    type: string;
+  };
+  agreeToTerms: boolean;
+  agreeToPrivacyPolicy: boolean;
+  rememberDetails?: boolean;
+  lat?: number;
+  lng?: number;
+};
 export type OrderItem = z.infer<typeof insertOrderItemSchema>;
 export type Order = z.infer<typeof insertOrderSchema> & {
   id: string;

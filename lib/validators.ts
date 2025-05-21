@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { formatNumberWithDecimal } from './utils';
-import { PAYMENT_METHODS } from './constants';
+import { PAYMENT_METHODS, DELIVERY_METHODS } from './constants';
 
 const currency = z
   .string()
@@ -77,6 +77,18 @@ export const shippingAddressSchema = z.object({
   postalCode: z.string().min(3, 'Postal code must be at least 3 characters'),
   country: z.string().min(3, 'Country must be at least 3 characters'),
   phoneNumber: z.string().min(5, 'Phone number is required').regex(/^[+]?[\d\s-()]+$/, 'Invalid phone number format'),
+  deliveryMethod: z.enum(['home', 'omniva'], {
+    required_error: 'Please select a delivery method',
+  }),
+  omnivaLocationId: z.string().optional(),
+  omnivaLocationDetails: z.object({
+    id: z.string(),
+    name: z.string(),
+    address: z.string(),
+    city: z.string(),
+    country: z.string(),
+    type: z.string(),
+  }).optional(),
   agreeToTerms: z.boolean().refine(val => val === true, {
     message: 'You must agree to the terms and conditions',
   }),
@@ -86,6 +98,15 @@ export const shippingAddressSchema = z.object({
   rememberDetails: z.boolean().optional(),
   lat: z.number().optional(),
   lng: z.number().optional(),
+}).refine((data) => {
+  // If delivery method is Omniva, require Omniva location
+  if (data.deliveryMethod === 'omniva') {
+    return !!data.omnivaLocationId && !!data.omnivaLocationDetails;
+  }
+  return true;
+}, {
+  message: 'Please select an Omniva pickup location',
+  path: ['omnivaLocationId'],
 });
 
 // Schema for payment method

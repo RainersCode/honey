@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { ShoppingBag } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { CartItem } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { ToastAction } from '@/components/ui/toast';
@@ -48,21 +48,24 @@ const SimpleAddToCart = ({ item }: { item: CartItem }) => {
   };
 
   return (
-    <Button 
-      className='w-full bg-transparent hover:bg-[#FF7A3D] border-2 border-[#FF7A3D] text-[#FF7A3D] hover:text-white transition-all duration-300 group'
-      type='button' 
-      onClick={handleAddToCart}
-      disabled={isPending}
-    >
-      {isPending ? (
-        <LoadingSpinner size="sm" className="text-[#FF7A3D]" />
-      ) : (
-        <>
-          <ShoppingBag className='h-4 w-4 mr-2 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-8deg]' />
-          Add To Cart
-        </>
-      )}
-    </Button>
+    <div className="relative w-full group">
+      <div className="absolute inset-0 bg-[#FF7A3D]/20 opacity-0 group-hover:opacity-100 rounded-md transition-opacity duration-300"></div>
+      <Button 
+        className='w-full bg-white hover:bg-gradient-to-r hover:from-[#FF7A3D] hover:to-[#ff6a2a] border-2 border-[#FF7A3D] text-[#FF7A3D] hover:text-white hover:border-transparent hover:scale-105 hover:shadow-[0_0_15px_rgba(255,122,61,0.5)] active:scale-95 transition-all duration-300 ease-out relative z-10'
+        type='button' 
+        onClick={() => router.push(`/product/${item.slug}`)}
+        disabled={isPending}
+      >
+        {isPending ? (
+          <LoadingSpinner size="sm" className="text-[#FF7A3D]" />
+        ) : (
+          <>
+            <Eye className='h-4 w-4 mr-2 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-8deg]' />
+            View Product
+          </>
+        )}
+      </Button>
+    </div>
   );
 };
 

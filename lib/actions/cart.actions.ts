@@ -8,14 +8,18 @@ import { prisma } from '@/db/prisma';
 import { cartItemSchema, insertCartSchema } from '../validators';
 import { revalidatePath } from 'next/cache';
 import { Prisma } from '@prisma/client';
+import { DELIVERY_METHODS } from '../constants';
 
 // Calculate cart prices
-const calcPrice = (items: CartItem[]) => {
+const calcPrice = (items: CartItem[], deliveryMethod = 'home') => {
   const itemsPrice = round2(
       items.reduce((acc, item) => acc + Number(item.price) * item.qty, 0)
     ),
-    shippingPrice = round2(itemsPrice > 100 ? 0 : 10),
-    taxPrice = round2(0.15 * itemsPrice),
+    // Get shipping price based on delivery method and free shipping threshold
+    shippingPrice = itemsPrice > 100 ? 0 : 
+      round2(DELIVERY_METHODS.find(method => method.id === deliveryMethod)?.price || 10),
+    // Latvian VAT rate is 21%
+    taxPrice = round2(0.21 * itemsPrice),
     totalPrice = round2(itemsPrice + taxPrice + shippingPrice);
 
   return {
@@ -54,7 +58,8 @@ export async function addItemToCart(data: CartItem) {
         userId: userId,
         items: [item],
         sessionCartId: sessionCartId,
-        ...calcPrice([item]),
+        ...calcPrice([item], 'home'),
+        deliveryMethod: 'home',
       });
 
       // Add to database
@@ -104,7 +109,7 @@ export async function addItemToCart(data: CartItem) {
         where: { id: cart.id },
         data: {
           items: cart.items as Prisma.CartUpdateitemsInput[],
-          ...calcPrice(cart.items as CartItem[]),
+          ...calcPrice(cart.items as CartItem[], cart.deliveryMethod),
         },
       });
 
@@ -217,6 +222,35 @@ export async function removeItemFromCart(productId: string) {
     return {
       success: false,
       message: 'Failed to remove item from cart',
+    };
+  }
+}
+
+export async function updateCartDeliveryMethod(deliveryMethod: 'home' | 'omniva') {
+  try {
+    const cart = await getMyCart();
+    if (!cart) throw new Error('Cart not found');
+
+    await prisma.cart.update({
+      where: { id: cart.id },
+      data: {
+        deliveryMethod,
+        ...calcPrice(cart.items as CartItem[], deliveryMethod),
+      },
+    });
+
+    revalidatePath('/cart');
+    revalidatePath('/place-order');
+
+    return {
+      success: true,
+      message: 'Delivery method updated',
+    };
+  } catch (error) {
+    console.error('Error updating delivery method:', error);
+    return {
+      success: false,
+      message: 'Failed to update delivery method',
     };
   }
 }

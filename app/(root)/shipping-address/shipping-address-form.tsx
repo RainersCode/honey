@@ -25,6 +25,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { OmnivaLocationSelector } from '@/components/shared/omniva-location-selector';
+import { updateCartDeliveryMethod } from '@/lib/actions/cart.actions';
+import { useEffect } from 'react';
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
   const router = useRouter();
@@ -37,6 +39,21 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
 
   const [isPending, startTransition] = useTransition();
   const deliveryMethod = form.watch('deliveryMethod');
+
+  // Handle delivery method change
+  useEffect(() => {
+    const updateDeliveryMethod = async () => {
+      const res = await updateCartDeliveryMethod(deliveryMethod);
+      if (!res.success) {
+        toast({
+          variant: 'destructive',
+          description: res.message,
+        });
+      }
+    };
+
+    updateDeliveryMethod();
+  }, [deliveryMethod, toast]);
 
   const onSubmit: SubmitHandler<z.infer<typeof shippingAddressSchema>> = async (
     values

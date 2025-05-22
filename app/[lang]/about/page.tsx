@@ -24,10 +24,11 @@ export default async function AboutPage({
       {/* Hero Section */}
       <section className="relative h-[400px] w-full rounded-xl overflow-hidden">
         <Image
-          src="/images/about-us/about us.jpg"
+          src={`/images/about-us/about-us.jpg`}
           alt={dict.about.hero.imageAlt}
-          fill
-          className="object-cover"
+          width={1920}
+          height={1080}
+          className="object-cover w-full h-full"
           priority
         />
         <div className="absolute inset-0 bg-black/30 rounded-xl" />
@@ -53,10 +54,11 @@ export default async function AboutPage({
           </div>
           <div className="relative h-[400px] rounded-2xl overflow-hidden">
             <Image
-              src="/images/about-us/beekeeper.jpg"
+              src={`/images/about-us/beekeeper.jpg`}
               alt={dict.about.mission.imageAlt}
-              fill
-              className="object-cover"
+              width={1200}
+              height={800}
+              className="object-cover w-full h-full"
             />
           </div>
         </section>
@@ -68,7 +70,7 @@ export default async function AboutPage({
             <div className="text-center space-y-4">
               <div className="w-16 h-16 bg-[#FF7A3D] rounded-full flex items-center justify-center mx-auto">
                 <Image
-                  src="/images/icons/bee.svg"
+                  src={`/images/icons/bee.svg`}
                   alt={dict.about.process.step1.iconAlt}
                   width={32}
                   height={32}
@@ -80,7 +82,7 @@ export default async function AboutPage({
             <div className="text-center space-y-4">
               <div className="w-16 h-16 bg-[#FF7A3D] rounded-full flex items-center justify-center mx-auto">
                 <Image
-                  src="/images/icons/honey.svg"
+                  src={`/images/icons/honey.svg`}
                   alt={dict.about.process.step2.iconAlt}
                   width={32}
                   height={32}
@@ -92,7 +94,7 @@ export default async function AboutPage({
             <div className="text-center space-y-4">
               <div className="w-16 h-16 bg-[#FF7A3D] rounded-full flex items-center justify-center mx-auto">
                 <Image
-                  src="/images/icons/jar.svg"
+                  src={`/images/icons/jar.svg`}
                   alt={dict.about.process.step3.iconAlt}
                   width={32}
                   height={32}
@@ -108,10 +110,11 @@ export default async function AboutPage({
         <section className="grid md:grid-cols-2 gap-12 items-center">
           <div className="relative h-[400px] rounded-2xl overflow-hidden order-2 md:order-1">
             <Image
-              src="/images/about-us/honey-jar.jpg"
+              src={`/images/about-us/honey-jar.jpg`}
               alt={dict.about.values.imageAlt}
-              fill
-              className="object-cover"
+              width={1200}
+              height={800}
+              className="object-cover w-full h-full"
             />
           </div>
           <div className="space-y-6 order-1 md:order-2">

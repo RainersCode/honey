@@ -29,10 +29,12 @@ const ProductForm = ({
   type,
   product,
   productId,
+  lang,
 }: {
   type: 'Create' | 'Update';
   product?: Product;
   productId?: string;
+  lang: string;
 }) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -62,14 +64,14 @@ const ProductForm = ({
         toast({
           description: res.message,
         });
-        router.push('/admin/products');
+        router.push(`/${lang}/admin/products`);
       }
     }
 
     // On Update
     if (type === 'Update') {
       if (!productId) {
-        router.push('/admin/products');
+        router.push(`/${lang}/admin/products`);
         return;
       }
 
@@ -84,7 +86,7 @@ const ProductForm = ({
         toast({
           description: res.message,
         });
-        router.push('/admin/products');
+        router.push(`/${lang}/admin/products`);
       }
     }
   };
@@ -294,8 +296,10 @@ const ProductForm = ({
                       <FormControl>
                         <UploadButton
                           endpoint='imageUploader'
-                          onClientUploadComplete={(res: { url: string }[]) => {
-                            form.setValue('images', [...images, res[0].url]);
+                          onClientUploadComplete={(res) => {
+                            if (res?.[0]?.url) {
+                              form.setValue('images', [...images, res[0].url]);
+                            }
                           }}
                           onUploadError={(error: Error) => {
                             toast({

@@ -9,6 +9,45 @@
     "register": "Reģistrēties",
     "logout": "Iziet"
   },
+  "admin": {
+    "nav": {
+      "overview": "Pārskats",
+      "products": "Produkti",
+      "orders": "Pasūtījumi",
+      "users": "Lietotāji"
+    },
+    "overview": "Pārskats",
+    "products": "Produkti",
+    "orders": "Pasūtījumi",
+    "users": "Lietotāji",
+    "createProduct": "Izveidot Produktu",
+    "updateProduct": "Rediģēt Produktu",
+    "orderStatus": {
+      "notPaid": "Nav Apmaksāts",
+      "notShipped": "Nav Nosūtīts",
+      "notDelivered": "Nav Piegādāts",
+      "details": "Detaļas",
+      "clearFilter": "Notīrīt Filtru",
+      "filteredBy": "Filtrēts pēc"
+    },
+    "dashboard": {
+      "totalRevenue": "Kopējie Ieņēmumi",
+      "sales": "Pārdošanas",
+      "customers": "Klienti",
+      "products": "Produkti",
+      "overview": "Pārskats",
+      "recentSales": "Jaunākie Pārdošanas",
+      "totalProducts": "Kopējais produktu skaits",
+      "totalOrders": "Kopējais pasūtījumu skaits",
+      "registeredUsers": "Reģistrētie lietotāji",
+      "totalRevenueSub": "Kopējie ieņēmumi",
+      "buyer": "Pircējs",
+      "date": "Datums",
+      "total": "Kopā",
+      "actions": "Darbības",
+      "details": "Detaļas"
+    }
+  },
   "common": {
     "loading": "Ielādē...",
     "error": "Lapa nav atrasta",

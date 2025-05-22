@@ -297,27 +297,48 @@ type SalesDataType = {
 // Get sales data and order summary
 export async function getOrderSummary() {
   // Get counts for each resource
-  const ordersCount = await prisma.order.count();
+  const ordersCount = await prisma.order.count({
+    where: { isPaid: true }
+  });
   const productsCount = await prisma.product.count();
   const usersCount = await prisma.user.count();
 
-  // Calculate the total sales
+  // Calculate the total sales from paid orders
   const totalSales = await prisma.order.aggregate({
+    where: { isPaid: true },
     _sum: { totalPrice: true },
   });
 
-  // Get monthly sales
+  // Get monthly sales for the last 6 months from paid orders
   const salesDataRaw = await prisma.$queryRaw<
     Array<{ month: string; totalSales: Prisma.Decimal }>
-  >`SELECT to_char("createdAt", 'MM/YY') as "month", sum("totalPrice") as "totalSales" FROM "Order" GROUP BY to_char("createdAt", 'MM/YY')`;
+  >`
+    WITH months AS (
+      SELECT generate_series(
+        date_trunc('month', NOW()) - interval '5 months',
+        date_trunc('month', NOW()),
+        interval '1 month'
+      )::date as month
+    )
+    SELECT 
+      to_char(months.month, 'Mon YY') as month,
+      COALESCE(sum("totalPrice"), 0) as "totalSales"
+    FROM months
+    LEFT JOIN "Order" ON 
+      date_trunc('month', "createdAt") = months.month
+      AND "isPaid" = true
+    GROUP BY months.month
+    ORDER BY months.month ASC
+  `;
 
-  const salesData: SalesDataType = salesDataRaw.map((entry) => ({
+  const salesData = salesDataRaw.map((entry) => ({
     month: entry.month,
     totalSales: Number(entry.totalSales),
   }));
 
-  // Get latest sales
+  // Get latest paid sales
   const latestSales = await prisma.order.findMany({
+    where: { isPaid: true },
     orderBy: { createdAt: 'desc' },
     include: {
       user: { select: { name: true } },

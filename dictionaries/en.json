@@ -9,6 +9,45 @@
     "register": "Register",
     "logout": "Logout"
   },
+  "admin": {
+    "nav": {
+      "overview": "Overview",
+      "products": "Products",
+      "orders": "Orders",
+      "users": "Users"
+    },
+    "overview": "Overview",
+    "products": "Products",
+    "orders": "Orders",
+    "users": "Users",
+    "createProduct": "Create Product",
+    "updateProduct": "Update Product",
+    "orderStatus": {
+      "notPaid": "Not Paid",
+      "notShipped": "Not Shipped",
+      "notDelivered": "Not Delivered",
+      "details": "Details",
+      "clearFilter": "Clear Filter",
+      "filteredBy": "Filtered by"
+    },
+    "dashboard": {
+      "totalRevenue": "Total Revenue",
+      "sales": "Sales",
+      "customers": "Customers",
+      "products": "Products",
+      "overview": "Overview",
+      "recentSales": "Recent Sales",
+      "totalProducts": "Total products in store",
+      "totalOrders": "Total orders",
+      "registeredUsers": "Registered users",
+      "totalRevenueSub": "Total revenue",
+      "buyer": "Buyer",
+      "date": "Date",
+      "total": "Total",
+      "actions": "Actions",
+      "details": "Details"
+    }
+  },
   "common": {
     "loading": "Loading...",
     "error": "Page not found",

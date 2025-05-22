@@ -381,5 +381,309 @@
         "unexpected": "Radās neparedzēta kļūda"
       }
     }
+  },
+  "privacy": {
+    "meta": {
+      "title": "Privātuma politika un sīkdatnes",
+      "description": "Mūsu privātuma politika un sīkdatņu izmantošanas noteikumi."
+    },
+    "title": "Privātuma politika un sīkdatnes",
+    "policy": {
+      "title": "Privātuma politika",
+      "description": "Šī privātuma politika informē par privātuma praksi un personas datu apstrādes principiem saistībā ar mūsu vietni un pakalpojumiem. Lai sazinātos saistībā ar datu apstrādes jautājumiem, lūdzu rakstiet e-pastu uz mūsu kontakta adresi."
+    },
+    "orders": {
+      "title": "Pasūtījumu veikšana un datu apstrāde",
+      "description1": "Ievadot nepieciešamo informāciju, noformējot pasūtījumu, Pircējs apliecina, ka ir iepazinies un piekrīt, ka viņa sniegtie dati tiek izmantoti, lai Pārdevējs varētu pieņemt Pircēja pasūtījumu un veikt preču piegādi saskaņā ar normatīvo aktu prasībām.",
+      "description2": "Ievadot informāciju, Pircējs piekrīt, ka tam uz norādīto e-pastu tiks izsūtīti paziņojumi, kas saistīti ar Pircēja pasūtījuma apstrādi."
+    },
+    "data": {
+      "title": "Datu izmantošana un aizsardzība",
+      "description1": "Pircēja sniegtos personas datus izmantos tikai Pārdevējs un tā partneri, ar kuriem Pārdevējs sadarbojas, veicot interneta tirdzniecības vietnes administrēšanu, preču piegādi un citus ar Pircēja pasūtījuma izpildi saistītus pakalpojumus.",
+      "description2": "Pircēja personas datu aizsardzībai Pārdevējs izmanto dažādus tehniskus un organizatoriskus drošības pasākumus. Pircēja personas dati ir pieejami ierobežotam cilvēku skaitam, tikai pilnvarotām personām."
+    },
+    "rights": {
+      "title": "Jūsu tiesības saistībā ar jūsu personas datiem",
+      "description": "Ja jūs esat datu subjekts saskaņā ar ES VDAR, jums ir šādas tiesības:",
+      "list": [
+        {
+          "title": "Tiesības piekļūt informācijai",
+          "description": "Saņemt informāciju par to, kāpēc un kā tiek apstrādāti jūsu personas dati, kā arī saņemt datu kopiju elektroniskā formātā"
+        },
+        {
+          "title": "Tiesības labot",
+          "description": "Panākt neprecīzu vai nepilnīgu personas datu labošanu vai papildināšanu"
+        },
+        {
+          "title": "Tiesības 'tikt aizmirstam'",
+          "description": "Atsaukt piekrišanu datu apstrādei un panākt datu dzēšanu"
+        },
+        {
+          "title": "Tiesības ierobežot apstrādi",
+          "description": "Noteiktos gadījumos pieprasīt datu apstrādes ierobežošanu"
+        },
+        {
+          "title": "Tiesības iebilst",
+          "description": "Iebilst pret datu apstrādi, ja vien tas nav nepieciešams sabiedrības interesēs"
+        }
+      ]
+    },
+    "cookies": {
+      "title": "Sīkdatņu politika",
+      "description": "Sīkdatnes palīdz sniegt, uzlabot un aizsargāt mūsu pakalpojumus, nodrošinot klienta vajadzībām piemērotākus piedāvājumus, kā arī ērtāku un drošāku lietošanas pieredzi.",
+      "what": {
+        "title": "Kas ir sīkdatnes?",
+        "description": "Sīkdatne ir maza teksta datne, kas tiek saglabāta datorā vai citā lietotajā ierīcē brīdī, kad Jūs apmeklējat tīmekļa vietni. Teksta datnē ir informācija, kas tiek izmantota, lai konkrētas tīmekļa vietnes apmeklētājiem uzlabotu vietnes lietošanas pieredzi."
+      },
+      "types": {
+        "title": "Sīkdatņu veidi un to izmantošanas mērķi",
+        "list": [
+          {
+            "title": "Lietotāja autentifikācija",
+            "description": "Paredz lietotāja atpazīšanu un drošāku interneta vietnes izmantošanu"
+          },
+          {
+            "title": "Pakalpojumu nodrošināšana",
+            "description": "Sīkdatnes, kas funkcionāli atbalsta pakalpojumu nodrošināšanu"
+          },
+          {
+            "title": "Vietnes drošība",
+            "description": "Sīkdatnes, kas palīdz veidot drošus pakalpojumus"
+          },
+          {
+            "title": "Lietošanas statistika",
+            "description": "Nodrošina informāciju par vietnes lietošanas paradumiem"
+          },
+          {
+            "title": "Pakalpojumu piedāvāšana",
+            "description": "Sīkdatnes, kas nodrošina personalizētus piedāvājumus"
+          }
+        ]
+      }
+    },
+    "control": {
+      "title": "Sīkdatņu kontrole",
+      "description": "Ja nevēlaties, lai Jūsu lietotajās ierīcēs tiktu izmantotas sīkdatnes, Jūs varat mainīt pārlūkprogrammas drošības iestatījumus. Pievērsiet uzmanību, ka izmaiņas drošības iestatījumos jāveic katrai pārlūkprogrammai atsevišķi un izmantotās iestatījumu metodes var atšķirties. Tomēr atcerieties, ka bez sesijas sīkdatņu apstiprināšanas Jūs nevarēsiet pilnvērtīgi izmantot mūsu interneta pakalpojumus."
+    },
+    "contact": {
+      "title": "Kontaktinformācija",
+      "description": "Ja Jums ir jautājumi par sīkdatņu izmantošanu mūsu interneta resursos vai Jūsu personas datu apstrādi, lūdzu sazinieties ar mums:",
+      "email": "E-pasts",
+      "phone": "Tālrunis",
+      "address": "Adrese"
+    }
+  },
+  "terms": {
+    "meta": {
+      "title": "Lietošanas noteikumi | Medus Saimniecība",
+      "description": "Mūsu vietnes lietošanas noteikumi, distances līgums, piegādes un atgriešanas nosacījumi."
+    },
+    "title": "Lietošanas noteikumi",
+    "readMore": "Lasīt vairāk",
+    "general": {
+      "title": "Vispārīgie noteikumi",
+      "description": "Šie noteikumi attiecas uz mūsu interneta veikala lietošanu. Izmantojot mūsu pakalpojumus, Jūs piekrītat šiem noteikumiem. Lūdzu, rūpīgi izlasiet tos pirms mūsu pakalpojumu izmantošanas."
+    },
+    "documents": {
+      "title": "Svarīgie dokumenti",
+      "list": [
+        {
+          "title": "Distances līgums",
+          "description": "Informācija par distances līguma noteikumiem, tā noslēgšanu un izpildi.",
+          "link": "/distances-ligums"
+        },
+        {
+          "title": "Privātuma politika un sīkdatnes",
+          "description": "Informācija par to, kā mēs apstrādājam Jūsu personas datus un izmantojam sīkdatnes.",
+          "link": "/privacy"
+        },
+        {
+          "title": "Apmaksa",
+          "description": "Informācija par pieejamajām apmaksas metodēm un norēķinu kārtību.",
+          "link": "/payment"
+        },
+        {
+          "title": "Piegāde un preču atgriešana",
+          "description": "Informācija par preču piegādes noteikumiem un atgriešanas kārtību.",
+          "link": "/piegade-un-atgriesana"
+        }
+      ]
+    },
+    "contact": {
+      "title": "Kontaktinformācija",
+      "description": "Ja Jums ir jautājumi par lietošanas noteikumiem, lūdzu sazinieties ar mums:",
+      "email": "E-pasts",
+      "phone": "Tālrunis",
+      "address": "Adrese"
+    }
+  },
+  "payment_page": {
+    "meta": {
+      "title": "Apmaksa | Medus Saimniecība",
+      "description": "Informācija par apmaksas veidiem un nosacījumiem."
+    },
+    "title": "Apmaksa",
+    "methods": {
+      "title": "Pieejamie apmaksas veidi",
+      "description": "Mēs piedāvājam šādus apmaksas veidus:",
+      "online_banking": "Apmaksā pasūtījumu internetbankā",
+      "banks": [
+        "Swedbank",
+        "Citadele",
+        "SEB banka",
+        "Luminor banka"
+      ],
+      "invoice": "Saņem priekšapmaksas rēķinu e-pastā"
+    },
+    "delivery": {
+      "title": "Kurjera piegādes apmaksa",
+      "description": "Izvēloties pasūtījumu saņemt izmantojot kurjeru pakalpojumu firmu, cena tiek piemērota saskaņā ar kurjera cenrādi:",
+      "invoice_note": "Pēc iepriekšējas piegādes izmaksu saskaņošanas ar Pārdevēju saņem priekšapmaksas rēķinu e-pastā"
+    },
+    "important": {
+      "title": "Svarīga informācija",
+      "description": "*Maksājuma karšu un interneta banku maksājumu apstrādi nodrošina Stripe, Inc. - drošs un uzticams maksājumu pakalpojumu sniedzējs."
+    },
+    "contact": {
+      "title": "Kontaktinformācija",
+      "description": "Ja jums ir jautājumi par apmaksu, lūdzu sazinieties ar mums:",
+      "email": "E-pasts",
+      "phone": "Tālrunis"
+    }
+  },
+  "distance_contract": {
+    "meta": {
+      "title": "Distances līgums | Medus Saimniecība",
+      "description": "Distances līguma noteikumi un nosacījumi."
+    },
+    "title": "Distances līgums",
+    "intro": {
+      "description1": "Tā kā Medus Saimniecība piedāvātās preces pārdošana notiek ar internetā izvietota piedāvājuma starpniecību mūsu vietnē, saskaņā ar Latvijas Republikas Patērētāju tiesību aizsardzības likuma (PTAL) 10. pantu, šādā gadījumā, pircējam veicot pasūtījumu, starp pircēju un pārdevēju tiek slēgts DISTANCES LĪGUMS.",
+      "description2": "Šis Distances līgums (turpmāk tekstā – Līgums) tiek slēgts starp interneta tirdzniecības vietnes Medus Saimniecība īpašnieku un Pircēju, kas izdara pasūtījumu un veic pirkumu interneta tirdzniecības vietnē."
+    },
+    "terms": {
+      "title": "Līguma noteikumi",
+      "list": [
+        "Līgums tiek noslēgts brīdī, kad Pircējs ir veicis pasūtījumu un, atbilstoši šiem noteikumiem, ir veicis samaksu par preci.",
+        "Veicot pasūtījumu, Pircējs apliecina, ka ir iepazinies, saprot un pilnībā piekrīt Līgumam un tā noteikumiem.",
+        "Pārdevējam ir tiesības bez brīdinājuma ierobežot Pircēja izmantojamos interneta tirdzniecības vietnes pakalpojumus, ja Pārdevējs uzskata, ka Pircējs var pārkāpt vai pārkāpj Līguma noteikumus, mēģina kaitēt Pārdevējam, interneta tirdzniecības vietnes darbībai vai drošībai, vai trešajām personām.",
+        "Interneta tirdzniecības vietnē visas preču cenas ir norādītas, ieskaitot pievienotās vērtības nodokli 21%. Preču piegādes pakalpojuma izmaksas nav iekļautas norādītajā preces cenā."
+      ]
+    },
+    "payment": {
+      "title": "Apmaksas veidi",
+      "description": "Par pasūtīto preci un izvēlēto piegādes pakalpojumu var norēķināties šādos veidos:",
+      "methods": [
+        "Saņemot priekšapmaksas rēķinu un veicot bankas pārskaitījumu",
+        "Uzreiz pēc pasūtījuma veikšanas ar maksājuma kartēm Visa/MasterCard vai Swedbank, Citadele, SEB banka un Luminor banka interneta bankām"
+      ]
+    },
+    "delivery": {
+      "title": "Piegādes veidi",
+      "methods": [
+        "Omniva pakomātā",
+        "Venipak pakomātā vai Pickup punktā",
+        "Kurjers piegādā pasūtīto preci Pircēja norādītajā adresē Rīgā, pēc iepriekšējas vienošanās",
+        "Pārdevēja mazumtirdzniecības vietā veikalā"
+      ]
+    },
+    "receiving": {
+      "title": "Preču saņemšana un piegāde",
+      "conditions": [
+        "Ja preces piegādes veidu Pircējs norādījis saņemšanu veikalā, to nepieciešams izņemt 3 (trīs) darba dienu laikā no brīža, kad Pārdevējs apstiprinājis, ka pasūtījums sagatavots saņemšanai. Ilgāk prece netiek rezervēta.",
+        "Pircējam ir pienākums nodrošināt, lai pasūtījumā norādītā persona preču piegādes brīdī atrastos pasūtījumā norādītajā adresē, uzrādītu kurjeram personu apliecinošu dokumentu, bez kavēšanās pieņemtu preces, parakstītu pavadzīmi, veiktu piezīmes pavadzīmē."
+      ]
+    },
+    "withdrawal": {
+      "title": "Atteikuma tiesības",
+      "description": "Pircējam ir tiesības atteikties no preces 14 (četrpadsmit) kalendāro dienu laikā no Preces saņemšanas brīža, nosūtot Pārdevējam atteikuma vēstuli. Atteikuma vēstules veidlapu Pārdevējs nosūta Pircējam pa e-pastu pēc Pircēja pieprasījuma.",
+      "conditions": {
+        "title": "Atteikuma nosacījumi",
+        "list": [
+          "Pircējam ir tiesības atkāpties no līguma 14 kalendāro dienu laikā un atdot interneta veikalā iegādāto preci atpakaļ pārdevējam",
+          "Atsakoties no pirkuma patērētājs ir atbildīgs par preces kvalitātes un drošuma saglabāšanu atteikuma tiesību realizēšanas termiņā",
+          "Iesakām saglabāt preces oriģinālo iepakojumu",
+          "Pārdevējs saglabā tiesības ieturēt kompensācijas maksu vai atteikties pieņemt preci, kura ir bojāta, nav pilnā komplektācijā vai tā citādi zaudējusi savu sākotnējo izskatu",
+          "Pircēja pienākums ir 7 (septiņu) dienu laikā pēc atteikuma vēstules nosūtīšanas atdot preci Pārdevējam",
+          "Pārdevējs atgriež pilnu atgrieztās preces vērtību (piegādes izmaksas nav iekļautas) Pircējam 30 (trīsdesmit) dienu laikā pēc preces pieņemšanas",
+          "Preču atgriešanas izdevumus sedz Pircējs"
+        ]
+      }
+    },
+    "contact": {
+      "title": "Kontaktinformācija",
+      "description": "Lai saņemtu atteikuma vēstules veidlapu un vienotos par preces atgriešanu, lūdzu sazinieties ar mums:",
+      "email": "E-pasts",
+      "phone": "Tālrunis"
+    }
+  },
+  "delivery_returns": {
+    "meta": {
+      "title": "Piegāde un Atgriešana | Medus Saimniecība",
+      "description": "Informācija par mūsu piegādes metodēm, piegādes laikiem, atgriešanas politiku un atmaksas nosacījumiem."
+    },
+    "title": "Piegāde un Atgriešana",
+    "subtitle": "Viss, kas jums jāzina par mūsu piegādes un atgriešanas noteikumiem",
+    "delivery": {
+      "title": "Piegādes Informācija",
+      "description": "Mēs piedāvājam vairākas piegādes iespējas, lai nodrošinātu, ka jūsu medus produkti nonāk pie jums ideālā stāvoklī.",
+      "methods": {
+        "title": "Piegādes Veidi",
+        "list": [
+          "Omniva pakomāti - Pieejami visā Latvijā",
+          "Venipak pakomāti un izsniegšanas punkti",
+          "Piegāde mājās Rīgā (pēc vienošanās)",
+          "Saņemšana mūsu veikalā"
+        ]
+      },
+      "times": {
+        "title": "Piegādes Laiki",
+        "list": [
+          "Pakomāti: 1-2 darba dienas",
+          "Piegāde mājās Rīgā: Nākamajā darba dienā",
+          "Saņemšana veikalā: Tajā pašā dienā (kad pasūtījums ir gatavs)"
+        ]
+      }
+    },
+    "returns": {
+      "title": "Atgriešanas Noteikumi",
+      "description": "Mēs vēlamies, lai jūs būtu pilnībā apmierināti ar savu pirkumu. Ja neesat apmierināti ar savu pasūtījumu, varat to atgriezt 14 dienu laikā no saņemšanas brīža.",
+      "process": {
+        "title": "Atgriešanas Process",
+        "steps": [
+          "Sazinieties ar mums pa e-pastu vai tālruni, lai informētu par atgriešanu",
+          "Saņemiet atgriešanas veidlapu un instrukcijas",
+          "Droši iepakojiet preci oriģinālajā iepakojumā",
+          "Nosūtiet preci atpakaļ, izmantojot jums ērtāko piegādes veidu",
+          "Pēc saņemšanas mēs pārbaudīsim preci un apstrādāsim jūsu atmaksu"
+        ]
+      },
+      "conditions": {
+        "title": "Atgriešanas Nosacījumi",
+        "list": [
+          "Precēm jābūt nelietotām un oriģinālajā iepakojumā",
+          "Visām plombām un etiķetēm jābūt neskartām",
+          "Produkti nedrīkst būt atvērti (pārtikas drošības dēļ)",
+          "Atgriešanas piegādes izmaksas sedz klients",
+          "Preces jāatgriež 14 dienu laikā no saņemšanas brīža"
+        ]
+      }
+    },
+    "refunds": {
+      "title": "Atmaksa",
+      "description": "Kad mēs saņemsim jūsu atgriezto preci, mēs apstrādāsim jūsu atmaksu saskaņā ar šādiem noteikumiem:",
+      "terms": [
+        "Atmaksa tiks apstrādāta 14 dienu laikā pēc atgriešanas saņemšanas",
+        "Tiks atmaksāta sākotnējā pirkuma summa (izņemot piegādes izmaksas)",
+        "Atmaksa tiks veikta uz sākotnējo maksājuma metodi",
+        "Mēs informēsim jūs pa e-pastu, kad jūsu atmaksa būs apstrādāta"
+      ]
+    },
+    "contact": {
+      "title": "Sazinieties ar Mums",
+      "description": "Ja jums ir kādi jautājumi par piegādi vai atgriešanu, lūdzu, nevilcinieties sazināties ar mums:",
+      "email": "E-pasts",
+      "phone": "Tālrunis"
+    }
   }
 } 

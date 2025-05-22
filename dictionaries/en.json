@@ -381,5 +381,309 @@
         "unexpected": "An unexpected error occurred"
       }
     }
+  },
+  "privacy": {
+    "meta": {
+      "title": "Privacy Policy & Cookies",
+      "description": "Our privacy policy and cookie usage terms."
+    },
+    "title": "Privacy Policy & Cookies",
+    "policy": {
+      "title": "Privacy Policy",
+      "description": "This privacy policy informs about privacy practices and personal data processing principles related to our website and services. For any data processing inquiries, please email us at our contact address."
+    },
+    "orders": {
+      "title": "Order Processing and Data Usage",
+      "description1": "By entering the required information when placing an order, the Customer confirms that they have read and agree that their provided data will be used for order processing and delivery in accordance with regulatory requirements.",
+      "description2": "By providing information, the Customer agrees to receive order processing notifications to their specified email address."
+    },
+    "data": {
+      "title": "Data Usage and Protection",
+      "description1": "Customer data will only be used by us and our partners who assist in website administration, product delivery, and other order fulfillment services. We will not disclose personal data to other third parties except as required by law.",
+      "description2": "We use various technical and organizational security measures to protect customer personal data. Access to personal data is limited to authorized personnel only."
+    },
+    "rights": {
+      "title": "Your Rights Regarding Your Personal Data",
+      "description": "As a data subject under EU GDPR, you have the following rights:",
+      "list": [
+        {
+          "title": "Right to Access",
+          "description": "Receive information about how and why your personal data is processed, and receive a copy in electronic format"
+        },
+        {
+          "title": "Right to Rectification",
+          "description": "Have inaccurate or incomplete personal data corrected or completed"
+        },
+        {
+          "title": "Right to be Forgotten",
+          "description": "Withdraw consent for data processing and have data deleted"
+        },
+        {
+          "title": "Right to Restrict Processing",
+          "description": "Request restriction of data processing in certain cases"
+        },
+        {
+          "title": "Right to Object",
+          "description": "Object to data processing unless necessary for public interest"
+        }
+      ]
+    },
+    "cookies": {
+      "title": "Cookie Policy",
+      "description": "Cookies help provide, improve and protect our services, ensuring customer-specific offers and a more convenient and secure user experience.",
+      "what": {
+        "title": "What are Cookies?",
+        "description": "A cookie is a small text file stored on your computer or other device when you visit a website. The text file contains information used to improve the website experience for visitors."
+      },
+      "types": {
+        "title": "Types of Cookies and Their Purposes",
+        "list": [
+          {
+            "title": "User Authentication",
+            "description": "For user recognition and secure website usage"
+          },
+          {
+            "title": "Service Provision",
+            "description": "Cookies that functionally support service delivery"
+          },
+          {
+            "title": "Website Security",
+            "description": "Cookies that help create secure services"
+          },
+          {
+            "title": "Usage Statistics",
+            "description": "Provides information about website usage patterns"
+          },
+          {
+            "title": "Service Offerings",
+            "description": "Cookies that provide personalized offers"
+          }
+        ]
+      }
+    },
+    "control": {
+      "title": "Cookie Control",
+      "description": "If you don't want cookies to be used on your devices, you can change your browser's security settings. Note that changes must be made separately for each browser, and the methods used may differ. Remember that without session cookies, you won't be able to fully use our internet services."
+    },
+    "contact": {
+      "title": "Contact Information",
+      "description": "If you have questions about cookie usage on our internet resources or the processing of your personal data, please contact us:",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address"
+    }
+  },
+  "terms": {
+    "meta": {
+      "title": "Terms of Use | Honey Farm",
+      "description": "Our website terms of use, distance contract, delivery and return conditions."
+    },
+    "title": "Terms of Use",
+    "readMore": "Read more",
+    "general": {
+      "title": "General Terms",
+      "description": "These terms apply to the use of our online store. By using our services, you agree to these terms. Please read them carefully before using our services."
+    },
+    "documents": {
+      "title": "Important Documents",
+      "list": [
+        {
+          "title": "Distance Contract",
+          "description": "Information about distance contract terms, its conclusion and execution.",
+          "link": "/distance-contract"
+        },
+        {
+          "title": "Privacy Policy & Cookies",
+          "description": "Information about how we process your personal data and use cookies.",
+          "link": "/privacy"
+        },
+        {
+          "title": "Payment",
+          "description": "Information about available payment methods and payment procedures.",
+          "link": "/payment"
+        },
+        {
+          "title": "Delivery and Returns",
+          "description": "Information about product delivery terms and return procedures.",
+          "link": "/delivery-and-returns"
+        }
+      ]
+    },
+    "contact": {
+      "title": "Contact Information",
+      "description": "If you have questions about the terms of use, please contact us:",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address"
+    }
+  },
+  "payment_page": {
+    "meta": {
+      "title": "Payment | Honey Farm",
+      "description": "Information about payment methods and conditions."
+    },
+    "title": "Payment",
+    "methods": {
+      "title": "Available Payment Methods",
+      "description": "We offer the following payment methods:",
+      "online_banking": "Pay for your order via online banking",
+      "banks": [
+        "Swedbank",
+        "Citadele",
+        "SEB bank",
+        "Luminor bank"
+      ],
+      "invoice": "Receive a prepayment invoice by email"
+    },
+    "delivery": {
+      "title": "Courier Delivery Payment",
+      "description": "When choosing to receive your order using courier service, the price is applied according to the courier's price list:",
+      "invoice_note": "After prior agreement on delivery costs with the Seller, receive a prepayment invoice by email"
+    },
+    "important": {
+      "title": "Important Information",
+      "description": "*Card payments and internet banking payments are processed by Stripe, Inc. - a secure and reliable payment service provider."
+    },
+    "contact": {
+      "title": "Contact Information",
+      "description": "If you have questions about payment, please contact us:",
+      "email": "Email",
+      "phone": "Phone"
+    }
+  },
+  "distance_contract": {
+    "meta": {
+      "title": "Distance Contract | Honey Farm",
+      "description": "Terms and conditions of the distance contract."
+    },
+    "title": "Distance Contract",
+    "intro": {
+      "description1": "As the sale of goods offered by Honey Farm takes place through an offer placed on the Internet at our website, in accordance with Article 10 of the Consumer Rights Protection Law (CRPL) of the Republic of Latvia, in this case, when the buyer places an order, a DISTANCE CONTRACT is concluded between the buyer and the seller.",
+      "description2": "This Distance Contract (hereinafter - the Contract) is concluded between the owner of the online trading site Honey Farm and the Buyer who places an order and makes a purchase on the online trading site."
+    },
+    "terms": {
+      "title": "Contract Terms",
+      "list": [
+        "The contract is concluded when the Buyer has placed an order and, in accordance with these terms, has made payment for the goods.",
+        "By placing an order, the Buyer confirms that they have read, understood and fully agree to the Contract and its terms.",
+        "The Seller has the right to restrict the Buyer's use of the online trading site services without warning if the Seller believes that the Buyer may violate or violates the Contract terms, attempts to harm the Seller, the operation or security of the online trading site, or third parties.",
+        "All product prices on the online trading site are indicated including value added tax of 21%. Product delivery service costs are not included in the indicated product price."
+      ]
+    },
+    "payment": {
+      "title": "Payment Methods",
+      "description": "Payment for the ordered goods and chosen delivery service can be made in the following ways:",
+      "methods": [
+        "Receiving a prepayment invoice and making a bank transfer",
+        "Immediately after placing the order with Visa/MasterCard cards or Swedbank, Citadele, SEB bank and Luminor bank internet banking"
+      ]
+    },
+    "delivery": {
+      "title": "Delivery Methods",
+      "methods": [
+        "Omniva parcel machine",
+        "Venipak parcel machine or Pickup point",
+        "Courier delivers the ordered goods to the address specified by the Buyer in Riga, by prior arrangement",
+        "At the Seller's retail location in store"
+      ]
+    },
+    "receiving": {
+      "title": "Receiving and Delivery of Goods",
+      "conditions": [
+        "If the Buyer has indicated store pickup as the delivery method, it must be collected within 3 (three) working days from the moment the Seller has confirmed that the order is ready for collection. The product is not reserved for longer.",
+        "The Buyer is obliged to ensure that the person specified in the order is at the address specified in the order at the time of delivery of the goods, presents an identity document to the courier, accepts the goods without delay, signs the invoice, makes notes on the invoice."
+      ]
+    },
+    "withdrawal": {
+      "title": "Right of Withdrawal",
+      "description": "The Buyer has the right to withdraw from the product within 14 (fourteen) calendar days from the moment of receiving the Product by sending a withdrawal letter to the Seller. The Seller sends the withdrawal letter form to the Buyer by email upon the Buyer's request.",
+      "conditions": {
+        "title": "Withdrawal Conditions",
+        "list": [
+          "The buyer has the right to withdraw from the contract within 14 calendar days and return the product purchased in the online store back to the seller",
+          "When withdrawing from the purchase, the consumer is responsible for maintaining the quality and safety of the product during the period of exercising the right of withdrawal",
+          "We recommend keeping the original packaging of the product",
+          "The seller reserves the right to withhold compensation or refuse to accept the product if it is damaged, not in full configuration or has otherwise lost its original appearance",
+          "The Buyer's obligation is to return the product to the Seller within 7 (seven) days after sending the withdrawal letter",
+          "The Seller returns the full value of the returned product (delivery costs not included) to the Buyer within 30 (thirty) days after accepting the product",
+          "Product return costs are covered by the Buyer"
+        ]
+      }
+    },
+    "contact": {
+      "title": "Contact Information",
+      "description": "To receive the withdrawal letter form and arrange for product return, please contact us:",
+      "email": "Email",
+      "phone": "Phone"
+    }
+  },
+  "delivery_returns": {
+    "meta": {
+      "title": "Delivery & Returns | Honey Farm",
+      "description": "Information about our delivery methods, shipping times, returns policy, and refund conditions."
+    },
+    "title": "Delivery & Returns",
+    "subtitle": "Everything you need to know about our shipping and returns policies",
+    "delivery": {
+      "title": "Delivery Information",
+      "description": "We offer several delivery options to ensure your honey products reach you in perfect condition.",
+      "methods": {
+        "title": "Delivery Methods",
+        "list": [
+          "Omniva parcel lockers - Available throughout Latvia",
+          "Venipak parcel lockers and pickup points",
+          "Home delivery in Riga (by arrangement)",
+          "Collection from our store"
+        ]
+      },
+      "times": {
+        "title": "Delivery Times",
+        "list": [
+          "Parcel lockers: 1-2 business days",
+          "Home delivery in Riga: Next business day",
+          "Store collection: Same day (once order is ready)"
+        ]
+      }
+    },
+    "returns": {
+      "title": "Returns Policy",
+      "description": "We want you to be completely satisfied with your purchase. If you're not happy with your order, you can return it within 14 days of receipt.",
+      "process": {
+        "title": "Return Process",
+        "steps": [
+          "Contact us via email or phone to inform us about the return",
+          "Receive the return form and instructions",
+          "Package the item securely in its original packaging",
+          "Send the item back using your preferred shipping method",
+          "Once received, we'll inspect the item and process your refund"
+        ]
+      },
+      "conditions": {
+        "title": "Return Conditions",
+        "list": [
+          "Items must be unused and in their original packaging",
+          "All seals and labels must be intact",
+          "Products must not have been opened (for food safety)",
+          "Return shipping costs are the responsibility of the customer",
+          "Items must be returned within 14 days of receipt"
+        ]
+      }
+    },
+    "refunds": {
+      "title": "Refunds",
+      "description": "Once we receive your return, we'll process your refund according to the following terms:",
+      "terms": [
+        "Refunds will be processed within 14 days of receiving the return",
+        "The original purchase price will be refunded (excluding delivery costs)",
+        "Refunds will be made to the original payment method",
+        "We'll notify you by email when your refund has been processed"
+      ]
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "If you have any questions about delivery or returns, please don't hesitate to contact us:",
+      "email": "Email",
+      "phone": "Phone"
+    }
   }
 } 

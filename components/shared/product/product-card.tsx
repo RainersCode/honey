@@ -5,8 +5,16 @@ import ProductPrice from './product-price';
 import { Product } from '@/types';
 import Rating from './rating';
 import SimpleAddToCart from './simple-add-to-cart';
+import { Locale } from '@/config/i18n.config';
 
-const ProductCard = ({ product }: { product: Product }) => {
+interface ProductCardProps {
+  product: Product;
+  lang: Locale;
+}
+
+const ProductCard = ({ product, lang }: ProductCardProps) => {
+  console.log('ProductCard:', JSON.stringify(product, null, 2));
+
   return (
     <Card className='w-full bg-white hover:shadow-lg transition-shadow duration-300 group relative overflow-hidden h-full'>
       <div className='relative h-[250px]'>
@@ -28,10 +36,10 @@ const ProductCard = ({ product }: { product: Product }) => {
           </div>
         )}
       </div>
-      <Link href={`/product/${product.slug}`} className='absolute inset-0 z-10'></Link>
+      <Link href={`/${lang}/product/${product.slug}`} className='absolute inset-0 z-10'></Link>
       <CardContent className='relative p-4 bg-white/90 backdrop-blur-[2px] flex flex-col h-[calc(100%-250px)]'>
         <div className='text-[#FF7A3D] font-medium mb-1 text-sm'>{product.brand}</div>
-        <Link href={`/product/${product.slug}`} className='group-hover:text-[#FF7A3D] transition-colors duration-200'>
+        <Link href={`/${lang}/product/${product.slug}`} className='group-hover:text-[#FF7A3D] transition-colors duration-200'>
           <h2 className='font-serif text-base font-medium line-clamp-2 mb-2 text-[#1D1D1F]'>{product.name}</h2>
         </Link>
         <div className='flex justify-between items-center gap-4 mt-auto mb-2'>
@@ -53,6 +61,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                 qty: 1,
                 image: product.images[0],
               }}
+              lang={lang}
             />
           </div>
         )}

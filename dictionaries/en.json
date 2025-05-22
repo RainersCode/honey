@@ -1,0 +1,385 @@
+{
+  "navigation": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About",
+    "contact": "Contact",
+    "cart": "Cart",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Page not found",
+    "success": "Success",
+    "addToCart": "Add to Cart",
+    "removeFromCart": "Remove from Cart",
+    "price": "Price",
+    "quantity": "Quantity",
+    "total": "Total",
+    "checkout": "Checkout",
+    "backToHome": "Back to Home",
+    "search": "Search",
+    "status": "Status",
+    "inStock": "In Stock",
+    "outOfStock": "Out Of Stock",
+    "available": "available",
+    "description": "Description",
+    "reviews": "reviews",
+    "customerReviews": "Customer Reviews"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "loginTitle": "Login to your account",
+    "registerTitle": "Create new account"
+  },
+  "home": {
+    "hero": {
+      "title": "Pure Natural Honey",
+      "description": "Straight from our family farm to your table. Experience the authentic taste of nature.",
+      "cta": "Shop Our Honey"
+    },
+    "latestArrivals": "Newest Arrivals",
+    "about": {
+      "title": "Our Honey Farm",
+      "imageAlt": "Our honey farm beehives in spring with blooming trees",
+      "description1": "Nestled in the heart of nature, our honey farm is home to thriving bee colonies that produce some of the finest honey you'll ever taste. Our beehives are carefully placed in pristine locations, surrounded by blooming trees and wildflowers, ensuring our bees have access to the best nectar sources throughout the season.",
+      "description2": "We take pride in our sustainable beekeeping practices, maintaining the delicate balance between nature and tradition. Each hive is managed with care and respect, allowing our bees to thrive while producing pure, natural honey that captures the essence of our local flora.",
+      "cta": "Learn More About Us"
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "About Us | Honey Farm",
+      "description": "Learn about our family-owned honey farm and our commitment to producing pure, natural honey products."
+    },
+    "hero": {
+      "title": "Our Story",
+      "imageAlt": "Our honey farm beehives in spring with blooming trees"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description1": "At our family-owned honey farm, we're dedicated to producing the finest quality honey while maintaining sustainable beekeeping practices. For over two decades, we've been nurturing our bees and harvesting pure, natural honey that brings the authentic taste of nature to your table.",
+      "description2": "We believe in the importance of protecting our pollinators and promoting biodiversity. Every jar of honey represents our commitment to environmental stewardship and traditional beekeeping methods.",
+      "imageAlt": "Beekeeper tending to hives"
+    },
+    "process": {
+      "title": "Our Process",
+      "step1": {
+        "title": "Careful Cultivation",
+        "description": "We carefully maintain our bee colonies, ensuring they have access to diverse flower sources.",
+        "iconAlt": "Bee icon"
+      },
+      "step2": {
+        "title": "Natural Harvesting",
+        "description": "Our honey is harvested using traditional methods that preserve its natural properties.",
+        "iconAlt": "Honey icon"
+      },
+      "step3": {
+        "title": "Quality Packaging",
+        "description": "Each jar is carefully filled and sealed to maintain freshness and purity.",
+        "iconAlt": "Jar icon"
+      }
+    },
+    "values": {
+      "title": "Our Values",
+      "imageAlt": "Honey jars in sunlight",
+      "value1": {
+        "title": "Sustainability",
+        "description": "We practice sustainable beekeeping to protect our bees and environment."
+      },
+      "value2": {
+        "title": "Quality",
+        "description": "Every product meets our strict standards for purity and taste."
+      },
+      "value3": {
+        "title": "Community",
+        "description": "We support local communities and educate about bee conservation."
+      }
+    },
+    "cta": {
+      "title": "Experience Nature's Sweetness",
+      "description": "Discover our range of pure, natural honey products crafted with care and dedication.",
+      "button": "Shop Our Products"
+    }
+  },
+  "products": {
+    "meta": {
+      "title": "Our Products",
+      "searchTitle": "Search: {query}",
+      "categoryTitle": "Category: {category}"
+    },
+    "search": {
+      "placeholder": "Search products...",
+      "button": "Search"
+    },
+    "sort": {
+      "label": "Sort by",
+      "newest": "Newest",
+      "lowestPrice": "Price: Low to High",
+      "highestPrice": "Price: High to Low"
+    },
+    "categories": {
+      "all": {
+        "name": "All Products",
+        "description": "Browse our complete collection of natural honey products"
+      },
+      "honey": {
+        "name": "Honey",
+        "description": "Pure, natural honey with rich flavors and golden hues"
+      },
+      "beeswax": {
+        "name": "Beeswax",
+        "description": "Natural beeswax products for home and wellness"
+      },
+      "honeycomb": {
+        "name": "Honeycomb",
+        "description": "Fresh, raw honeycomb straight from the hive"
+      }
+    },
+    "filters": {
+      "currentlyViewing": "Currently Viewing",
+      "viewProducts": "View Products"
+    },
+    "noResults": "No products found",
+    "viewProduct": "View Product"
+  },
+  "reviews": {
+    "customerReviews": "Customer Reviews",
+    "basedOn": "Based on",
+    "review": "review",
+    "reviews": "reviews",
+    "writeReview": "Write a Review",
+    "shareThoughts": "Share your thoughts about this product with other customers",
+    "pleaseSignIn": {
+      "before": "Please",
+      "link": "sign in",
+      "after": "to write a review"
+    },
+    "noReviews": "No reviews yet. Be the first to review this product!",
+    "user": "User",
+    "rating": "Rating",
+    "title": "Title",
+    "titlePlaceholder": "Enter a title for your review",
+    "review": "Review",
+    "reviewPlaceholder": "Share your experience with this product...",
+    "submitReview": "Submit Review"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": {
+      "title": "Your cart is empty",
+      "description": "Looks like you haven't added any items to your cart yet.",
+      "action": "Continue Shopping"
+    },
+    "items": "Cart Items",
+    "item": "Item",
+    "quantity": "Quantity",
+    "price": "Price",
+    "summary": {
+      "title": "Order Summary",
+      "items": "Items",
+      "total": "Total",
+      "checkout": "Proceed to Checkout"
+    }
+  },
+  "contact": {
+    "meta": {
+      "title": "Contact Us | Honey Farm",
+      "description": "Get in touch with us for any questions about our honey products or services."
+    },
+    "hero": {
+      "title": "Get in Touch",
+      "description": "Have questions about our honey products or want to learn more about our farm? We'd love to hear from you. Fill out the form below or use our contact information."
+    },
+    "info": {
+      "title": "Contact Information",
+      "address": {
+        "label": "Address",
+        "value": "123 Honey Farm Road, Sweet Valley, HY 12345"
+      },
+      "phone": {
+        "label": "Phone",
+        "value": "(555) 123-4567"
+      },
+      "email": {
+        "label": "Email",
+        "value": "info@honeyfarm.com"
+      },
+      "hours": {
+        "label": "Hours",
+        "weekdays": "Monday - Friday: 9am - 6pm",
+        "saturday": "Saturday: 10am - 4pm",
+        "sunday": "Sunday: Closed"
+      }
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "name": {
+        "label": "Name",
+        "placeholder": "Your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Your email"
+      },
+      "subject": {
+        "label": "Subject",
+        "placeholder": "What's this about?"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Your message"
+      },
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent! We'll get back to you as soon as possible.",
+      "error": "Something went wrong. Please try again."
+    },
+    "requisites": {
+      "title": "Before Contacting Us",
+      "items": [
+        "Check our FAQ section for common questions",
+        "Have your order number ready (if applicable)",
+        "Include specific product details in your message"
+      ]
+    }
+  },
+  "shipping": {
+    "meta": {
+      "title": "Shipping Address | Honey Farm",
+      "description": "Enter your shipping details for honey product delivery"
+    },
+    "title": "Shipping Address",
+    "form": {
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter your full name",
+      "streetAddress": "Street Address",
+      "streetAddressPlaceholder": "Enter street address",
+      "city": "City",
+      "cityPlaceholder": "Enter city",
+      "postalCode": "Postal Code",
+      "postalCodePlaceholder": "Enter postal code",
+      "country": "Country",
+      "countryPlaceholder": "Enter country",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "Enter phone number",
+      "deliveryMethod": "Delivery Method",
+      "homeDelivery": "Home Delivery",
+      "omnivaPickup": "Omniva Pickup",
+      "omnivaLocation": "Omniva Pickup Location",
+      "agreeToTerms": "I agree to the Terms and Conditions",
+      "agreeToPrivacy": "I agree to the Privacy Policy",
+      "rememberDetails": "Remember my details",
+      "submit": "Continue to Payment",
+      "errors": {
+        "required": "This field is required",
+        "invalidPhone": "Please enter a valid phone number",
+        "invalidPostal": "Please enter a valid postal code",
+        "termsRequired": "You must agree to the Terms and Conditions",
+        "privacyRequired": "You must agree to the Privacy Policy"
+      }
+    }
+  },
+  "payment": {
+    "meta": {
+      "title": "Payment Method | Honey Farm",
+      "description": "Choose your preferred payment method for your honey products order."
+    },
+    "title": "Payment Method",
+    "form": {
+      "method": "Select Payment Method",
+      "stripe": "Pay securely with Stripe",
+      "submit": "Continue to Place Order",
+      "securePayment": "All payments are processed securely through our payment provider.",
+      "termsNotice": "By proceeding with the payment, you agree to our terms of service and privacy policy."
+    }
+  },
+  "placeOrder": {
+    "meta": {
+      "title": "Place Order | Honey Farm",
+      "description": "Review and place your honey products order."
+    },
+    "title": "Place Order",
+    "shipping": {
+      "title": "Shipping Address",
+      "name": "Name",
+      "address": "Address",
+      "phone": "Phone",
+      "method": "Delivery Method",
+      "homeDelivery": "Home Delivery",
+      "omnivaPickup": "Omniva Pickup",
+      "omnivaLocation": "Pickup Location"
+    },
+    "payment": {
+      "title": "Payment Method",
+      "method": "Method"
+    },
+    "items": {
+      "title": "Order Items"
+    },
+    "summary": {
+      "title": "Order Summary",
+      "items": "Items",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "total": "Total"
+    },
+    "submit": "Place Order"
+  },
+  "order": {
+    "meta": {
+      "title": "Order Details | Honey Farm",
+      "description": "View your order details and track your honey products delivery."
+    },
+    "title": "Order",
+    "shipping": {
+      "title": "Shipping Address",
+      "phone": "Phone",
+      "deliveredAt": "Delivered at",
+      "shippedAt": "Shipped at",
+      "notShipped": "Not shipped"
+    },
+    "payment": {
+      "title": "Payment Method",
+      "method": "Method",
+      "paidAt": "Paid at",
+      "notPaid": "Not paid"
+    },
+    "items": {
+      "title": "Order Items",
+      "image": "Image",
+      "name": "Name",
+      "quantity": "Quantity",
+      "price": "Price",
+      "total": "Total"
+    },
+    "summary": {
+      "title": "Order Summary",
+      "items": "Items",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "total": "Total"
+    },
+    "buttons": {
+      "processing": "Processing...",
+      "markAsPaid": "Mark as Paid",
+      "markAsDelivered": "Mark as Delivered",
+      "markAsShipped": "Mark as Shipped"
+    },
+    "paypal": {
+      "loading": "Loading PayPal...",
+      "error": "Error Loading PayPal"
+    },
+    "stripe": {
+      "submit": "Pay Now",
+      "errors": {
+        "unexpected": "An unexpected error occurred"
+      }
+    }
+  }
+} 

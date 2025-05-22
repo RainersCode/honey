@@ -9,21 +9,43 @@ import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.actions';
 import { useTransition } from 'react';
 import { useCart } from '@/lib/context/cart-context';
 import LoadingSpinner from '@/components/ui/loading-spinner';
+import { Locale } from '@/config/i18n.config';
+import { getDictionary } from '@/lib/dictionary';
+import { useEffect, useState } from 'react';
 
-const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
+interface QuantityCartControlProps {
+  cart?: Cart;
+  item: CartItem;
+  lang: Locale;
+}
+
+const QuantityCartControl = ({ cart, item, lang }: QuantityCartControlProps) => {
   const router = useRouter();
   const { toast } = useToast();
   const { updateCart } = useCart();
   const [isPending, startTransition] = useTransition();
+  const [dict, setDict] = useState<any>(null);
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      const dictionary = await getDictionary(lang);
+      setDict(dictionary);
+    };
+
+    loadDictionary();
+  }, [lang]);
 
   const handleAddToCart = async () => {
+    if (!dict) return;
+    
     startTransition(async () => {
       const res = await addItemToCart(item);
 
       if (!res.success) {
         toast({
           variant: 'destructive',
-          description: res.message,
+          title: 'Error',
+          description: res.message || 'Failed to add item to cart',
         });
         return;
       }
@@ -33,14 +55,14 @@ const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) =>
 
       // Handle success add to cart
       toast({
-        description: res.message,
+        title: 'Success',
+        description: res.message || 'Item added to cart',
         action: (
           <ToastAction
-            className='bg-[#FF7A3D] text-white hover:bg-[#ff6a2a] transition-colors'
-            altText='Go To Cart'
-            onClick={() => router.push('/cart')}
+            altText="Go to cart"
+            onClick={() => router.push(`/${lang}/cart`)}
           >
-            Go To Cart
+            {dict.common.cart}
           </ToastAction>
         ),
       });
@@ -49,13 +71,16 @@ const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) =>
 
   // Handle remove from cart
   const handleRemoveFromCart = async () => {
+    if (!dict) return;
+
     startTransition(async () => {
       const res = await removeItemFromCart(item.productId);
 
       if (!res.success) {
         toast({
           variant: 'destructive',
-          description: res.message,
+          title: 'Error',
+          description: res.message || 'Failed to remove item from cart',
         });
         return;
       }
@@ -64,7 +89,8 @@ const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) =>
       await updateCart();
 
       toast({
-        description: res.message,
+        title: 'Success',
+        description: res.message || 'Item removed from cart',
       });
     });
   };
@@ -72,6 +98,8 @@ const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) =>
   // Check if item is in cart
   const existItem =
     cart && cart.items.find((x) => x.productId === item.productId);
+
+  if (!dict) return null;
 
   return existItem ? (
     <div className="flex items-center justify-center gap-2">
@@ -115,9 +143,7 @@ const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) =>
       {isPending ? (
         <LoadingSpinner size="sm" />
       ) : (
-        <>
-          Add To Cart
-        </>
+        dict.common.addToCart
       )}
     </Button>
   );

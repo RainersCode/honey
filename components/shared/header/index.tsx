@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { APP_NAME } from '@/lib/constants';
 import Menu from './menu';
 import HeaderContainer from './header-container';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 const Header = () => {
   return (
@@ -54,6 +55,7 @@ const Header = () => {
               >
                 CONTACT
               </Link>
+              <LanguageSwitcher />
               <Menu />
             </nav>
           </div>

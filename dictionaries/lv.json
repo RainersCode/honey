@@ -1,0 +1,385 @@
+{
+  "navigation": {
+    "home": "Sākums",
+    "products": "Produkti",
+    "about": "Par mums",
+    "contact": "Kontakti",
+    "cart": "Grozs",
+    "login": "Ieiet",
+    "register": "Reģistrēties",
+    "logout": "Iziet"
+  },
+  "common": {
+    "loading": "Ielādē...",
+    "error": "Lapa nav atrasta",
+    "success": "Veiksmīgi",
+    "addToCart": "Pievienot grozam",
+    "removeFromCart": "Izņemt no groza",
+    "price": "Cena",
+    "quantity": "Daudzums",
+    "total": "Kopā",
+    "checkout": "Apmaksāt",
+    "backToHome": "Atpakaļ uz sākumu",
+    "search": "Meklēt",
+    "status": "Statuss",
+    "inStock": "Ir noliktavā",
+    "outOfStock": "Nav noliktavā",
+    "available": "pieejams",
+    "description": "Apraksts",
+    "reviews": "atsauksmes",
+    "customerReviews": "Klientu atsauksmes"
+  },
+  "auth": {
+    "email": "E-pasts",
+    "password": "Parole",
+    "confirmPassword": "Apstiprināt paroli",
+    "forgotPassword": "Aizmirsāt paroli?",
+    "loginTitle": "Ieiet savā kontā",
+    "registerTitle": "Izveidot jaunu kontu"
+  },
+  "home": {
+    "hero": {
+      "title": "Tīrs dabīgais medus",
+      "description": "Tieši no mūsu ģimenes saimniecības uz jūsu galda. Izbaudiet autentisku dabas garšu.",
+      "cta": "Apskatīt mūsu medu"
+    },
+    "latestArrivals": "Jaunākie produkti",
+    "about": {
+      "title": "Mūsu medus saimniecība",
+      "imageAlt": "Mūsu medus saimniecības bišu stropi pavasarī ar ziedošiem kokiem",
+      "description1": "Mūsu medus saimniecība, kas atrodas dabas sirdī, ir mājas plaukstošām bišu kolonijām, kas ražo vienu no labākajiem mediem, ko jebkad būsiet baudījuši. Mūsu bišu stropi ir rūpīgi izvietoti neskartās vietās, ko ieskauj ziedoši koki un savvaļas puķes, nodrošinot mūsu bitēm piekļuvi labākajiem nektāra avotiem visas sezonas garumā.",
+      "description2": "Mēs lepojamies ar mūsu ilgtspējīgo biškopības praksi, saglabājot trauslo līdzsvaru starp dabu un tradīcijām. Katrs strops tiek pārvaldīts ar rūpību un cieņu, ļaujot mūsu bitēm plaukt, vienlaikus ražojot tīru, dabīgu medu, kas iemieso mūsu vietējās floras būtību.",
+      "cta": "Uzzināt vairāk par mums"
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "Par mums | Medus saimniecība",
+      "description": "Uzziniet par mūsu ģimenes medus saimniecību un mūsu apņemšanos ražot tīrus, dabīgus medus produktus."
+    },
+    "hero": {
+      "title": "Mūsu stāsts",
+      "imageAlt": "Mūsu medus saimniecības bišu stropi pavasarī ar ziedošiem kokiem"
+    },
+    "mission": {
+      "title": "Mūsu misija",
+      "description1": "Mūsu ģimenes medus saimniecībā mēs esam apņēmušies ražot visaugstākās kvalitātes medu, vienlaikus saglabājot ilgtspējīgu biškopības praksi. Jau vairāk nekā divdesmit gadus mēs kopjam savas bites un ievācam tīru, dabīgu medu, kas uz jūsu galda atnes autentisku dabas garšu.",
+      "description2": "Mēs ticam apputeksnētāju aizsardzības un bioloģiskās daudzveidības veicināšanas nozīmīgumam. Katra medus burciņa atspoguļo mūsu apņemšanos rūpēties par vidi un tradicionālajām biškopības metodēm.",
+      "imageAlt": "Bitenieks kopj stropus"
+    },
+    "process": {
+      "title": "Mūsu process",
+      "step1": {
+        "title": "Rūpīga kopšana",
+        "description": "Mēs rūpīgi uzraugām mūsu bišu kolonijas, nodrošinot tām piekļuvi daudzveidīgiem ziedu avotiem.",
+        "iconAlt": "Bites ikona"
+      },
+      "step2": {
+        "title": "Dabīga ievākšana",
+        "description": "Mūsu medus tiek ievākts, izmantojot tradicionālas metodes, kas saglabā tā dabīgās īpašības.",
+        "iconAlt": "Medus ikona"
+      },
+      "step3": {
+        "title": "Kvalitātes iepakošana",
+        "description": "Katra burciņa tiek rūpīgi piepildīta un noslēgta, lai saglabātu svaigumu un tīrību.",
+        "iconAlt": "Burkas ikona"
+      }
+    },
+    "values": {
+      "title": "Mūsu vērtības",
+      "imageAlt": "Medus burkas saules gaismā",
+      "value1": {
+        "title": "Ilgtspējība",
+        "description": "Mēs praktizējam ilgtspējīgu biškopību, lai aizsargātu mūsu bites un vidi."
+      },
+      "value2": {
+        "title": "Kvalitāte",
+        "description": "Katrs produkts atbilst mūsu stingrajiem tīrības un garšas standartiem."
+      },
+      "value3": {
+        "title": "Kopiena",
+        "description": "Mēs atbalstām vietējās kopienas un izglītojam par bišu saglabāšanu."
+      }
+    },
+    "cta": {
+      "title": "Izbaudiet dabas saldumu",
+      "description": "Atklājiet mūsu tīro, dabīgo medus produktu klāstu, kas radīts ar rūpību un nodošanos.",
+      "button": "Apskatīt mūsu produktus"
+    }
+  },
+  "products": {
+    "meta": {
+      "title": "Mūsu produkti",
+      "searchTitle": "Meklēšana: {query}",
+      "categoryTitle": "Kategorija: {category}"
+    },
+    "search": {
+      "placeholder": "Meklēt produktus...",
+      "button": "Meklēt"
+    },
+    "sort": {
+      "label": "Kārtot pēc",
+      "newest": "Jaunākie",
+      "lowestPrice": "Cena: No zemākās",
+      "highestPrice": "Cena: No augstākās"
+    },
+    "categories": {
+      "all": {
+        "name": "Visi produkti",
+        "description": "Apskatiet mūsu pilno dabīgo medus produktu kolekciju"
+      },
+      "honey": {
+        "name": "Medus",
+        "description": "Tīrs, dabīgs medus ar bagātīgu garšu un zeltainu nokrāsu"
+      },
+      "beeswax": {
+        "name": "Bišu vasks",
+        "description": "Dabīgi bišu vaska produkti mājai un labsajūtai"
+      },
+      "honeycomb": {
+        "name": "Šūnu medus",
+        "description": "Svaigs, neapstrādāts šūnu medus tieši no stropa"
+      }
+    },
+    "filters": {
+      "currentlyViewing": "Pašlaik skatāt",
+      "viewProducts": "Skatīt produktus"
+    },
+    "noResults": "Nav atrasts neviens produkts",
+    "viewProduct": "Skatīt produktu"
+  },
+  "reviews": {
+    "customerReviews": "Klientu atsauksmes",
+    "basedOn": "Balstīts uz",
+    "review": "atsauksme",
+    "reviews": "atsauksmes",
+    "writeReview": "Rakstīt atsauksmi",
+    "shareThoughts": "Dalieties ar savām domām par šo produktu ar citiem klientiem",
+    "pleaseSignIn": {
+      "before": "Lūdzu",
+      "link": "ielogojieties",
+      "after": "lai rakstītu atsauksmi"
+    },
+    "noReviews": "Pagaidām nav nevienas atsauksmes. Esiet pirmais, kas novērtē šo produktu!",
+    "user": "Lietotājs",
+    "rating": "Vērtējums",
+    "title": "Virsraksts",
+    "titlePlaceholder": "Ievadiet atsauksmes virsrakstu",
+    "review": "Atsauksme",
+    "reviewPlaceholder": "Dalieties ar savu pieredzi par šo produktu...",
+    "submitReview": "Iesniegt atsauksmi"
+  },
+  "cart": {
+    "title": "Iepirkumu grozs",
+    "empty": {
+      "title": "Jūsu grozs ir tukšs",
+      "description": "Izskatās, ka jūs vēl neesat pievienojis nevienu preci grozam.",
+      "action": "Turpināt iepirkties"
+    },
+    "items": "Preces grozā",
+    "item": "Prece",
+    "quantity": "Daudzums",
+    "price": "Cena",
+    "summary": {
+      "title": "Pasūtījuma kopsavilkums",
+      "items": "Preces",
+      "total": "Kopā",
+      "checkout": "Turpināt apmaksu"
+    }
+  },
+  "contact": {
+    "meta": {
+      "title": "Kontakti | Medus Saimniecība",
+      "description": "Sazinieties ar mums par jautājumiem saistībā ar mūsu medus produktiem vai pakalpojumiem."
+    },
+    "hero": {
+      "title": "Sazināties ar mums",
+      "description": "Vai jums ir jautājumi par mūsu medus produktiem vai vēlaties uzzināt vairāk par mūsu saimniecību? Mēs priecāsimies no jums dzirdēt. Aizpildiet zemāk esošo formu vai izmantojiet mūsu kontaktinformāciju."
+    },
+    "info": {
+      "title": "Kontaktinformācija",
+      "address": {
+        "label": "Adrese",
+        "value": "Medus iela 123, Saldā ieleja, LV-1234"
+      },
+      "phone": {
+        "label": "Tālrunis",
+        "value": "(+371) 12345678"
+      },
+      "email": {
+        "label": "E-pasts",
+        "value": "info@medussaimnieciba.lv"
+      },
+      "hours": {
+        "label": "Darba laiks",
+        "weekdays": "Pirmdiena - Piektdiena: 9:00 - 18:00",
+        "saturday": "Sestdiena: 10:00 - 16:00",
+        "sunday": "Svētdiena: Slēgts"
+      }
+    },
+    "form": {
+      "title": "Sūtīt ziņu",
+      "name": {
+        "label": "Vārds",
+        "placeholder": "Jūsu vārds"
+      },
+      "email": {
+        "label": "E-pasts",
+        "placeholder": "Jūsu e-pasts"
+      },
+      "subject": {
+        "label": "Temats",
+        "placeholder": "Par ko ir jautājums?"
+      },
+      "message": {
+        "label": "Ziņa",
+        "placeholder": "Jūsu ziņa"
+      },
+      "submit": "Sūtīt ziņu",
+      "sending": "Sūta...",
+      "success": "Ziņa nosūtīta! Mēs ar jums sazināsimies pēc iespējas ātrāk.",
+      "error": "Kaut kas nogāja greizi. Lūdzu, mēģiniet vēlreiz."
+    },
+    "requisites": {
+      "title": "Pirms sazināties ar mums",
+      "items": [
+        "Pārbaudiet BUJ sadaļu par biežāk uzdotajiem jautājumiem",
+        "Sagatavojiet pasūtījuma numuru (ja attiecināms)",
+        "Iekļaujiet konkrētu produktu informāciju savā ziņojumā"
+      ]
+    }
+  },
+  "shipping": {
+    "meta": {
+      "title": "Piegādes Adrese | Medus Saimniecība",
+      "description": "Ievadiet piegādes informāciju medus produktu piegādei"
+    },
+    "title": "Piegādes Adrese",
+    "form": {
+      "fullName": "Pilns Vārds",
+      "fullNamePlaceholder": "Ievadiet pilnu vārdu",
+      "streetAddress": "Ielas Adrese",
+      "streetAddressPlaceholder": "Ievadiet ielas adresi",
+      "city": "Pilsēta",
+      "cityPlaceholder": "Ievadiet pilsētu",
+      "postalCode": "Pasta Indekss",
+      "postalCodePlaceholder": "Ievadiet pasta indeksu",
+      "country": "Valsts",
+      "countryPlaceholder": "Ievadiet valsti",
+      "phoneNumber": "Tālruņa Numurs",
+      "phoneNumberPlaceholder": "Ievadiet tālruņa numuru",
+      "deliveryMethod": "Piegādes Veids",
+      "homeDelivery": "Piegāde uz Mājām",
+      "omnivaPickup": "Omniva Pakomāts",
+      "omnivaLocation": "Omniva Pakomāta Atrašanās Vieta",
+      "agreeToTerms": "Es piekrītu Lietošanas Noteikumiem",
+      "agreeToPrivacy": "Es piekrītu Privātuma Politikai",
+      "rememberDetails": "Atcerēties manus datus",
+      "submit": "Turpināt uz Maksājumu",
+      "errors": {
+        "required": "Šis lauks ir obligāts",
+        "invalidPhone": "Lūdzu, ievadiet derīgu tālruņa numuru",
+        "invalidPostal": "Lūdzu, ievadiet derīgu pasta indeksu",
+        "termsRequired": "Jums jāpiekrīt Lietošanas Noteikumiem",
+        "privacyRequired": "Jums jāpiekrīt Privātuma Politikai"
+      }
+    }
+  },
+  "payment": {
+    "meta": {
+      "title": "Maksājuma Metode | Medus Saimniecība",
+      "description": "Izvēlieties vēlamo maksājuma metodi savam medus produktu pasūtījumam."
+    },
+    "title": "Maksājuma Metode",
+    "form": {
+      "method": "Izvēlieties Maksājuma Metodi",
+      "stripe": "Droši maksājiet ar Stripe",
+      "submit": "Turpināt uz Pasūtījuma Noformēšanu",
+      "securePayment": "Visi maksājumi tiek apstrādāti droši caur mūsu maksājumu pakalpojumu sniedzēju.",
+      "termsNotice": "Turpinot ar maksājumu, jūs piekrītat mūsu pakalpojumu noteikumiem un privātuma politikai."
+    }
+  },
+  "placeOrder": {
+    "meta": {
+      "title": "Noformēt Pasūtījumu | Medus Saimniecība",
+      "description": "Pārskatiet un noformējiet savu medus produktu pasūtījumu."
+    },
+    "title": "Noformēt Pasūtījumu",
+    "shipping": {
+      "title": "Piegādes Adrese",
+      "name": "Vārds",
+      "address": "Adrese",
+      "phone": "Tālrunis",
+      "method": "Piegādes Veids",
+      "homeDelivery": "Piegāde uz Mājām",
+      "omnivaPickup": "Omniva Pakomāts",
+      "omnivaLocation": "Pakomāta Atrašanās Vieta"
+    },
+    "payment": {
+      "title": "Maksājuma Metode",
+      "method": "Metode"
+    },
+    "items": {
+      "title": "Pasūtījuma Preces"
+    },
+    "summary": {
+      "title": "Pasūtījuma Kopsavilkums",
+      "items": "Preces",
+      "shipping": "Piegāde",
+      "tax": "Nodoklis",
+      "total": "Kopā"
+    },
+    "submit": "Noformēt Pasūtījumu"
+  },
+  "order": {
+    "meta": {
+      "title": "Pasūtījuma Detaļas | Medus Saimniecība",
+      "description": "Apskatiet sava pasūtījuma detaļas un sekojiet medus produktu piegādei."
+    },
+    "title": "Pasūtījums",
+    "shipping": {
+      "title": "Piegādes Adrese",
+      "phone": "Tālrunis",
+      "deliveredAt": "Piegādāts",
+      "shippedAt": "Nosūtīts",
+      "notShipped": "Nav nosūtīts"
+    },
+    "payment": {
+      "title": "Maksājuma Metode",
+      "method": "Metode",
+      "paidAt": "Apmaksāts",
+      "notPaid": "Nav apmaksāts"
+    },
+    "items": {
+      "title": "Pasūtījuma Preces",
+      "image": "Attēls",
+      "name": "Nosaukums",
+      "quantity": "Daudzums",
+      "price": "Cena",
+      "total": "Kopā"
+    },
+    "summary": {
+      "title": "Pasūtījuma Kopsavilkums",
+      "items": "Preces",
+      "shipping": "Piegāde",
+      "tax": "Nodoklis",
+      "total": "Kopā"
+    },
+    "buttons": {
+      "processing": "Apstrādā...",
+      "markAsPaid": "Atzīmēt kā Apmaksātu",
+      "markAsDelivered": "Atzīmēt kā Piegādātu",
+      "markAsShipped": "Atzīmēt kā Nosūtītu"
+    },
+    "paypal": {
+      "loading": "Ielādē PayPal...",
+      "error": "Kļūda ielādējot PayPal"
+    },
+    "stripe": {
+      "submit": "Apmaksāt",
+      "errors": {
+        "unexpected": "Radās neparedzēta kļūda"
+      }
+    }
+  }
+} 

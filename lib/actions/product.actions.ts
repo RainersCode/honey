@@ -19,9 +19,11 @@ export async function getLatestProducts() {
 
 // Get single product by it's slug
 export async function getProductBySlug(slug: string) {
-  return await prisma.product.findFirst({
+  const data = await prisma.product.findFirst({
     where: { slug: slug },
   });
+
+  return convertToPlainObject(data);
 }
 
 // Get single product by it's ID
@@ -105,10 +107,21 @@ export async function getAllProducts({
     take: limit,
   });
 
-  const dataCount = await prisma.product.count();
+  console.log('Raw data:', JSON.stringify(data, null, 2));
+  const plainData = convertToPlainObject(data);
+  console.log('Plain data:', JSON.stringify(plainData, null, 2));
+
+  const dataCount = await prisma.product.count({
+    where: {
+      ...queryFilter,
+      ...categoryFilter,
+      ...priceFilter,
+      ...ratingFilter,
+    },
+  });
 
   return {
-    data,
+    data: plainData,
     totalPages: Math.ceil(dataCount / limit),
   };
 }

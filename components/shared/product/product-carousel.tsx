@@ -11,8 +11,14 @@ import { Product } from '@/types';
 import Autoplay from 'embla-carousel-autoplay';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Locale } from '@/config/i18n.config';
 
-const ProductCarousel = ({ data }: { data: Product[] }) => {
+interface ProductCarouselProps {
+  data: Product[];
+  lang: Locale;
+}
+
+const ProductCarousel = ({ data, lang }: ProductCarouselProps) => {
   return (
     <Carousel
       className='w-full mb-12'
@@ -30,7 +36,7 @@ const ProductCarousel = ({ data }: { data: Product[] }) => {
       <CarouselContent>
         {data.map((product: Product) => (
           <CarouselItem key={product.id}>
-            <Link href={`/product/${product.slug}`}>
+            <Link href={`/${lang}/product/${product.slug}`}>
               <div className='relative mx-auto'>
                 <Image
                   src={product.banner!}

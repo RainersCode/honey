@@ -1,11 +1,8 @@
 'use server';
 
-import { isRedirectError } from 'next/dist/client/components/redirect';
 import { convertToPlainObject, formatError } from '../utils';
 import { auth } from '@/auth';
 import { getMyCart } from './cart.actions';
-import { getUserById } from './user.actions';
-import { insertOrderSchema } from '../validators';
 import { prisma } from '@/db/prisma';
 import { CartItem, PaymentResult, ShippingAddress } from '@/types';
 import { paypal } from '../paypal';
@@ -13,19 +10,31 @@ import { revalidatePath } from 'next/cache';
 import { PAGE_SIZE } from '../constants';
 import { Prisma } from '@prisma/client';
 import { sendPurchaseReceipt } from '@/email';
+import { insertOrderSchema } from '../validators';
 
 // Create order and create the order items
-export async function createOrder() {
+export async function createOrder({
+  userId,
+  itemsPrice,
+  shippingPrice,
+  taxPrice,
+  totalPrice,
+  paymentMethod,
+  shippingAddress,
+}: {
+  userId: string;
+  itemsPrice: number;
+  shippingPrice: number;
+  taxPrice: number;
+  totalPrice: number;
+  paymentMethod: string;
+  shippingAddress: ShippingAddress;
+}) {
   try {
     const session = await auth();
     if (!session) throw new Error('User is not authenticated');
 
     const cart = await getMyCart();
-    const userId = session?.user?.id;
-    if (!userId) throw new Error('User not found');
-
-    const user = await getUserById(userId);
-
     if (!cart || cart.items.length === 0) {
       return {
         success: false,
@@ -34,31 +43,15 @@ export async function createOrder() {
       };
     }
 
-    if (!user.address) {
-      return {
-        success: false,
-        message: 'No shipping address',
-        redirectTo: '/shipping-address',
-      };
-    }
-
-    if (!user.paymentMethod) {
-      return {
-        success: false,
-        message: 'No payment method',
-        redirectTo: '/payment-method',
-      };
-    }
-
     // Create order object
     const order = insertOrderSchema.parse({
-      userId: user.id,
-      shippingAddress: user.address,
-      paymentMethod: user.paymentMethod,
-      itemsPrice: cart.itemsPrice,
-      shippingPrice: cart.shippingPrice,
-      taxPrice: cart.taxPrice,
-      totalPrice: cart.totalPrice,
+      userId,
+      shippingAddress,
+      paymentMethod,
+      itemsPrice,
+      shippingPrice,
+      taxPrice,
+      totalPrice,
     });
 
     // Create a transaction to create order and order items in database
@@ -98,7 +91,6 @@ export async function createOrder() {
       redirectTo: `/order/${insertedOrderId}`,
     };
   } catch (error) {
-    if (isRedirectError(error)) throw error;
     return { success: false, message: formatError(error) };
   }
 }

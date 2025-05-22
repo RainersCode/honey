@@ -12,12 +12,29 @@ import Rating from '@/components/shared/product/rating';
 import { Separator } from '@/components/ui/separator';
 import { capitalizeWords } from '@/lib/utils';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
+import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
-const ProductDetailsPage = async (props: {
-  params: Promise<{ slug: string }>;
+export async function generateMetadata({
+  params: { lang, slug }
+}: {
+  params: { lang: Locale; slug: string };
+}) {
+  const product = await getProductBySlug(slug);
+  if (!product) return {};
+
+  return {
+    title: product.name,
+    description: product.description,
+  };
+}
+
+const ProductDetailsPage = async ({
+  params: { lang, slug }
+}: {
+  params: { lang: Locale; slug: string };
 }) => {
-  const { slug } = await props.params;
-
+  const dict = await getDictionary(lang);
   const product = await getProductBySlug(slug);
   if (!product) notFound();
 
@@ -29,16 +46,16 @@ const ProductDetailsPage = async (props: {
   // Prepare breadcrumb items
   const breadcrumbItems = [
     {
-      label: 'Products',
-      href: '/search'
+      label: dict.navigation.products,
+      href: `/${lang}/search`
     },
     {
       label: capitalizeWords(product.category),
-      href: `/search?category=${product.category}`
+      href: `/${lang}/search?category=${product.category}`
     },
     {
       label: product.name,
-      href: `/product/${product.slug}`
+      href: `/${lang}/product/${product.slug}`
     }
   ];
 
@@ -65,7 +82,7 @@ const ProductDetailsPage = async (props: {
               <h1 className="text-3xl md:text-4xl font-serif text-[#1D1D1F] mb-4">{product.name}</h1>
               <div className="flex items-center gap-4">
                 <Rating value={Number(product.rating)} />
-                <span className="text-gray-500 text-sm">({product.numReviews} reviews)</span>
+                <span className="text-gray-500 text-sm">({product.numReviews} {dict.common.reviews})</span>
               </div>
             </div>
 
@@ -74,20 +91,20 @@ const ProductDetailsPage = async (props: {
             {/* Price and Stock */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-lg text-gray-600">Price</span>
+                <span className="text-lg text-gray-600">{dict.common.price}</span>
                 <ProductPrice 
                   value={Number(product.price)} 
                   className="text-2xl font-medium text-[#1D1D1F]"
                 />
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-lg text-gray-600">Status</span>
+                <span className="text-lg text-gray-600">{dict.common.status}</span>
                 {product.stock > 0 ? (
                   <Badge className="bg-green-50 text-green-700 hover:bg-green-100">
-                    In Stock ({product.stock} available)
+                    {dict.common.inStock} ({product.stock} {dict.common.available})
                   </Badge>
                 ) : (
-                  <Badge variant="destructive">Out Of Stock</Badge>
+                  <Badge variant="destructive">{dict.common.outOfStock}</Badge>
                 )}
               </div>
             </div>
@@ -105,6 +122,7 @@ const ProductDetailsPage = async (props: {
                     qty: 1,
                     image: product.images[0],
                   }}
+                  lang={lang}
                 />
               </div>
             )}
@@ -113,7 +131,7 @@ const ProductDetailsPage = async (props: {
 
             {/* Description */}
             <div className="space-y-4">
-              <h2 className="text-xl font-serif text-[#1D1D1F]">Description</h2>
+              <h2 className="text-xl font-serif text-[#1D1D1F]">{dict.common.description}</h2>
               <p className="text-gray-600 leading-relaxed">{product.description}</p>
             </div>
           </div>
@@ -123,7 +141,7 @@ const ProductDetailsPage = async (props: {
       {/* Reviews Section */}
       <div className="mt-16">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-serif text-[#1D1D1F] mb-2">Customer Reviews</h2>
+          <h2 className="text-3xl font-serif text-[#1D1D1F] mb-2">{dict.common.customerReviews}</h2>
           <div className="w-20 h-1 bg-[#FF7A3D] mx-auto rounded-full"></div>
         </div>
         <ReviewList
@@ -132,10 +150,11 @@ const ProductDetailsPage = async (props: {
           productSlug={product.slug}
           productRating={Number(product.rating) || 0}
           numReviews={Number(product.numReviews) || 0}
+          lang={lang}
         />
       </div>
     </div>
   );
 };
 
-export default ProductDetailsPage;
+export default ProductDetailsPage; 

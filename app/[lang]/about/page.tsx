@@ -1,18 +1,31 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
-export const metadata = {
-  title: 'About Us | Honey Farm',
-  description: 'Learn about our family-owned honey farm and our commitment to producing pure, natural honey products.',
-};
+export async function generateMetadata({ params: { lang } }: { params: { lang: Locale } }) {
+  const dict = await getDictionary(lang);
 
-export default function AboutPage() {
+  return {
+    title: dict.about.meta.title,
+    description: dict.about.meta.description,
+  };
+}
+
+export default async function AboutPage({
+  params: { lang },
+}: {
+  params: { lang: Locale };
+}) {
+  const dict = await getDictionary(lang);
+
   return (
     <>
       {/* Hero Section */}
       <section className="relative h-[400px] w-full rounded-xl overflow-hidden">
         <Image
           src="/images/about-us/about us.jpg"
-          alt="Our honey farm beehives in spring with blooming trees"
+          alt={dict.about.hero.imageAlt}
           fill
           className="object-cover"
           priority
@@ -20,7 +33,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-black/30 rounded-xl" />
         <div className="absolute inset-0 flex items-center justify-center">
           <h1 className="text-4xl md:text-5xl font-serif text-white text-center">
-            Our Story
+            {dict.about.hero.title}
           </h1>
         </div>
       </section>
@@ -30,18 +43,18 @@ export default function AboutPage() {
         {/* Our Mission */}
         <section className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h2 className="text-3xl font-serif text-[#1D1D1F]">Our Mission</h2>
+            <h2 className="text-3xl font-serif text-[#1D1D1F]">{dict.about.mission.title}</h2>
             <p className="text-gray-700 leading-relaxed">
-              At our family-owned honey farm, we're dedicated to producing the finest quality honey while maintaining sustainable beekeeping practices. For over two decades, we've been nurturing our bees and harvesting pure, natural honey that brings the authentic taste of nature to your table.
+              {dict.about.mission.description1}
             </p>
             <p className="text-gray-700 leading-relaxed">
-              We believe in the importance of protecting our pollinators and promoting biodiversity. Every jar of honey represents our commitment to environmental stewardship and traditional beekeeping methods.
+              {dict.about.mission.description2}
             </p>
           </div>
           <div className="relative h-[400px] rounded-2xl overflow-hidden">
             <Image
               src="/images/about-us/beekeeper.jpg"
-              alt="Beekeeper tending to hives"
+              alt={dict.about.mission.imageAlt}
               fill
               className="object-cover"
             />
@@ -50,49 +63,43 @@ export default function AboutPage() {
 
         {/* Our Process */}
         <section className="bg-white rounded-3xl p-8 md:p-12">
-          <h2 className="text-3xl font-serif text-[#1D1D1F] mb-8 text-center">Our Process</h2>
+          <h2 className="text-3xl font-serif text-[#1D1D1F] mb-8 text-center">{dict.about.process.title}</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center space-y-4">
               <div className="w-16 h-16 bg-[#FF7A3D] rounded-full flex items-center justify-center mx-auto">
                 <Image
                   src="/images/icons/bee.svg"
-                  alt="Bee icon"
+                  alt={dict.about.process.step1.iconAlt}
                   width={32}
                   height={32}
                 />
               </div>
-              <h3 className="font-medium text-[#1D1D1F]">Careful Cultivation</h3>
-              <p className="text-gray-600">
-                We carefully maintain our bee colonies, ensuring they have access to diverse flower sources.
-              </p>
+              <h3 className="font-medium text-[#1D1D1F]">{dict.about.process.step1.title}</h3>
+              <p className="text-gray-600">{dict.about.process.step1.description}</p>
             </div>
             <div className="text-center space-y-4">
               <div className="w-16 h-16 bg-[#FF7A3D] rounded-full flex items-center justify-center mx-auto">
                 <Image
                   src="/images/icons/honey.svg"
-                  alt="Honey icon"
+                  alt={dict.about.process.step2.iconAlt}
                   width={32}
                   height={32}
                 />
               </div>
-              <h3 className="font-medium text-[#1D1D1F]">Natural Harvesting</h3>
-              <p className="text-gray-600">
-                Our honey is harvested using traditional methods that preserve its natural properties.
-              </p>
+              <h3 className="font-medium text-[#1D1D1F]">{dict.about.process.step2.title}</h3>
+              <p className="text-gray-600">{dict.about.process.step2.description}</p>
             </div>
             <div className="text-center space-y-4">
               <div className="w-16 h-16 bg-[#FF7A3D] rounded-full flex items-center justify-center mx-auto">
                 <Image
                   src="/images/icons/jar.svg"
-                  alt="Jar icon"
+                  alt={dict.about.process.step3.iconAlt}
                   width={32}
                   height={32}
                 />
               </div>
-              <h3 className="font-medium text-[#1D1D1F]">Quality Packaging</h3>
-              <p className="text-gray-600">
-                Each jar is carefully filled and sealed to maintain freshness and purity.
-              </p>
+              <h3 className="font-medium text-[#1D1D1F]">{dict.about.process.step3.title}</h3>
+              <p className="text-gray-600">{dict.about.process.step3.description}</p>
             </div>
           </div>
         </section>
@@ -102,21 +109,21 @@ export default function AboutPage() {
           <div className="relative h-[400px] rounded-2xl overflow-hidden order-2 md:order-1">
             <Image
               src="/images/about-us/honey-jar.jpg"
-              alt="Honey jars in sunlight"
+              alt={dict.about.values.imageAlt}
               fill
               className="object-cover"
             />
           </div>
           <div className="space-y-6 order-1 md:order-2">
-            <h2 className="text-3xl font-serif text-[#1D1D1F]">Our Values</h2>
+            <h2 className="text-3xl font-serif text-[#1D1D1F]">{dict.about.values.title}</h2>
             <div className="space-y-4">
               <div className="flex items-start gap-4">
                 <div className="w-8 h-8 bg-[#FF7A3D] rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-white font-medium">1</span>
                 </div>
                 <div>
-                  <h3 className="font-medium text-[#1D1D1F] mb-2">Sustainability</h3>
-                  <p className="text-gray-600">We practice sustainable beekeeping to protect our bees and environment.</p>
+                  <h3 className="font-medium text-[#1D1D1F] mb-2">{dict.about.values.value1.title}</h3>
+                  <p className="text-gray-600">{dict.about.values.value1.description}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -124,8 +131,8 @@ export default function AboutPage() {
                   <span className="text-white font-medium">2</span>
                 </div>
                 <div>
-                  <h3 className="font-medium text-[#1D1D1F] mb-2">Quality</h3>
-                  <p className="text-gray-600">Every product meets our strict standards for purity and taste.</p>
+                  <h3 className="font-medium text-[#1D1D1F] mb-2">{dict.about.values.value2.title}</h3>
+                  <p className="text-gray-600">{dict.about.values.value2.description}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -133,8 +140,8 @@ export default function AboutPage() {
                   <span className="text-white font-medium">3</span>
                 </div>
                 <div>
-                  <h3 className="font-medium text-[#1D1D1F] mb-2">Community</h3>
-                  <p className="text-gray-600">We support local communities and educate about bee conservation.</p>
+                  <h3 className="font-medium text-[#1D1D1F] mb-2">{dict.about.values.value3.title}</h3>
+                  <p className="text-gray-600">{dict.about.values.value3.description}</p>
                 </div>
               </div>
             </div>
@@ -144,17 +151,17 @@ export default function AboutPage() {
         {/* Call to Action */}
         <section className="text-center py-12">
           <h2 className="text-3xl font-serif text-[#1D1D1F] mb-6">
-            Experience Nature's Sweetness
+            {dict.about.cta.title}
           </h2>
           <p className="text-gray-700 mb-8 max-w-2xl mx-auto">
-            Discover our range of pure, natural honey products crafted with care and dedication.
+            {dict.about.cta.description}
           </p>
-          <a
-            href="/search"
+          <Link
+            href={`/${lang}/search`}
             className="inline-block bg-[#FF7A3D] text-white px-8 py-3 rounded-full font-medium hover:bg-[#ff6a2a] transition-colors"
           >
-            Shop Our Products
-          </a>
+            {dict.about.cta.button}
+          </Link>
         </section>
       </div>
     </>

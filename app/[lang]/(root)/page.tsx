@@ -71,7 +71,7 @@ export default async function Homepage({
           <div className='grid md:grid-cols-2 gap-12 items-center'>
             <div className='relative h-[500px] rounded-2xl overflow-hidden shadow-lg'>
               <Image
-                src='/images/about-us/about us.jpg'
+                src='/images/about-us/about-us.jpg'
                 alt={dict.home.about.imageAlt}
                 fill
                 className='object-cover hover:scale-105 transition-transform duration-700'

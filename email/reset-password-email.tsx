@@ -26,8 +26,9 @@ export const ResetPasswordEmail = ({ resetUrl }: ResetPasswordEmailProps) => {
         <Container style={container}>
           <Heading style={h1}>Reset your password</Heading>
           <Text style={text}>
-            We received a request to reset your password for your {APP_NAME} account. If you didn't
-            request this, you can safely ignore this email.
+            We received a request to reset your password for your {APP_NAME}{' '}
+            account. If you didn't request this, you can safely ignore this
+            email.
           </Text>
           <Section style={buttonContainer}>
             <Button style={button} href={resetUrl}>
@@ -42,8 +43,8 @@ export const ResetPasswordEmail = ({ resetUrl }: ResetPasswordEmailProps) => {
           </Text>
           <Hr style={hr} />
           <Text style={footer}>
-            This link will expire in 1 hour. After that, you'll need to request a new password reset
-            link.
+            This link will expire in 1 hour. After that, you'll need to request
+            a new password reset link.
           </Text>
         </Container>
       </Body>
@@ -109,4 +110,4 @@ const footer = {
   color: '#666666',
   fontSize: '14px',
   lineHeight: '20px',
-}; 
+};

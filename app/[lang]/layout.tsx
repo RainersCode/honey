@@ -8,13 +8,13 @@ import Header from '@/components/shared/header';
 import Footer from '@/components/shared/footer';
 import '@/assets/styles/globals.css';
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin', 'cyrillic', 'latin-ext'],
   variable: '--font-inter',
   display: 'swap',
 });
 
-const playfairDisplay = Playfair_Display({ 
+const playfairDisplay = Playfair_Display({
   subsets: ['latin', 'cyrillic', 'latin-ext'],
   variable: '--font-playfair-display',
   display: 'swap',
@@ -26,13 +26,21 @@ export async function generateMetadata(): Promise<Metadata> {
       template: '%s | Honey Farm',
       default: 'Honey Farm - Pure Natural Honey',
     },
-    description: 'Experience the authentic taste of nature with our pure, natural honey straight from our family farm.',
-    keywords: ['honey', 'natural honey', 'raw honey', 'organic honey', 'bee farm', 'honey products'],
+    description:
+      'Experience the authentic taste of nature with our pure, natural honey straight from our family farm.',
+    keywords: [
+      'honey',
+      'natural honey',
+      'raw honey',
+      'organic honey',
+      'bee farm',
+      'honey products',
+    ],
   };
 }
 
 export async function generateStaticParams() {
-  return i18n.locales.map(locale => ({ lang: locale }));
+  return i18n.locales.map((locale) => ({ lang: locale }));
 }
 
 export default function RootLayout({
@@ -43,7 +51,11 @@ export default function RootLayout({
   params: { lang: Locale };
 }) {
   return (
-    <html lang={lang} suppressHydrationWarning className={`${inter.variable} ${playfairDisplay.variable}`}>
+    <html
+      lang={lang}
+      suppressHydrationWarning
+      className={`${inter.variable} ${playfairDisplay.variable}`}
+    >
       <body className={`${inter.className} antialiased`}>
         <CartProvider>
           <ThemeProvider
@@ -53,9 +65,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Header />
-            <main className="min-h-screen">
-              {children}
-            </main>
+            <main className='min-h-screen'>{children}</main>
             <Footer />
             <Toaster />
           </ThemeProvider>
@@ -63,4 +73,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-} 
+}

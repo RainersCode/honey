@@ -761,5 +761,32 @@
   "user": {
     "profile": "User Profile",
     "orders": "Order History"
+  },
+  "footer": {
+    "description": "Bringing nature's sweetness directly from our farm to your table.",
+    "quickLinks": {
+      "title": "Quick Links",
+      "aboutUs": "About Us",
+      "products": "Products",
+      "contact": "Contact",
+      "blog": "Blog"
+    },
+    "contactInfo": {
+      "title": "Contact",
+      "address": "123 Honey Farm Road",
+      "phone": "(555) 123-4567",
+      "email": "info@honeyfarm.com"
+    },
+    "hours": {
+      "title": "Hours",
+      "weekdays": "Monday - Friday: 9am - 6pm",
+      "saturday": "Saturday: 9am - 4pm",
+      "sunday": "Sunday: Closed"
+    },
+    "bottomBar": {
+      "copyright": "All rights reserved",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service"
+    }
   }
 } 

@@ -66,7 +66,7 @@ export default function RootLayout({
           >
             <Header lang={lang} />
             <main className='min-h-screen'>{children}</main>
-            <Footer />
+            <Footer lang={lang} />
             <Toaster />
           </ThemeProvider>
         </CartProvider>

@@ -761,5 +761,32 @@
   "user": {
     "profile": "Lietotāja profils",
     "orders": "Pasūtījumu vēsture"
+  },
+  "footer": {
+    "description": "Nesam dabas saldumu tieši no mūsu saimniecības uz jūsu galdu.",
+    "quickLinks": {
+      "title": "Ātrās saites",
+      "aboutUs": "Par mums",
+      "products": "Produkti",
+      "contact": "Kontakti",
+      "blog": "Blogs"
+    },
+    "contactInfo": {
+      "title": "Kontakti",
+      "address": "Medus iela 123",
+      "phone": "(+371) 12345678",
+      "email": "info@medussaimnieciba.lv"
+    },
+    "hours": {
+      "title": "Darba laiks",
+      "weekdays": "Pirmdiena - Piektdiena: 9:00 - 18:00",
+      "saturday": "Sestdiena: 9:00 - 16:00",
+      "sunday": "Svētdiena: Slēgts"
+    },
+    "bottomBar": {
+      "copyright": "Visas tiesības aizsargātas",
+      "privacyPolicy": "Privātuma politika",
+      "termsOfService": "Lietošanas noteikumi"
+    }
   }
 } 

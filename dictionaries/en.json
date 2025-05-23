@@ -316,6 +316,9 @@
         "Have your order number ready (if applicable)",
         "Include specific product details in your message"
       ]
+    },
+    "social": {
+      "title": "Follow Us"
     }
   },
   "shipping": {
@@ -754,5 +757,9 @@
       "email": "Email",
       "phone": "Phone"
     }
+  },
+  "user": {
+    "profile": "User Profile",
+    "orders": "Order History"
   }
 } 

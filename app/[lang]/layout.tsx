@@ -64,7 +64,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Header />
+            <Header lang={lang} />
             <main className='min-h-screen'>{children}</main>
             <Footer />
             <Toaster />

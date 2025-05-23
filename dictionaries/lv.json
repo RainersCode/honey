@@ -316,6 +316,9 @@
         "Sagatavojiet pasūtījuma numuru (ja attiecināms)",
         "Iekļaujiet konkrētu produktu informāciju savā ziņojumā"
       ]
+    },
+    "social": {
+      "title": "Sekojiet mums"
     }
   },
   "shipping": {
@@ -754,5 +757,9 @@
       "email": "E-pasts",
       "phone": "Tālrunis"
     }
+  },
+  "user": {
+    "profile": "Lietotāja profils",
+    "orders": "Pasūtījumu vēsture"
   }
 } 

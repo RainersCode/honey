@@ -4,15 +4,22 @@ import { APP_NAME } from '@/lib/constants';
 import Menu from './menu';
 import HeaderContainer from './header-container';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { getDictionary } from '@/lib/dictionary';
 
-const Header = () => {
+interface HeaderProps {
+  lang: string;
+}
+
+const Header = async ({ lang }: HeaderProps) => {
+  const dictionary = await getDictionary(lang);
+
   return (
     <>
       <HeaderContainer>
         <div className='max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8'>
           <div className='flex items-center justify-between gap-4'>
             <Link 
-              href='/' 
+              href={`/${lang}`}
               className='flex items-center gap-3 transition-all duration-300 hover:opacity-80'
             >
               <div className='relative'>
@@ -32,31 +39,31 @@ const Header = () => {
 
             <nav className='flex items-center gap-6 sm:gap-8'>
               <Link 
-                href='/'
+                href={`/${lang}`}
                 className='text-[#4A3F35] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
-                HOME
+                {dictionary.navigation?.home?.toUpperCase() || 'HOME'}
               </Link>
               <Link 
-                href='/about'
+                href={`/${lang}/about`}
                 className='text-[#4A3F35] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
-                ABOUT US
+                {dictionary.navigation?.about?.toUpperCase() || 'ABOUT US'}
               </Link>
               <Link 
-                href='/search'
+                href={`/${lang}/search`}
                 className='text-[#4A3F35] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
-                PRODUCTS
+                {dictionary.navigation?.products?.toUpperCase() || 'PRODUCTS'}
               </Link>
               <Link 
-                href='/contact'
+                href={`/${lang}/contact`}
                 className='text-[#4A3F35] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
-                CONTACT
+                {dictionary.navigation?.contact?.toUpperCase() || 'CONTACT'}
               </Link>
               <LanguageSwitcher />
-              <Menu />
+              <Menu lang={lang} />
             </nav>
           </div>
         </div>

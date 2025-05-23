@@ -37,56 +37,68 @@ export default async function AdminOverviewPage({
   }));
 
   return (
-    <div className="max-w-[1440px] mx-auto px-8">
-      <h1 className="text-3xl font-bold mb-6">{dict.admin.overview}</h1>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{dict.admin.dashboard.totalRevenue}</CardTitle>
-            <BadgeDollarSign className="h-4 w-4 text-muted-foreground" />
+    <div className='space-y-6'>
+      <h1 className='text-3xl font-bold text-gray-900'>
+        {dict.admin.overview}
+      </h1>
+      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
+        <Card className='bg-white'>
+          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+            <CardTitle className='text-sm font-medium'>
+              {dict.admin.dashboard.totalRevenue}
+            </CardTitle>
+            <BadgeDollarSign className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {formatCurrency(summary.totalSales._sum.totalPrice?.toString() || '0')}
+            <div className='text-2xl font-bold'>
+              {formatCurrency(
+                summary.totalSales._sum.totalPrice?.toString() || '0'
+              )}
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{dict.admin.dashboard.sales}</CardTitle>
-            <CreditCard className="h-4 w-4 text-muted-foreground" />
+        <Card className='bg-white'>
+          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+            <CardTitle className='text-sm font-medium'>
+              {dict.admin.dashboard.sales}
+            </CardTitle>
+            <CreditCard className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className='text-2xl font-bold'>
               {formatNumber(summary.ordersCount)}
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{dict.admin.dashboard.customers}</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+        <Card className='bg-white'>
+          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+            <CardTitle className='text-sm font-medium'>
+              {dict.admin.dashboard.customers}
+            </CardTitle>
+            <Users className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className='text-2xl font-bold'>
               {formatNumber(summary.usersCount)}
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{dict.admin.dashboard.products}</CardTitle>
-            <Barcode className="h-4 w-4 text-muted-foreground" />
+        <Card className='bg-white'>
+          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+            <CardTitle className='text-sm font-medium'>
+              {dict.admin.dashboard.products}
+            </CardTitle>
+            <Barcode className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className='text-2xl font-bold'>
               {formatNumber(summary.productsCount)}
             </div>
           </CardContent>
         </Card>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-4">
-        <Card className="col-span-4 bg-white">
+      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-7'>
+        <Card className='col-span-4 bg-white'>
           <CardHeader>
             <CardTitle>{dict.admin.dashboard.overview}</CardTitle>
           </CardHeader>
@@ -98,7 +110,7 @@ export default async function AdminOverviewPage({
             />
           </CardContent>
         </Card>
-        <Card className="col-span-3 bg-white">
+        <Card className='col-span-3 bg-white'>
           <CardHeader>
             <CardTitle>{dict.admin.dashboard.recentSales}</CardTitle>
           </CardHeader>
@@ -124,7 +136,9 @@ export default async function AdminOverviewPage({
                     <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
                     <TableCell>
                       <Link href={`/${lang}/order/${order.id}`}>
-                        <span className="px-2">{dict.admin.dashboard.details}</span>
+                        <span className='px-2'>
+                          {dict.admin.dashboard.details}
+                        </span>
                       </Link>
                     </TableCell>
                   </TableRow>
@@ -136,4 +150,4 @@ export default async function AdminOverviewPage({
       </div>
     </div>
   );
-} 
+}

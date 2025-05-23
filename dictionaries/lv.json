@@ -22,6 +22,7 @@
     "users": "Lietotāji",
     "createProduct": "Izveidot Produktu",
     "updateProduct": "Rediģēt Produktu",
+    "adminDashboard": "Administratora panelis",
     "orderStatus": {
       "notPaid": "Nav Apmaksāts",
       "notShipped": "Nav Nosūtīts",

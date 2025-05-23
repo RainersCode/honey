@@ -22,6 +22,7 @@
     "users": "Users",
     "createProduct": "Create Product",
     "updateProduct": "Update Product",
+    "adminDashboard": "Admin Dashboard",
     "orderStatus": {
       "notPaid": "Not Paid",
       "notShipped": "Not Shipped",

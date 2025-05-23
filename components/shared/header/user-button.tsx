@@ -85,7 +85,7 @@ const UserButton = async ({ lang }: UserButtonProps) => {
                 <DropdownMenuItem className='flex items-center gap-2 text-[#1D1D1F] hover:text-[#FF7A3D] hover:bg-[#FFF5EE] rounded-md transition-colors cursor-pointer'>
                   <Settings className='h-4 w-4' />
                   <Link href={`/${lang}/admin/overview`} className='w-full'>
-                    {dictionary.admin?.dashboard || 'Admin Dashboard'}
+                    {dictionary.admin?.adminDashboard || 'Admin Dashboard'}
                   </Link>
                 </DropdownMenuItem>
               </>

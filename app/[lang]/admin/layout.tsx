@@ -12,18 +12,20 @@ export default async function AdminLayout({
   const dict = await getDictionary(lang);
 
   return (
-    <div className='flex flex-col min-h-screen'>
-      <header className='border-b bg-white sticky top-0 z-[100]'>
-        <div className='max-w-[1440px] mx-auto'>
-          <div className='flex items-center h-16 px-8'>
+    <div className='fixed inset-0 bg-gray-50 flex flex-col overflow-hidden z-[90]'>
+      {/* Admin header that overlays the main header */}
+      <header className='absolute top-0 left-0 right-0 bg-white border-b border-gray-200 shadow-sm z-[100] h-[72px]'>
+        <div className='max-w-none h-full'>
+          <div className='flex items-center h-full px-8'>
             <MainNav lang={lang} dict={dict} />
           </div>
         </div>
       </header>
 
-      <main className='flex-1 max-w-[1440px] mx-auto px-8 py-6 relative z-0'>
-        {children}
+      {/* Content area with proper spacing for header */}
+      <main className='flex-1 pt-[72px] overflow-auto bg-gray-50'>
+        <div className='max-w-[1440px] mx-auto px-8 py-6'>{children}</div>
       </main>
     </div>
   );
-} 
+}

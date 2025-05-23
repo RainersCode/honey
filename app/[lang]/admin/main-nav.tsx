@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import { Locale } from '@/config/i18n.config';
+import Image from 'next/image';
+import { APP_NAME } from '@/lib/constants';
 
 interface MainNavProps extends React.HTMLAttributes<HTMLElement> {
   lang: Locale;
@@ -19,12 +21,7 @@ interface MainNavProps extends React.HTMLAttributes<HTMLElement> {
   };
 }
 
-const MainNav = ({
-  className,
-  lang,
-  dict,
-  ...props
-}: MainNavProps) => {
+const MainNav = ({ className, lang, dict, ...props }: MainNavProps) => {
   const pathname = usePathname();
 
   const links = [
@@ -47,27 +44,59 @@ const MainNav = ({
   ];
 
   return (
-    <nav
-      className={cn('flex items-center space-x-6 lg:space-x-8', className)}
-      {...props}
-    >
-      {links.map((item) => (
+    <div className='w-full flex items-center justify-between bg-white h-full'>
+      {/* Left side: Logo and Admin title */}
+      <div className='flex items-center gap-6'>
         <Link
-          key={item.href}
-          href={item.href}
-          className={cn(
-            'text-sm font-medium transition-colors hover:text-primary relative py-1',
-            'after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary after:transition-transform after:scale-x-0 hover:after:scale-x-100',
-            pathname.includes(item.href)
-              ? 'text-primary after:scale-x-100'
-              : 'text-muted-foreground after:scale-x-0'
-          )}
+          href={`/${lang}`}
+          className='flex items-center gap-3 transition-all duration-300 hover:opacity-80'
         >
-          {item.title}
+          <div className='relative'>
+            <Image
+              src='/images/logo.svg'
+              alt={`${APP_NAME} logo`}
+              height={32}
+              width={32}
+              priority={true}
+              className='object-contain'
+            />
+          </div>
+          <span className='font-serif text-xl text-[#4A3F35] tracking-tight font-medium'>
+            {APP_NAME}
+          </span>
         </Link>
-      ))}
-    </nav>
+
+        <div className='h-6 w-px bg-gray-300' />
+
+        <h1 className='text-lg font-semibold text-gray-900'>Admin Dashboard</h1>
+      </div>
+
+      {/* Right side: Navigation */}
+      <nav
+        className={cn(
+          'flex items-center space-x-6 lg:space-x-8 bg-white',
+          className
+        )}
+        {...props}
+      >
+        {links.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={cn(
+              'text-sm font-medium transition-colors hover:text-[#FF7A3D] relative py-1 px-2',
+              'after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[#FF7A3D] after:transition-transform after:scale-x-0 hover:after:scale-x-100',
+              pathname.includes(item.href)
+                ? 'text-[#FF7A3D] after:scale-x-100'
+                : 'text-gray-600 after:scale-x-0'
+            )}
+          >
+            {item.title}
+          </Link>
+        ))}
+      </nav>
+    </div>
   );
 };
 
-export default MainNav; 
+export default MainNav;

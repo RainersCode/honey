@@ -788,5 +788,43 @@
       "privacyPolicy": "Privātuma politika",
       "termsOfService": "Lietošanas noteikumi"
     }
+  },
+  "productCategories": {
+    "title": "Produktu kategorijas",
+    "categories": {
+      "honey": {
+        "name": "Medus",
+        "description": "Tīrs, dabīgs medus ar bagātīgu garšu un zeltainu nokrāsu"
+      },
+      "beeswax": {
+        "name": "Bišu vasks",
+        "description": "Dabīgi bišu vaska produkti mājai un labsajūtai"
+      },
+      "honeycomb": {
+        "name": "Šūnu medus",
+        "description": "Svaigs, neapstrādāts šūnu medus tieši no stropa"
+      }
+    },
+    "shopNow": "Iepirkties tagad"
+  },
+  "clientTestimonials": {
+    "title": "Ko saka mūsu klienti",
+    "testimonials": [
+      {
+        "name": "Sāra Johnsone",
+        "role": "Medus cienītāja",
+        "quote": "Viņu medus kvalitāte ir izcila. Var patiešām sajust atšķirību, salīdzinot ar veikalā pērktajiem."
+      },
+      {
+        "name": "Mihails Čens",
+        "role": "Mājas pavārs",
+        "quote": "Es izmantoju viņu medu visās savās receptēs. Dabīgā salduma un tīrība padara katru ēdienu īpašu."
+      },
+      {
+        "name": "Emma Deivisa",
+        "role": "Labsajūtas trenere",
+        "quote": "Medus ir ne tikai garšīgs, bet arī viņu serviss ir lielisks. Vienmēr svaigs un piegādāts ar rūpību."
+      }
+    ]
   }
 } 

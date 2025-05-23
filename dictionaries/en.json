@@ -788,5 +788,43 @@
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service"
     }
+  },
+  "productCategories": {
+    "title": "Product Categories",
+    "categories": {
+      "honey": {
+        "name": "Honey",
+        "description": "Pure, natural honey with rich flavors and golden hues"
+      },
+      "beeswax": {
+        "name": "Beeswax", 
+        "description": "Natural beeswax products for home and wellness"
+      },
+      "honeycomb": {
+        "name": "Honeycomb",
+        "description": "Fresh, raw honeycomb straight from the hive"
+      }
+    },
+    "shopNow": "Shop Now"
+  },
+  "clientTestimonials": {
+    "title": "What Our Clients Say",
+    "testimonials": [
+      {
+        "name": "Sarah Johnson",
+        "role": "Honey Enthusiast", 
+        "quote": "The quality of their honey is exceptional. You can really taste the difference compared to store-bought varieties."
+      },
+      {
+        "name": "Michael Chen",
+        "role": "Home Chef",
+        "quote": "I use their honey in all my recipes. The natural sweetness and purity make every dish special."
+      },
+      {
+        "name": "Emma Davis",
+        "role": "Wellness Coach",
+        "quote": "Not only is the honey delicious, but their service is outstanding. Always fresh and delivered with care."
+      }
+    ]
   }
 } 

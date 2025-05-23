@@ -1,64 +1,7 @@
-import {
-  Body,
-  Column,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Img,
-  Preview,
-  Row,
-  Section,
-  Tailwind,
-  Text,
-} from '@react-email/components';
+import { Column, Row, Section, Text, Img } from '@react-email/components';
 import { Order } from '@/types';
 import { formatCurrency } from '@/lib/utils';
-import sampleData from '@/db/sample-data';
-require('dotenv').config();
-
-PurchaseReceiptEmail.PreviewProps = {
-  order: {
-    id: crypto.randomUUID(),
-    userId: '123',
-    user: {
-      name: 'John Doe',
-      email: 'test@test.com',
-    },
-    paymentMethod: 'Stripe',
-    shippingAddress: {
-      fullName: 'John Doe',
-      streetAddress: '123 Main st',
-      city: 'New York',
-      postalCode: '10001',
-      country: 'US',
-    },
-    createdAt: new Date(),
-    totalPrice: '100',
-    taxPrice: '10',
-    shippingPrice: '10',
-    itemsPrice: '80',
-    orderitems: sampleData.products.map((x) => ({
-      name: x.name,
-      orderId: '123',
-      productId: '123',
-      slug: x.slug,
-      qty: x.stock,
-      image: x.images[0],
-      price: x.price.toString(),
-    })),
-    isDelivered: true,
-    deliveredAt: new Date(),
-    isPaid: true,
-    paidAt: new Date(),
-    paymentResult: {
-      id: '123',
-      status: 'succeeded',
-      pricePaid: '100',
-      email_address: 'test@test.com',
-    },
-  },
-} satisfies OrderInformationProps;
+import { EmailLayout } from './components/email-layout';
 
 const dateFormatter = new Intl.DateTimeFormat('en', { dateStyle: 'medium' });
 
@@ -68,79 +11,125 @@ type OrderInformationProps = {
 
 export default function PurchaseReceiptEmail({ order }: OrderInformationProps) {
   return (
-    <Html>
-      <Preview>View order receipt</Preview>
-      <Tailwind>
-        <Head />
-        <Body className='font-sans bg-white'>
-          <Container className='max-w-xl'>
-            <Heading>Purchase Receipt</Heading>
-            <Section>
-              <Row>
-                <Column>
-                  <Text className='mb-0 mr-4 text-gray-500 whitespace-nowrap text-nowrap'>
-                    Order ID
-                  </Text>
-                  <Text className='mt-0 mr-4'>{order.id.toString()}</Text>
+    <EmailLayout previewText={`Order Confirmation ${order.id}`}>
+      <div>
+        <h1 className='text-2xl font-serif text-[#1D1D1F] mb-6 text-center'>
+          Thank You for Your Order!
+        </h1>
+
+        {/* Order Info */}
+        <div className='bg-[#FFF8F3] rounded-lg p-4 mb-8'>
+          <Row>
+            <Column>
+              <Text className='text-[#666666] text-sm mb-1'>Order ID</Text>
+              <Text className='text-[#1D1D1F] font-medium'>
+                {order.id.toString()}
+              </Text>
+            </Column>
+            <Column>
+              <Text className='text-[#666666] text-sm mb-1'>Purchase Date</Text>
+              <Text className='text-[#1D1D1F] font-medium'>
+                {dateFormatter.format(order.createdAt)}
+              </Text>
+            </Column>
+            <Column>
+              <Text className='text-[#666666] text-sm mb-1'>Total Paid</Text>
+              <Text className='text-[#1D1D1F] font-medium'>
+                {formatCurrency(order.totalPrice)}
+              </Text>
+            </Column>
+          </Row>
+        </div>
+
+        {/* Shipping Address */}
+        <div className='mb-8'>
+          <h2 className='text-lg font-serif text-[#1D1D1F] mb-3'>
+            Shipping Address
+          </h2>
+          <div className='bg-[#FFF8F3] rounded-lg p-4'>
+            <Text className='text-[#1D1D1F] m-0'>
+              {order.shippingAddress.fullName}
+              <br />
+              {order.shippingAddress.streetAddress}
+              <br />
+              {order.shippingAddress.city}, {order.shippingAddress.postalCode}
+              <br />
+              {order.shippingAddress.country}
+            </Text>
+          </div>
+        </div>
+
+        {/* Order Items */}
+        <div className='mb-8'>
+          <h2 className='text-lg font-serif text-[#1D1D1F] mb-3'>
+            Order Items
+          </h2>
+          <div className='space-y-4'>
+            {order.orderitems.map((item) => (
+              <Row key={item.productId} className='bg-[#FFF8F3] rounded-lg p-4'>
+                <Column className='w-20'>
+                  <Img
+                    src={
+                      item.image.startsWith('/')
+                        ? `${process.env.NEXT_PUBLIC_SERVER_URL}${item.image}`
+                        : item.image
+                    }
+                    width='80'
+                    height='80'
+                    alt={item.name}
+                    className='rounded-md'
+                  />
                 </Column>
-                <Column>
-                  <Text className='mb-0 mr-4 text-gray-500 whitespace-nowrap text-nowrap'>
-                    Purchase Date
+                <Column className='align-top flex-1'>
+                  <Text className='text-[#1D1D1F] font-medium m-0'>
+                    {item.name}
                   </Text>
-                  <Text className='mt-0 mr-4'>
-                    {dateFormatter.format(order.createdAt)}
+                  <Text className='text-[#666666] text-sm m-0'>
+                    Quantity: {item.qty}
                   </Text>
                 </Column>
-                <Column>
-                  <Text className='mb-0 mr-4 text-gray-500 whitespace-nowrap text-nowrap'>
-                    Price Paid
-                  </Text>
-                  <Text className='mt-0 mr-4'>
-                    {formatCurrency(order.totalPrice)}
+                <Column align='right' className='align-top'>
+                  <Text className='text-[#1D1D1F] font-medium m-0'>
+                    {formatCurrency(item.price)}
                   </Text>
                 </Column>
               </Row>
-            </Section>
-            <Section className='border border-solid border-gray-500 rounded-lg p-4 md:p-6 my-4'>
-              {order.orderitems.map((item) => (
-                <Row key={item.productId} className='mt-8'>
-                  <Column className='w-20'>
-                    <Img
-                      width='80'
-                      alt={item.name}
-                      className='rounded'
-                      src={
-                        item.image.startsWith('/')
-                          ? `${process.env.NEXT_PUBLIC_SERVER_URL}${item.image}`
-                          : item.image
-                      }
-                    />
-                  </Column>
-                  <Column className='align-top'>
-                    {item.name} x {item.qty}
-                  </Column>
-                  <Column align='right' className='align-top'>
-                    {formatCurrency(item.price)}
-                  </Column>
-                </Row>
-              ))}
-              {[
-                { name: 'Items', price: order.itemsPrice },
-                { name: 'Tax', price: order.taxPrice },
-                { name: 'Shipping', price: order.shippingPrice },
-                { name: 'Total', price: order.totalPrice },
-              ].map(({ name, price }) => (
-                <Row key={name} className='py-1'>
-                  <Column align='right'>{name}: </Column>
-                  <Column align='right' width={70} className='align-top'>
-                    <Text className='m-0'>{formatCurrency(price)}</Text>
-                  </Column>
-                </Row>
-              ))}
-            </Section>
-          </Container>
-        </Body>
-      </Tailwind>
-    </Html>
+            ))}
+          </div>
+        </div>
+
+        {/* Order Summary */}
+        <div className='border-t border-[#FFE4D2] pt-6'>
+          <h2 className='text-lg font-serif text-[#1D1D1F] mb-3'>
+            Order Summary
+          </h2>
+          <div className='space-y-2'>
+            {[
+              { name: 'Items Subtotal', price: order.itemsPrice },
+              { name: 'Shipping', price: order.shippingPrice },
+              { name: 'Tax', price: order.taxPrice },
+              { name: 'Total', price: order.totalPrice, isTotal: true },
+            ].map(({ name, price, isTotal }) => (
+              <Row key={name} className='py-1'>
+                <Column>
+                  <Text
+                    className={`m-0 ${isTotal ? 'font-medium text-[#1D1D1F]' : 'text-[#666666]'}`}
+                  >
+                    {name}
+                  </Text>
+                </Column>
+                <Column align='right'>
+                  <Text
+                    className={`m-0 ${isTotal ? 'font-medium text-[#1D1D1F]' : 'text-[#666666]'}`}
+                  >
+                    {formatCurrency(price)}
+                  </Text>
+                </Column>
+              </Row>
+            ))}
+          </div>
+        </div>
+      </div>
+    </EmailLayout>
   );
 }

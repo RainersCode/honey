@@ -55,8 +55,8 @@ const MainNav = ({ className, lang, dict, ...props }: MainNavProps) => {
             <Image
               src='/images/logo.svg'
               alt={`${APP_NAME} logo`}
-              height={32}
-              width={32}
+              height={36}
+              width={36}
               priority={true}
               className='object-contain'
             />

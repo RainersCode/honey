@@ -18,7 +18,7 @@ const Header = async ({ lang }: HeaderProps) => {
       <HeaderContainer>
         <div className='max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8'>
           <div className='flex items-center justify-between gap-4'>
-            <Link 
+            <Link
               href={`/${lang}`}
               className='flex items-center gap-3 transition-all duration-300 hover:opacity-80'
             >
@@ -26,37 +26,37 @@ const Header = async ({ lang }: HeaderProps) => {
                 <Image
                   src='/images/logo.svg'
                   alt={`${APP_NAME} logo`}
-                  height={36}
-                  width={36}
+                  height={48}
+                  width={48}
                   priority={true}
                   className='object-contain'
                 />
               </div>
-              <span className='hidden sm:block font-serif text-2xl text-[#4A3F35] tracking-tight font-medium'>
+              <span className='sm:block font-serif text-2xl text-[#4A3F35] tracking-tight font-medium'>
                 {APP_NAME}
               </span>
             </Link>
 
             <nav className='flex items-center gap-6 sm:gap-8'>
-              <Link 
+              <Link
                 href={`/${lang}`}
                 className='text-[#4A3F35] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
                 {dictionary.navigation?.home?.toUpperCase() || 'HOME'}
               </Link>
-              <Link 
+              <Link
                 href={`/${lang}/about`}
                 className='text-[#4A3F35] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
                 {dictionary.navigation?.about?.toUpperCase() || 'ABOUT US'}
               </Link>
-              <Link 
+              <Link
                 href={`/${lang}/search`}
                 className='text-[#4A3F35] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
                 {dictionary.navigation?.products?.toUpperCase() || 'PRODUCTS'}
               </Link>
-              <Link 
+              <Link
                 href={`/${lang}/contact`}
                 className='text-[#4A3F35] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
@@ -68,7 +68,7 @@ const Header = async ({ lang }: HeaderProps) => {
           </div>
         </div>
       </HeaderContainer>
-      <div className="h-[72px]" /> {/* Spacer for fixed header */}
+      <div className='h-[72px]' /> {/* Spacer for fixed header */}
     </>
   );
 };

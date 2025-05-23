@@ -23,8 +23,8 @@ const Footer = async ({ lang }: FooterProps) => {
               <Image
                 src='/images/logo.svg'
                 alt={`${APP_NAME} logo`}
-                height={32}
-                width={32}
+                height={36}
+                width={36}
                 className='object-contain'
               />
               <span className='font-serif text-xl text-[#1D1D1F]'>

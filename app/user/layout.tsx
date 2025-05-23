@@ -15,44 +15,44 @@ export default function UserLayout({
       <HeaderContainer>
         <div className='max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8'>
           <div className='flex items-center justify-between gap-4'>
-            <Link 
-              href='/' 
+            <Link
+              href='/'
               className='flex items-center gap-3 transition-all duration-300 hover:opacity-80'
             >
               <div className='relative'>
                 <Image
                   src='/images/logo.svg'
                   alt={`${APP_NAME} logo`}
-                  height={36}
-                  width={36}
+                  height={48}
+                  width={48}
                   priority={true}
                   className='object-contain'
                 />
               </div>
-              <span className='hidden sm:block font-serif text-2xl text-[#1D1D1F] tracking-tight font-medium'>
+              <span className='sm:block font-serif text-2xl text-[#1D1D1F] tracking-tight font-medium'>
                 {APP_NAME}
               </span>
             </Link>
             <nav className='flex items-center gap-6 sm:gap-8'>
-              <Link 
+              <Link
                 href='/'
                 className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
                 HOME
               </Link>
-              <Link 
+              <Link
                 href='/about'
                 className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
                 ABOUT US
               </Link>
-              <Link 
+              <Link
                 href='/search'
                 className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
                 PRODUCTS
               </Link>
-              <Link 
+              <Link
                 href='/contact'
                 className='text-[#1D1D1F] hover:text-[#FF7A3D] text-sm font-medium hidden sm:block transition-all duration-300 relative after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-[#FF7A3D] after:transition-all after:duration-300 hover:after:w-full'
               >
@@ -63,10 +63,8 @@ export default function UserLayout({
           </div>
         </div>
       </HeaderContainer>
-      <div className="h-[72px]" /> {/* Spacer for fixed header */}
-      <main className='flex-1 wrapper py-8'>
-        {children}
-      </main>
+      <div className='h-[72px]' /> {/* Spacer for fixed header */}
+      <main className='flex-1 wrapper py-8'>{children}</main>
       <Footer />
     </div>
   );

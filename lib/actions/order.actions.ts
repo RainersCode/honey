@@ -11,25 +11,18 @@ import { PAGE_SIZE } from '../constants';
 import { Prisma } from '@prisma/client';
 import { sendPurchaseReceipt } from '@/email';
 import { insertOrderSchema } from '../validators';
+import { format } from 'date-fns';
 
 // Create order and create the order items
 export async function createOrder({
   userId,
+  shippingAddress,
+  paymentMethod,
   itemsPrice,
   shippingPrice,
   taxPrice,
   totalPrice,
-  paymentMethod,
-  shippingAddress,
-}: {
-  userId: string;
-  itemsPrice: number;
-  shippingPrice: number;
-  taxPrice: number;
-  totalPrice: number;
-  paymentMethod: string;
-  shippingAddress: ShippingAddress;
-}) {
+}: CreateOrderInput): Promise<ActionResponse> {
   try {
     const session = await auth();
     if (!session) throw new Error('User is not authenticated');
@@ -56,8 +49,18 @@ export async function createOrder({
 
     // Create a transaction to create order and order items in database
     const insertedOrderId = await prisma.$transaction(async (tx) => {
-      // Create order
-      const insertedOrder = await tx.order.create({ data: order });
+      // Generate user-facing ID in format: ORD-YYYYMMDD-XXXX
+      const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+      const userFacingId = `ORD-${format(new Date(), 'yyyyMMdd')}-${randomNum}`;
+      
+      // Create order with user-facing ID
+      const insertedOrder = await tx.order.create({ 
+        data: {
+          ...order,
+          userFacingId,
+        }
+      });
+
       // Create order items from the cart items
       for (const item of cart.items as CartItem[]) {
         await tx.orderItem.create({

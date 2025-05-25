@@ -10,7 +10,7 @@ interface CheckoutStepsProps {
 const CheckoutSteps = ({ current = 0, lang }: CheckoutStepsProps) => {
   return (
     <div className='flex-between flex-col md:flex-row space-x-2 space-y-2 mb-10'>
-      {['User Login', 'Shipping Address', 'Payment Method', 'Place Order'].map(
+      {['User Login', 'Shipping Address', 'Place Order'].map(
         (step, index) => (
           <React.Fragment key={step}>
             <div

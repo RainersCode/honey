@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { useTransition, useEffect, useState } from 'react';
-import { ArrowRight, ShoppingBag } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Loader2 } from 'lucide-react';
 import { Cart } from '@/types';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -21,17 +21,20 @@ import { formatCurrency } from '@/lib/utils';
 import QuantityCartControl from '@/components/shared/product/quantity-cart-control';
 import { Locale } from '@/config/i18n.config';
 import { getDictionary } from '@/lib/dictionary';
-import LoadingSpinner from '@/components/ui/loading-spinner';
+import ShippingCalculator from '@/components/cart/shipping-calculator';
+import { updateCartDeliveryMethod } from '@/lib/actions/cart.actions';
 
 interface CartTableProps {
-  cart?: Cart;
+  cart: Cart;
   lang: Locale;
 }
 
 const CartTable = ({ cart, lang }: CartTableProps) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [dict, setDict] = useState<any>(null);
+  const [dict, setDict] = useState<Record<string, any>>(null);
+  const [selectedShipping, setSelectedShipping] = useState<{ service: string; rate: number } | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const loadDictionary = async () => {
@@ -43,6 +46,45 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
   }, [lang]);
 
   if (!dict) return null;
+
+  const calculateTotalWeight = () => {
+    if (!cart?.items) return 0;
+    return cart.items.reduce((total, item) => {
+      return total + (item.weight || 0) * item.qty;
+    }, 0);
+  };
+
+  const handleShippingSelect = async (rate: { service: string; rate: number }) => {
+    setSelectedShipping(rate);
+    const method = rate.service.toLowerCase().includes('omniva') ? 'omniva' : 'home';
+    
+    startTransition(async () => {
+      const result = await updateCartDeliveryMethod(method);
+      if (!result.success) {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: result.message || 'Failed to update shipping method'
+        });
+      }
+    });
+  };
+
+  // Calculate prices
+  const subtotal = cart?.items.reduce((sum, item) => {
+    const itemPrice = parseFloat(item.price.toString());
+    const itemQty = parseInt(item.qty.toString());
+    return sum + (itemPrice * itemQty);
+  }, 0) || 0;
+
+  const shippingCost = selectedShipping?.rate 
+    ? parseFloat(selectedShipping.rate.toString()) 
+    : cart?.shippingPrice 
+      ? parseFloat(cart.shippingPrice.toString()) 
+      : 0;
+
+  // Ensure we're working with numbers and round to 2 decimal places
+  const total = Number((subtotal + shippingCost).toFixed(2));
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -67,83 +109,110 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
           </div>
         </Card>
       ) : (
-        <div className='grid md:grid-cols-4 md:gap-6'>
-          <div className='overflow-x-auto md:col-span-3'>
-            <Card className="border-[#FF7A3D]/10">
-              <CardHeader className="pb-3">
-                <CardTitle className="font-serif text-xl text-[#1D1D1F]">{dict.cart.items}</CardTitle>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Product</TableHead>
+                  <TableHead>Quantity</TableHead>
+                  <TableHead className="text-right">Price</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {cart.items.map((item) => (
+                  <TableRow key={item.productId}>
+                    <TableCell className="flex items-center gap-4">
+                      {item.image && (
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          width={80}
+                          height={80}
+                          className="rounded-lg"
+                        />
+                      )}
+                      <div>
+                        <h3 className="font-medium">{item.name}</h3>
+                        <p className="text-sm text-gray-500">{item.description}</p>
+                        <p className="text-sm font-medium text-[#FF7A3D] mt-1">
+                          {formatCurrency(item.price)} per item
+                        </p>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-2">
+                        <QuantityCartControl cart={cart} item={item} lang={lang} />
+                        <p className="text-sm text-gray-500 text-center">
+                          {item.qty} {item.qty === 1 ? 'item' : 'items'}
+                        </p>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="space-y-1">
+                        <p className="font-medium">{formatCurrency(item.price * item.qty)}</p>
+                        <p className="text-sm text-gray-500">Total</p>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
+          <div className="space-y-6">
+            <ShippingCalculator
+              cartWeight={calculateTotalWeight()}
+              onRateSelect={handleShippingSelect}
+            />
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-xl font-serif">{dict.cart.orderSummary}</CardTitle>
               </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="text-[#1D1D1F]/70">{dict.cart.item}</TableHead>
-                      <TableHead className="text-center text-[#1D1D1F]/70">{dict.cart.quantity}</TableHead>
-                      <TableHead className="text-right text-[#1D1D1F]/70">{dict.cart.price}</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {cart.items.map((item) => (
-                      <TableRow key={item.slug} className="hover:bg-[#FF7A3D]/5 transition-colors duration-300">
-                        <TableCell>
-                          <Link
-                            href={`/${lang}/product/${item.slug}`}
-                            className='flex items-center group'
-                          >
-                            <div className="relative w-16 h-16 rounded-lg overflow-hidden">
-                              <Image
-                                src={item.image}
-                                alt={item.name}
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                              />
-                            </div>
-                            <span className='px-3 font-medium text-[#1D1D1F] group-hover:text-[#FF7A3D] transition-colors duration-300'>{item.name}</span>
-                          </Link>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center justify-center">
-                            <QuantityCartControl cart={cart} item={item} lang={lang} />
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right font-medium text-[#1D1D1F]">
-                          {formatCurrency(item.price)}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+              <CardContent className="space-y-4">
+                <div className="flex justify-between items-center text-base">
+                  <div>
+                    <span className="text-gray-600 font-medium text-lg">{dict.cart.subtotal}</span>
+                    <p className="text-base text-gray-500">Products total</p>
+                  </div>
+                  <span className="font-semibold text-[#1D1D1F] text-lg">{formatCurrency(subtotal)}</span>
+                </div>
+                <div className="flex justify-between items-center text-base">
+                  <div>
+                    <span className="text-gray-600 font-medium text-lg">{dict.cart.shipping}</span>
+                    <p className="text-base text-gray-500">Delivery fee</p>
+                  </div>
+                  <span className="font-semibold text-[#1D1D1F] text-lg">{formatCurrency(shippingCost)}</span>
+                </div>
+                <div className="h-px bg-gray-200" />
+                <div className="flex justify-between items-center">
+                  <div>
+                    <span className="font-semibold text-[#1D1D1F] text-xl">{dict.cart.total}</span>
+                    <p className="text-base text-gray-500">Final price</p>
+                  </div>
+                  <span className="font-bold text-[#FF7A3D] text-xl">{formatCurrency(total)}</span>
+                </div>
+                <Button
+                  className="w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white mt-4"
+                  onClick={() => router.push(`/${lang}/shipping-address`)}
+                  disabled={isPending || !selectedShipping}
+                >
+                  {isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      {dict.cart.processing}
+                    </>
+                  ) : (
+                    <>
+                      {dict.cart.proceedToCheckout}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
               </CardContent>
             </Card>
           </div>
-
-          <Card className="border-[#FF7A3D]/10 h-fit">
-            <CardHeader className="pb-3">
-              <CardTitle className="font-serif text-xl text-[#1D1D1F]">{dict.cart.summary.title}</CardTitle>
-            </CardHeader>
-            <CardContent className='space-y-4'>
-              <div className="flex justify-between items-center text-[#1D1D1F]">
-                <span className="text-[#1D1D1F]/70">
-                  {dict.cart.summary.items} ({cart.items.reduce((a, c) => a + c.qty, 0)})
-                </span>
-                <span className="font-medium">{formatCurrency(cart.itemsPrice)}</span>
-              </div>
-              <Button
-                className="w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white transition-colors duration-300"
-                disabled={isPending}
-                onClick={() =>
-                  startTransition(() => router.push(`/${lang}/shipping-address`))
-                }
-              >
-                {isPending ? (
-                  <LoadingSpinner size="sm" />
-                ) : (
-                  <ArrowRight className='w-4 h-4 mr-2' />
-                )}
-                {dict.cart.summary.checkout}
-              </Button>
-            </CardContent>
-          </Card>
         </div>
       )}
     </div>

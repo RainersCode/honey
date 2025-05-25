@@ -38,15 +38,14 @@ const PlaceOrderPage = async ({
   const dict = await getDictionary(lang);
 
   if (!user.address) redirect(`/${lang}/shipping-address`);
-  if (!user.paymentMethod) redirect(`/${lang}/payment-method`);
-
+  
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-serif text-center text-[#1D1D1F] mb-8">
           {dict.placeOrder.title}
         </h1>
-        <CheckoutSteps current={3} lang={lang} />
+        <CheckoutSteps current={2} lang={lang} />
         <div className="mt-8">
           <PlaceOrderForm 
             cart={cart} 

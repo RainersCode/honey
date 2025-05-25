@@ -29,9 +29,10 @@ import {
   shipOrder,
 } from '@/lib/actions/order.actions';
 import StripePayment from './stripe-payment';
-import { Package, CreditCard, Truck, MapPin, Pencil } from 'lucide-react';
+import { Package, CreditCard, Truck, MapPin, Pencil, Download } from 'lucide-react';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import { Locale } from '@/config/i18n.config';
+import { generateReceipt } from '@/lib/utils/generate-receipt';
 
 interface OrderDetailsTableProps {
   order: Omit<Order, 'paymentResult'>;
@@ -174,6 +175,16 @@ const OrderDetailsTable = ({
         {isPending ? dict.buttons.processing : dict.buttons.markAsShipped}
       </Button>
     );
+  };
+
+  const handleDownloadReceipt = async () => {
+    const success = await generateReceipt(order, dict, true);
+    if (!success) {
+      toast({
+        variant: 'destructive',
+        description: dict.order.receipt.error,
+      });
+    }
   };
 
   return (

@@ -86,7 +86,7 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
         return;
       }
 
-      router.push(`/${lang}/payment-method`);
+      router.push(`/${lang}/place-order`);
     });
   };
 
@@ -114,12 +114,12 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                         <FormItem>
                           <FormControl>
                             <RadioGroupItem
-                              value="home"
+                              value="international"
                               className="peer sr-only"
                             />
                           </FormControl>
                           <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-[#FF7A3D] [&:has([data-state=checked])]:border-[#FF7A3D] cursor-pointer">
-                            {dict.shipping.form.homeDelivery}
+                            {dict.shipping.form.internationalShipping}
                           </FormLabel>
                         </FormItem>
                         <FormItem>
@@ -166,47 +166,48 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                 />
               )}
 
-              {/* Full Name */}
-              <FormField
-                control={form.control}
-                name="fullName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.fullName}</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder={dict.shipping.form.fullNamePlaceholder}
-                        {...field}
-                        className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {/* Show address fields only for international shipping */}
+              {deliveryMethod === 'international' && (
+                <div className="space-y-4">
+                  {/* Full Name */}
+                  <FormField
+                    control={form.control}
+                    name="fullName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.fullName}</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder={dict.shipping.form.fullNamePlaceholder}
+                            {...field}
+                            className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              {/* Phone Number */}
-              <FormField
-                control={form.control}
-                name="phoneNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.phoneNumber}</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder={dict.shipping.form.phoneNumberPlaceholder}
-                        {...field}
-                        className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  {/* Phone Number */}
+                  <FormField
+                    control={form.control}
+                    name="phoneNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.phoneNumber}</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder={dict.shipping.form.phoneNumberPlaceholder}
+                            {...field}
+                            className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              {/* Show address fields only for home delivery */}
-              {deliveryMethod === 'home' && (
-                <>
+                  {/* Street Address */}
                   <FormField
                     control={form.control}
                     name="streetAddress"
@@ -280,7 +281,7 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                       </FormItem>
                     )}
                   />
-                </>
+                </div>
               )}
 
               {/* Terms and Privacy Policy */}

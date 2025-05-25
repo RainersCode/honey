@@ -241,20 +241,29 @@
   },
   "cart": {
     "title": "Shopping Cart",
-    "empty": {
-      "title": "Your cart is empty",
-      "description": "Looks like you haven't added any items to your cart yet.",
-      "action": "Continue Shopping"
-    },
-    "items": "Cart Items",
-    "item": "Item",
-    "quantity": "Quantity",
-    "price": "Price",
-    "summary": {
-      "title": "Order Summary",
-      "items": "Items",
-      "total": "Total",
-      "checkout": "Proceed to Checkout"
+    "empty": "Your cart is empty",
+    "continueShopping": "Continue Shopping",
+    "orderSummary": "Order Summary",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "total": "Total",
+    "proceedToCheckout": "Proceed to Checkout",
+    "processing": "Processing...",
+    "deliveryMethod": {
+      "title": "Delivery Method",
+      "international": "International Shipping",
+      "internationalDesc": "Worldwide delivery",
+      "omniva": "Omniva Pickup",
+      "omnivaDesc": "Local parcel machines",
+      "selectLocation": "Select Pickup Location",
+      "country": "Country",
+      "postalCode": "Postal Code",
+      "selectCountry": "Select country",
+      "enterPostalCode": "Enter postal code",
+      "calculateShipping": "Calculate Shipping",
+      "calculating": "Calculating...",
+      "availableOptions": "Available Shipping Options",
+      "deliveryDays": "{days} days"
     }
   },
   "contact": {
@@ -342,7 +351,7 @@
       "phoneNumber": "Phone Number",
       "phoneNumberPlaceholder": "Enter phone number",
       "deliveryMethod": "Delivery Method",
-      "homeDelivery": "Home Delivery",
+      "internationalShipping": "International Shipping",
       "omnivaPickup": "Omniva Pickup",
       "omnivaLocation": "Omniva Pickup Location",
       "agreeToTerms": "I agree to the Terms and Conditions",
@@ -406,8 +415,8 @@
   },
   "order": {
     "meta": {
-      "title": "Order Details | Honey Farm",
-      "description": "View your order details and track your honey products delivery."
+      "title": "Order Details",
+      "description": "View your order details"
     },
     "title": "Order",
     "shipping": {
@@ -453,6 +462,10 @@
       "errors": {
         "unexpected": "An unexpected error occurred"
       }
+    },
+    "receipt": {
+      "download": "Download Receipt",
+      "error": "Failed to generate receipt"
     }
   },
   "privacy": {

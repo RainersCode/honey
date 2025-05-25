@@ -72,7 +72,7 @@ export const insertCartSchema = z.object({
   taxPrice: currency,
   sessionCartId: z.string().min(1, 'Session cart id is required'),
   userId: z.string().optional().nullable(),
-  deliveryMethod: z.enum(['home', 'omniva']).default('home'),
+  deliveryMethod: z.enum(['international', 'omniva']).default('international'),
 });
 
 // Schema for the shipping address
@@ -83,7 +83,7 @@ export const shippingAddressSchema = z.object({
   postalCode: z.string().min(3, 'Postal code must be at least 3 characters').optional(),
   country: z.string().min(3, 'Country must be at least 3 characters').optional(),
   phoneNumber: z.string().min(5, 'Phone number is required').regex(/^[+]?[\d\s-()]+$/, 'Invalid phone number format'),
-  deliveryMethod: z.enum(['home', 'omniva'], {
+  deliveryMethod: z.enum(['international', 'omniva'], {
     required_error: 'Please select a delivery method',
   }),
   omnivaLocationId: z.string().optional(),
@@ -109,8 +109,8 @@ export const shippingAddressSchema = z.object({
   if (data.deliveryMethod === 'omniva') {
     return !!data.omnivaLocationId && !!data.omnivaLocationDetails;
   }
-  // If delivery method is home, require address fields
-  if (data.deliveryMethod === 'home') {
+  // If delivery method is international, require address fields
+  if (data.deliveryMethod === 'international') {
     return !!(
       data.fullName &&
       data.streetAddress &&
@@ -125,7 +125,7 @@ export const shippingAddressSchema = z.object({
     if (data.deliveryMethod === 'omniva') {
       return 'Please select an Omniva pickup location';
     }
-    return 'Please fill in all address fields for home delivery';
+    return 'Please fill in all address fields for international shipping';
   },
   path: ['deliveryMethod'],
 });

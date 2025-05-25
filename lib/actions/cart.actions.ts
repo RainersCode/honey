@@ -11,7 +11,7 @@ import { Prisma } from '@prisma/client';
 import { DELIVERY_METHODS } from '../constants';
 
 // Calculate cart prices
-const calcPrice = (items: CartItem[], deliveryMethod = 'home') => {
+const calcPrice = (items: CartItem[], deliveryMethod = 'international') => {
   const itemsPrice = round2(
       items.reduce((acc, item) => acc + Number(item.price) * item.qty, 0)
     ),
@@ -58,8 +58,8 @@ export async function addItemToCart(data: CartItem) {
         userId: userId,
         items: [item],
         sessionCartId: sessionCartId,
-        ...calcPrice([item], 'home'),
-        deliveryMethod: 'home',
+        ...calcPrice([item], 'international'),
+        deliveryMethod: 'international',
       });
 
       // Add to database
@@ -226,7 +226,7 @@ export async function removeItemFromCart(productId: string) {
   }
 }
 
-export async function updateCartDeliveryMethod(deliveryMethod: 'home' | 'omniva') {
+export async function updateCartDeliveryMethod(deliveryMethod: 'international' | 'omniva') {
   try {
     const cart = await getMyCart();
     if (!cart) throw new Error('Cart not found');

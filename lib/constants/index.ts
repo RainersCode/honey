@@ -26,7 +26,7 @@ export const shippingAddressDefaultValues = {
   postalCode: '',
   country: '',
   phoneNumber: '',
-  deliveryMethod: 'home',
+  deliveryMethod: 'international',
   omnivaLocationId: '',
   omnivaLocationDetails: null,
   agreeToTerms: false,
@@ -73,9 +73,9 @@ export const forgotPasswordDefaultValues = {
 
 export const DELIVERY_METHODS = [
   {
-    id: 'home',
-    name: 'Home Delivery',
-    description: 'Delivery to your address',
+    id: 'international',
+    name: 'International Shipping',
+    description: 'Worldwide delivery',
     price: 10.00,
   },
   {

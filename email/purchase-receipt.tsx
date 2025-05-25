@@ -23,7 +23,7 @@ export default function PurchaseReceiptEmail({ order }: OrderInformationProps) {
             <Column>
               <Text className='text-[#666666] text-sm mb-1'>Order ID</Text>
               <Text className='text-[#1D1D1F] font-medium'>
-                {order.id.toString()}
+                {order.userFacingId}
               </Text>
             </Column>
             <Column>

@@ -8,9 +8,18 @@ import { prisma } from '@/db/prisma';
 import { cartItemSchema, insertCartSchema } from '../validators';
 import { revalidatePath } from 'next/cache';
 import { Prisma } from '@prisma/client';
-import { DELIVERY_METHODS } from '../constants';
+import { DELIVERY_METHODS, INTERNATIONAL_SHIPPING_RATES } from '../constants';
 import { dict } from '../dict';
 import { getDictionary } from '@/lib/dictionary';
+
+// Calculate total weight of items in cart
+const calculateTotalWeight = (items: CartItem[]) => {
+  return items.reduce((sum, item) => {
+    const itemWeight = parseFloat(item.weight?.toString() || '0');
+    const itemQty = parseInt(item.qty.toString());
+    return sum + (itemWeight * itemQty);
+  }, 0);
+};
 
 // Calculate cart prices
 const calcPrice = (items: CartItem[], deliveryMethod: string = 'international') => {
@@ -23,7 +32,17 @@ const calcPrice = (items: CartItem[], deliveryMethod: string = 'international') 
   // Calculate shipping price based on delivery method
   let shippingPrice = 0;
   if (deliveryMethod === DELIVERY_METHODS.INTERNATIONAL) {
-    shippingPrice = 15; // International shipping base price
+    const totalWeight = calculateTotalWeight(items);
+    
+    if (totalWeight <= INTERNATIONAL_SHIPPING_RATES.LIGHT.maxWeight) {
+      shippingPrice = INTERNATIONAL_SHIPPING_RATES.LIGHT.price;
+    } else if (totalWeight <= INTERNATIONAL_SHIPPING_RATES.MEDIUM.maxWeight) {
+      shippingPrice = INTERNATIONAL_SHIPPING_RATES.MEDIUM.price;
+    } else {
+      // For weights above 5kg, use the MEDIUM rate plus €2 per additional kg
+      const extraWeight = Math.ceil(totalWeight - INTERNATIONAL_SHIPPING_RATES.MEDIUM.maxWeight);
+      shippingPrice = INTERNATIONAL_SHIPPING_RATES.MEDIUM.price + (extraWeight * 2);
+    }
   } else if (deliveryMethod === DELIVERY_METHODS.OMNIVA) {
     shippingPrice = 3.10; // Omniva fixed price
   }
@@ -124,12 +143,15 @@ export async function addItemToCart(data: CartItem) {
         cart.items.push(item);
       }
 
+      // Get current delivery method
+      const currentDeliveryMethod = cart.deliveryMethod || 'international';
+
       // Save to database
       await prisma.cart.update({
         where: { id: cart.id },
         data: {
           items: cart.items as Prisma.CartUpdateitemsInput[],
-          ...calcPrice(cart.items as CartItem[], cart.deliveryMethod),
+          ...calcPrice(cart.items as CartItem[], currentDeliveryMethod),
         },
       });
 
@@ -217,12 +239,15 @@ export async function removeItemFromCart(productId: string) {
         exist.qty - 1;
     }
 
+    // Get current delivery method and calculate prices accordingly
+    const currentDeliveryMethod = cart.deliveryMethod || 'international';
+
     // Update cart in database
     await prisma.cart.update({
       where: { id: cart.id },
       data: {
         items: cart.items as Prisma.CartUpdateitemsInput[],
-        ...calcPrice(cart.items as CartItem[]),
+        ...calcPrice(cart.items as CartItem[], currentDeliveryMethod),
       },
     });
 
@@ -251,11 +276,17 @@ export async function updateCartDeliveryMethod(deliveryMethod: 'international' |
     const cart = await getMyCart();
     if (!cart) throw new Error('Cart not found');
 
+    // Calculate new prices based on delivery method
+    const newPrices = calcPrice(cart.items as CartItem[], deliveryMethod);
+
     await prisma.cart.update({
       where: { id: cart.id },
       data: {
         deliveryMethod,
-        ...calcPrice(cart.items as CartItem[], deliveryMethod),
+        itemsPrice: newPrices.itemsPrice,
+        shippingPrice: newPrices.shippingPrice,
+        taxPrice: newPrices.taxPrice,
+        totalPrice: newPrices.totalPrice
       },
     });
 
@@ -265,12 +296,13 @@ export async function updateCartDeliveryMethod(deliveryMethod: 'international' |
     return {
       success: true,
       message: 'Delivery method updated',
+      prices: newPrices
     };
   } catch (error) {
     console.error('Error updating delivery method:', error);
     return {
       success: false,
-      message: 'Failed to update delivery method',
+      message: 'Failed to update delivery method'
     };
   }
 }

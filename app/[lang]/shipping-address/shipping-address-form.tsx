@@ -29,6 +29,7 @@ import { updateCartDeliveryMethod } from '@/lib/actions/cart.actions';
 import { Locale } from '@/config/i18n.config';
 import { getDictionary } from '@/lib/dictionary';
 import LoadingSpinner from '@/components/ui/loading-spinner';
+import { getMyCart } from '@/lib/actions/cart.actions';
 
 interface ShippingAddressFormProps {
   address: ShippingAddress;
@@ -48,6 +49,22 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
 
     loadDictionary();
   }, [lang]);
+
+  // Get cart to sync delivery method
+  useEffect(() => {
+    const syncCartDeliveryMethod = async () => {
+      try {
+        const cart = await getMyCart();
+        if (cart?.deliveryMethod) {
+          form.setValue('deliveryMethod', cart.deliveryMethod);
+        }
+      } catch (error) {
+        console.error('Error syncing cart delivery method:', error);
+      }
+    };
+
+    syncCartDeliveryMethod();
+  }, []);
 
   const form = useForm<z.infer<typeof shippingAddressSchema>>({
     resolver: zodResolver(shippingAddressSchema),

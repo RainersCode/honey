@@ -75,3 +75,14 @@ export const DELIVERY_METHODS = {
   INTERNATIONAL: 'international',
   OMNIVA: 'omniva'
 } as const;
+
+export const INTERNATIONAL_SHIPPING_RATES = {
+  LIGHT: {
+    maxWeight: 1.0, // 0kg - 1kg
+    price: 7
+  },
+  MEDIUM: {
+    maxWeight: 5.0, // 1.1kg - 5kg
+    price: 12
+  }
+} as const;

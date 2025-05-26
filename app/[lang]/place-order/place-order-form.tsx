@@ -87,27 +87,33 @@ const PlaceOrderForm = ({ cart, user, lang }: PlaceOrderFormProps) => {
               <span className="font-medium">{dict.placeOrder.shipping.name}:</span>{' '}
               {user.address?.fullName}
             </p>
-            {user.address?.deliveryMethod === 'home' ? (
+            <p className="text-sm text-gray-600">
+              <span className="font-medium">{dict.placeOrder.shipping.phone}:</span>{' '}
+              {user.address?.phoneNumber}
+            </p>
+            {cart.deliveryMethod === 'international' ? (
               <>
                 <p className="text-sm text-gray-600">
                   <span className="font-medium">{dict.placeOrder.shipping.address}:</span>{' '}
                   {user.address?.streetAddress}, {user.address?.city}, {user.address?.postalCode}, {user.address?.country}
                 </p>
+                <p className="text-sm text-gray-600">
+                  <span className="font-medium">{dict.placeOrder.shipping.method}:</span>{' '}
+                  International Shipping
+                </p>
               </>
             ) : (
-              <p className="text-sm text-gray-600">
-                <span className="font-medium">{dict.placeOrder.shipping.omnivaLocation}:</span>{' '}
-                {user.address?.omnivaLocationDetails?.name}, {user.address?.omnivaLocationDetails?.address}
-              </p>
+              <>
+                <p className="text-sm text-gray-600">
+                  <span className="font-medium">{dict.placeOrder.shipping.omnivaLocation}:</span>{' '}
+                  {user.address?.omnivaLocationDetails?.name}, {user.address?.omnivaLocationDetails?.address}
+                </p>
+                <p className="text-sm text-gray-600">
+                  <span className="font-medium">{dict.placeOrder.shipping.method}:</span>{' '}
+                  Omniva Pickup
+                </p>
+              </>
             )}
-            <p className="text-sm text-gray-600">
-              <span className="font-medium">{dict.placeOrder.shipping.phone}:</span>{' '}
-              {user.address?.phoneNumber}
-            </p>
-            <p className="text-sm text-gray-600">
-              <span className="font-medium">{dict.placeOrder.shipping.method}:</span>{' '}
-              {user.address?.deliveryMethod === 'home' ? dict.placeOrder.shipping.homeDelivery : dict.placeOrder.shipping.omnivaPickup}
-            </p>
           </div>
         </CardContent>
       </Card>

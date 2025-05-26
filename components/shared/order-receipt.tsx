@@ -101,11 +101,21 @@ const OrderReceipt = ({ order, dict }: OrderReceiptProps) => (
       <View style={styles.section}>
         <Text style={styles.title}>{dict.shipping.title}</Text>
         <Text style={styles.orderInfo}>{order.shippingAddress.fullName}</Text>
-        <Text style={styles.orderInfo}>{order.shippingAddress.streetAddress}</Text>
-        <Text style={styles.orderInfo}>
-          {order.shippingAddress.city}, {order.shippingAddress.postalCode}
-        </Text>
-        <Text style={styles.orderInfo}>{order.shippingAddress.country}</Text>
+        {order.shippingAddress.deliveryMethod === 'omniva' ? (
+          <>
+            <Text style={styles.orderInfo}>{dict.shipping.form.omnivaLocation}:</Text>
+            <Text style={styles.orderInfo}>{order.shippingAddress.omnivaLocationDetails?.name}</Text>
+            <Text style={styles.orderInfo}>{order.shippingAddress.omnivaLocationDetails?.address}</Text>
+          </>
+        ) : (
+          <>
+            <Text style={styles.orderInfo}>{order.shippingAddress.streetAddress}</Text>
+            <Text style={styles.orderInfo}>
+              {order.shippingAddress.city}, {order.shippingAddress.postalCode}
+            </Text>
+            <Text style={styles.orderInfo}>{order.shippingAddress.country}</Text>
+          </>
+        )}
         <Text style={styles.orderInfo}>{order.shippingAddress.phoneNumber}</Text>
       </View>
 

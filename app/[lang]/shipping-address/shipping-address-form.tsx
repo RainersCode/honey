@@ -147,7 +147,10 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                   name="omnivaLocationDetails"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.omnivaLocation}</FormLabel>
+                      <FormLabel className="text-[#1D1D1F] flex items-center">
+                        {dict.shipping.form.omnivaLocation}
+                        <span className="text-red-500 ml-1">*</span>
+                      </FormLabel>
                       <FormControl>
                         <OmnivaLocationSelector
                           value={field.value?.id}
@@ -157,7 +160,7 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                           }}
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-500" />
                     </FormItem>
                   )}
                 />

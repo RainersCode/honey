@@ -75,9 +75,9 @@ const OrderDetailsTable = ({
     let status = '';
 
     if (isPending) {
-      status = dict.paypal.loading;
+      status = dict.order.paypal.loading;
     } else if (isRejected) {
-      status = dict.paypal.error;
+      status = dict.order.paypal.error;
     }
     return status;
   };
@@ -123,7 +123,7 @@ const OrderDetailsTable = ({
           })
         }
       >
-        {isPending ? dict.buttons.processing : dict.buttons.markAsPaid}
+        {isPending ? dict.order.buttons.processing : dict.order.buttons.markAsPaid}
       </Button>
     );
   };
@@ -147,7 +147,7 @@ const OrderDetailsTable = ({
           })
         }
       >
-        {isPending ? dict.buttons.processing : dict.buttons.markAsDelivered}
+        {isPending ? dict.order.buttons.processing : dict.order.buttons.markAsDelivered}
       </Button>
     );
   };
@@ -172,7 +172,7 @@ const OrderDetailsTable = ({
         }
         className="mb-2"
       >
-        {isPending ? dict.buttons.processing : dict.buttons.markAsShipped}
+        {isPending ? dict.order.buttons.processing : dict.order.buttons.markAsShipped}
       </Button>
     );
   };
@@ -192,7 +192,7 @@ const OrderDetailsTable = ({
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center gap-2 text-[#FF7A3D] mb-8">
           <Package className="w-6 h-6" />
-          <h1 className="text-2xl font-serif">{dict.title} {formatId(id)}</h1>
+          <h1 className="text-2xl font-serif">{dict.order.title} {formatId(id)}</h1>
         </div>
         
         <div className="grid md:grid-cols-3 gap-6">
@@ -202,28 +202,40 @@ const OrderDetailsTable = ({
               <CardHeader className="border-b border-[#FFE4D2] pb-4">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-5 h-5 text-[#FF7A3D]" />
-                  <CardTitle className="text-xl font-serif">{dict.shipping.title}</CardTitle>
+                  <CardTitle className="text-xl font-serif">{dict.order.shipping.title}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="space-y-2 text-[#1D1D1F]">
                   <p className="font-medium">{shippingAddress.fullName}</p>
-                  <p className="text-muted-foreground">
-                    {shippingAddress.streetAddress}, {shippingAddress.city}{' '}
-                    {shippingAddress.postalCode}, {shippingAddress.country}
-                  </p>
-                  <p className="text-muted-foreground">{dict.shipping.phone}: {shippingAddress.phoneNumber}</p>
+                  {shippingAddress.deliveryMethod === 'omniva' ? (
+                    <>
+                      <p className="text-muted-foreground">
+                        {dict.shipping.form.omnivaLocation}:{' '}
+                        {shippingAddress.omnivaLocationDetails?.name}
+                      </p>
+                      <p className="text-muted-foreground">
+                        {shippingAddress.omnivaLocationDetails?.address}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="text-muted-foreground">
+                      {shippingAddress.streetAddress}, {shippingAddress.city}{' '}
+                      {shippingAddress.postalCode}, {shippingAddress.country}
+                    </p>
+                  )}
+                  <p className="text-muted-foreground">{dict.order.shipping.phone}: {shippingAddress.phoneNumber}</p>
                   {isDelivered ? (
                     <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
-                      {dict.shipping.deliveredAt} {formatDateTime(deliveredAt!).dateTime}
+                      {dict.order.shipping.deliveredAt} {formatDateTime(deliveredAt!).dateTime}
                     </Badge>
                   ) : isShipped ? (
                     <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">
-                      {dict.shipping.shippedAt} {formatDateTime(shippedAt!).dateTime}
+                      {dict.order.shipping.shippedAt} {formatDateTime(shippedAt!).dateTime}
                     </Badge>
                   ) : (
                     <Badge variant="destructive">
-                      {dict.shipping.notShipped}
+                      {dict.order.shipping.notShipped}
                     </Badge>
                   )}
                 </div>
@@ -235,19 +247,19 @@ const OrderDetailsTable = ({
               <CardHeader className="border-b border-[#FFE4D2] pb-4">
                 <div className="flex items-center gap-2">
                   <CreditCard className="w-5 h-5 text-[#FF7A3D]" />
-                  <CardTitle className="text-xl font-serif">{dict.payment.title}</CardTitle>
+                  <CardTitle className="text-xl font-serif">{dict.order.payment.title}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="space-y-2 text-[#1D1D1F]">
-                  <p className="font-medium">{dict.payment.method}: {paymentMethod}</p>
+                  <p className="font-medium">{dict.order.payment.method}: {paymentMethod}</p>
                   {isPaid ? (
                     <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
-                      {dict.payment.paidAt} {formatDateTime(paidAt!).dateTime}
+                      {dict.order.payment.paidAt} {formatDateTime(paidAt!).dateTime}
                     </Badge>
                   ) : (
                     <Badge variant="destructive">
-                      {dict.payment.notPaid}
+                      {dict.order.payment.notPaid}
                     </Badge>
                   )}
 
@@ -286,18 +298,18 @@ const OrderDetailsTable = ({
               <CardHeader className="border-b border-[#FFE4D2] pb-4">
                 <div className="flex items-center gap-2">
                   <Package className="w-5 h-5 text-[#FF7A3D]" />
-                  <CardTitle className="text-xl font-serif">{dict.items.title}</CardTitle>
+                  <CardTitle className="text-xl font-serif">{dict.order.items.title}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="pt-4">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{dict.items.image}</TableHead>
-                      <TableHead>{dict.items.name}</TableHead>
-                      <TableHead>{dict.items.quantity}</TableHead>
-                      <TableHead>{dict.items.price}</TableHead>
-                      <TableHead>{dict.items.total}</TableHead>
+                      <TableHead>{dict.order.items.image}</TableHead>
+                      <TableHead>{dict.order.items.name}</TableHead>
+                      <TableHead>{dict.order.items.quantity}</TableHead>
+                      <TableHead>{dict.order.items.price}</TableHead>
+                      <TableHead>{dict.order.items.total}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -338,24 +350,24 @@ const OrderDetailsTable = ({
           <div>
             <Card className="bg-white/90 backdrop-blur-[2px] shadow-md hover:shadow-lg transition-shadow duration-300 sticky top-4">
               <CardHeader className="border-b border-[#FFE4D2] pb-4">
-                <CardTitle className="text-xl font-serif">{dict.summary.title}</CardTitle>
+                <CardTitle className="text-xl font-serif">{dict.order.summary.title}</CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <p className="text-muted-foreground">{dict.summary.items}</p>
+                    <p className="text-muted-foreground">{dict.order.summary.items}</p>
                     <p className="font-medium">{formatCurrency(itemsPrice)}</p>
                   </div>
                   <div className="flex justify-between">
-                    <p className="text-muted-foreground">{dict.summary.shipping}</p>
+                    <p className="text-muted-foreground">{dict.order.summary.shipping}</p>
                     <p className="font-medium">{formatCurrency(shippingPrice)}</p>
                   </div>
                   <div className="flex justify-between">
-                    <p className="text-muted-foreground">{dict.summary.tax}</p>
+                    <p className="text-muted-foreground">{dict.order.summary.tax}</p>
                     <p className="font-medium">{formatCurrency(taxPrice)}</p>
                   </div>
                   <div className="flex justify-between border-t pt-2">
-                    <p className="font-medium">{dict.summary.total}</p>
+                    <p className="font-medium">{dict.order.summary.total}</p>
                     <p className="font-medium">{formatCurrency(totalPrice)}</p>
                   </div>
                 </div>

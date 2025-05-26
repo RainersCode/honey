@@ -29,14 +29,20 @@ const OrderDetailsPage = async ({
     lang: Locale;
   };
 }) => {
+  const session = await auth();
+  
+  // Redirect to login if not authenticated
+  if (!session) {
+    return redirect(`/${lang}/login?callbackUrl=/${lang}/order/${id}`);
+  }
+
   const order = await getOrderById(id);
   if (!order) notFound();
 
-  const session = await auth();
   const dict = await getDictionary(lang);
 
   // Redirect the user if they don't own the order
-  if (order.userId !== session?.user.id && session?.user.role !== 'admin') {
+  if (order.userId !== session.user.id && session.user.role !== 'admin') {
     return redirect(`/${lang}/unauthorized`);
   }
 
@@ -65,7 +71,7 @@ const OrderDetailsPage = async ({
       paypalClientId={process.env.PAYPAL_CLIENT_ID || 'sb'}
       isAdmin={session?.user?.role === 'admin' || false}
       lang={lang}
-      dict={dict.order}
+      dict={dict}
     />
   );
 };

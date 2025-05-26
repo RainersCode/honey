@@ -17,6 +17,23 @@ export const config = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   adapter: PrismaAdapter(prisma),
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+      // Handle sign out redirect
+      if (url.includes('signOut')) {
+        const redirectTo = new URL(url).searchParams.get('redirectTo');
+        if (redirectTo) {
+          return `${baseUrl}${redirectTo}`;
+        }
+        return baseUrl;
+      }
+      // Allows relative callback URLs
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    }
+  },
   providers: [
     CredentialsProvider({
       credentials: {

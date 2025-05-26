@@ -68,6 +68,7 @@ export function OmnivaLocationSelector({ value, onSelect }: OmnivaLocationSelect
           variant="outline"
           role="combobox"
           aria-expanded={open}
+          aria-required="true"
           className="w-full justify-between border-[#FFE4D2] hover:bg-[#FFF5EE] hover:border-[#FF7A3D] text-left font-normal"
         >
           {selectedLocation ? (
@@ -81,7 +82,7 @@ export function OmnivaLocationSelector({ value, onSelect }: OmnivaLocationSelect
           ) : (
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 shrink-0 text-[#FF7A3D]" />
-              <span>Select Omniva location...</span>
+              <span>Select Omniva location... *</span>
             </div>
           )}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

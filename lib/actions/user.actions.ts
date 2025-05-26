@@ -18,6 +18,7 @@ import { PAGE_SIZE } from '../constants';
 import { revalidatePath } from 'next/cache';
 import { Prisma } from '@prisma/client';
 import { getMyCart } from './cart.actions';
+import { headers } from 'next/headers';
 
 // Sign in the user with credentials
 export async function signInWithCredentials(
@@ -51,7 +52,13 @@ export async function signOutUser() {
   } else {
     console.warn('No cart found for deletion.');
   }
-  await signOut();
+
+  // Get the current language from the URL
+  const url = new URL(headers().get('referer') || '');
+  const lang = url.pathname.split('/')[1] || 'en';
+
+  // Sign out and redirect to home page
+  await signOut({ redirectTo: `/${lang}` });
 }
 
 // Sign up user

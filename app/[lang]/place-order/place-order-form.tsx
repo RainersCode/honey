@@ -51,6 +51,7 @@ const PlaceOrderForm = ({ cart, user, lang }: PlaceOrderFormProps) => {
       if (!res.success) {
         toast({
           variant: 'destructive',
+          title: 'error',
           description: res.message,
         });
         return;
@@ -61,6 +62,7 @@ const PlaceOrderForm = ({ cart, user, lang }: PlaceOrderFormProps) => {
       if (!orderId) {
         toast({
           variant: 'destructive',
+          title: 'error',
           description: 'Error getting order ID',
         });
         return;

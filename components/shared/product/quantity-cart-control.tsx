@@ -35,8 +35,25 @@ const QuantityCartControl = ({ cart, item, lang }: QuantityCartControlProps) => 
     loadDictionary();
   }, [lang]);
 
+  const calculateTotalWeight = () => {
+    if (!cart?.items) return 0;
+    return cart.items.reduce((total, cartItem) => {
+      return total + (cartItem.weight || 0) * cartItem.qty;
+    }, 0);
+  };
+
+  const wouldExceedWeightLimit = () => {
+    const currentTotalWeight = calculateTotalWeight();
+    const newItemWeight = item.weight || 0;
+    return currentTotalWeight + newItemWeight > 30;
+  };
+
   const handleAddToCart = async () => {
     if (!dict) return;
+    
+    if (wouldExceedWeightLimit()) {
+      return;
+    }
     
     startTransition(async () => {
       const res = await addItemToCart(item);
@@ -101,51 +118,57 @@ const QuantityCartControl = ({ cart, item, lang }: QuantityCartControlProps) => 
 
   if (!dict) return null;
 
-  return existItem ? (
-    <div className="flex items-center justify-center gap-2">
-      <Button 
-        type='button' 
-        variant='outline'
-        size="icon"
-        className='h-8 w-8 rounded-full border-[#FF7A3D] text-[#FF7A3D] hover:bg-[#FF7A3D] hover:text-white transition-all duration-300'
-        onClick={handleRemoveFromCart}
-        disabled={isPending}
-      >
-        {isPending ? (
-          <LoadingSpinner size="sm" />
-        ) : (
-          <Minus className='h-4 w-4' />
-        )}
-      </Button>
-      <span className='w-8 text-center font-medium'>{existItem.qty}</span>
-      <Button 
-        type='button'
-        variant='outline'
-        size="icon"
-        className='h-8 w-8 rounded-full border-[#FF7A3D] text-[#FF7A3D] hover:bg-[#FF7A3D] hover:text-white transition-all duration-300'
-        onClick={handleAddToCart}
-        disabled={isPending}
-      >
-        {isPending ? (
-          <LoadingSpinner size="sm" />
-        ) : (
-          <Plus className='h-4 w-4' />
-        )}
-      </Button>
-    </div>
-  ) : (
-    <Button 
-      className='w-full bg-[#FF7A3D] text-white hover:bg-[#ff6a2a] transition-all duration-300 group'
-      type='button' 
-      onClick={handleAddToCart}
-      disabled={isPending}
-    >
-      {isPending ? (
-        <LoadingSpinner size="sm" />
+  const isWeightLimitReached = wouldExceedWeightLimit();
+
+  return (
+    <div className="space-y-2">
+      {existItem ? (
+        <div className="flex items-center justify-center gap-2">
+          <Button 
+            type='button' 
+            variant='outline'
+            size="icon"
+            className='h-8 w-8 rounded-full border-[#FF7A3D] text-[#FF7A3D] hover:bg-[#FF7A3D] hover:text-white transition-all duration-300'
+            onClick={handleRemoveFromCart}
+            disabled={isPending}
+          >
+            {isPending ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <Minus className='h-4 w-4' />
+            )}
+          </Button>
+          <span className='w-8 text-center font-medium'>{existItem.qty}</span>
+          <Button 
+            type='button'
+            variant='outline'
+            size="icon"
+            className='h-8 w-8 rounded-full border-[#FF7A3D] text-[#FF7A3D] hover:bg-[#FF7A3D] hover:text-white transition-all duration-300'
+            onClick={handleAddToCart}
+            disabled={isPending || isWeightLimitReached}
+          >
+            {isPending ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <Plus className='h-4 w-4' />
+            )}
+          </Button>
+        </div>
       ) : (
-        dict.common.addToCart
+        <Button 
+          className='w-full bg-[#FF7A3D] text-white hover:bg-[#ff6a2a] transition-all duration-300 group'
+          type='button' 
+          onClick={handleAddToCart}
+          disabled={isPending || isWeightLimitReached}
+        >
+          {isPending ? (
+            <LoadingSpinner size="sm" />
+          ) : (
+            dict.common.addToCart
+          )}
+        </Button>
       )}
-    </Button>
+    </div>
   );
 };
 

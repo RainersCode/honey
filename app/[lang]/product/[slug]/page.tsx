@@ -120,6 +120,16 @@ const ProductDetailsPage = async ({
                   <Badge variant='destructive'>{dict.common.outOfStock}</Badge>
                 )}
               </div>
+              {product.weight && (
+                <div className='flex items-center justify-between'>
+                  <span className='text-lg text-gray-600'>
+                    {dict.common.weight}
+                  </span>
+                  <span className='text-lg font-medium text-[#1D1D1F]'>
+                    {product.weight} kg
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Add to Cart */}

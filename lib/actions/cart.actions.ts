@@ -52,6 +52,9 @@ export async function addItemToCart(data: CartItem) {
     });
     if (!product) throw new Error('Product not found');
 
+    // Add weight to item
+    item.weight = product.weight || 0;
+
     if (!cart) {
       // Create new cart object
       const newCart = insertCartSchema.parse({

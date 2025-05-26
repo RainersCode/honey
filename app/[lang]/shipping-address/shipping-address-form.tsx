@@ -154,9 +154,6 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                           onSelect={(location) => {
                             field.onChange(location);
                             form.setValue('omnivaLocationId', location.id);
-                            form.setValue('city', location.city);
-                            form.setValue('country', location.country);
-                            form.setValue('streetAddress', location.address);
                           }}
                         />
                       </FormControl>
@@ -166,123 +163,122 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                 />
               )}
 
-              {/* Show address fields only for international shipping */}
-              {deliveryMethod === 'international' && (
-                <div className="space-y-4">
-                  {/* Full Name */}
-                  <FormField
-                    control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.fullName}</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder={dict.shipping.form.fullNamePlaceholder}
-                            {...field}
-                            className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+              {/* Address Fields */}
+              <div className="space-y-4">
+                {/* Full Name */}
+                <FormField
+                  control={form.control}
+                  name="fullName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.fullName}</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder={dict.shipping.form.fullNamePlaceholder}
+                          {...field}
+                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  {/* Phone Number */}
-                  <FormField
-                    control={form.control}
-                    name="phoneNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.phoneNumber}</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder={dict.shipping.form.phoneNumberPlaceholder}
-                            {...field}
-                            className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                {/* Phone Number */}
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.phoneNumber}</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder={dict.shipping.form.phoneNumberPlaceholder}
+                          {...field}
+                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  {/* Street Address */}
-                  <FormField
-                    control={form.control}
-                    name="streetAddress"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.streetAddress}</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder={dict.shipping.form.streetAddressPlaceholder}
-                            {...field}
-                            className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                {/* Street Address */}
+                <FormField
+                  control={form.control}
+                  name="streetAddress"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.streetAddress}</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder={dict.shipping.form.streetAddressPlaceholder}
+                          {...field}
+                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="city"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.city}</FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder={dict.shipping.form.cityPlaceholder}
-                              {...field}
-                              className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                {/* City */}
+                <FormField
+                  control={form.control}
+                  name="city"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.city}</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder={dict.shipping.form.cityPlaceholder}
+                          {...field}
+                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                    <FormField
-                      control={form.control}
-                      name="postalCode"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.postalCode}</FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder={dict.shipping.form.postalCodePlaceholder}
-                              {...field}
-                              className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                {/* Postal Code */}
+                <FormField
+                  control={form.control}
+                  name="postalCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.postalCode}</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder={dict.shipping.form.postalCodePlaceholder}
+                          {...field}
+                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="country"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.country}</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder={dict.shipping.form.countryPlaceholder}
-                            {...field}
-                            className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              )}
+                {/* Country */}
+                <FormField
+                  control={form.control}
+                  name="country"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.country}</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder={dict.shipping.form.countryPlaceholder}
+                          {...field}
+                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               {/* Terms and Privacy Policy */}
               <div className="space-y-4">

@@ -85,6 +85,8 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
 
   // Ensure we're working with numbers and round to 2 decimal places
   const total = Number((subtotal + shippingCost).toFixed(2));
+  const totalWeight = calculateTotalWeight();
+  const isOverweightLimit = totalWeight > 30;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -138,20 +140,25 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
                         <p className="text-sm font-medium text-[#FF7A3D] mt-1">
                           {formatCurrency(item.price)} per item
                         </p>
+                        {item.weight > 0 && (
+                          <p className="text-sm text-gray-500">
+                            {dict.common.weight}: {item.weight}kg ({item.weight * item.qty}kg {dict.cart.total})
+                          </p>
+                        )}
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="space-y-2">
                         <QuantityCartControl cart={cart} item={item} lang={lang} />
                         <p className="text-sm text-gray-500 text-center">
-                          {item.qty} {item.qty === 1 ? 'item' : 'items'}
+                          {item.qty} {item.qty === 1 ? dict.cart.item : dict.cart.items}
                         </p>
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="space-y-1">
                         <p className="font-medium">{formatCurrency(item.price * item.qty)}</p>
-                        <p className="text-sm text-gray-500">Total</p>
+                        <p className="text-sm text-gray-500">{dict.cart.total}</p>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -180,12 +187,46 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
                 </div>
                 <div className="flex justify-between items-center text-base">
                   <div>
+                    <span className="text-gray-600 font-medium text-lg">{dict.common.weight}</span>
+                    <p className="text-base text-gray-500">Total weight</p>
+                  </div>
+                  <span className={`font-semibold text-lg ${isOverweightLimit ? 'text-red-600' : 'text-[#1D1D1F]'}`}>
+                    {totalWeight}kg {isOverweightLimit && '⚠️'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-base">
+                  <div>
                     <span className="text-gray-600 font-medium text-lg">{dict.cart.shipping}</span>
                     <p className="text-base text-gray-500">Delivery fee</p>
                   </div>
                   <span className="font-semibold text-[#1D1D1F] text-lg">{formatCurrency(shippingCost)}</span>
                 </div>
                 <div className="h-px bg-gray-200" />
+                {isOverweightLimit && (
+                  <div className="p-4 bg-[#FF7A3D]/10 border border-[#FF7A3D]/20 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        width="24" 
+                        height="24" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        className="text-[#FF7A3D]"
+                      >
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                      </svg>
+                      <p className="text-[#FF7A3D] font-medium">
+                        {dict.cart.weightLimit.exceeded}
+                      </p>
+                    </div>
+                  </div>
+                )}
                 <div className="flex justify-between items-center">
                   <div>
                     <span className="font-semibold text-[#1D1D1F] text-xl">{dict.cart.total}</span>
@@ -196,13 +237,15 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
                 <Button
                   className="w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white mt-4"
                   onClick={() => router.push(`/${lang}/shipping-address`)}
-                  disabled={isPending || !selectedShipping}
+                  disabled={isPending || !selectedShipping || isOverweightLimit}
                 >
                   {isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       {dict.cart.processing}
                     </>
+                  ) : isOverweightLimit ? (
+                    dict.cart.weightLimit.buttonText
                   ) : (
                     <>
                       {dict.cart.proceedToCheckout}

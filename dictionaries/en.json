@@ -67,7 +67,8 @@
     "available": "available",
     "description": "Description",
     "reviews": "reviews",
-    "customerReviews": "Customer Reviews"
+    "customerReviews": "Customer Reviews",
+    "weight": "Weight"
   },
   "auth": {
     "email": "Email",
@@ -241,7 +242,11 @@
   },
   "cart": {
     "title": "Shopping Cart",
-    "empty": "Your cart is empty",
+    "empty": {
+      "title": "Your cart is empty",
+      "description": "Looks like you haven't added any items to your cart yet.",
+      "action": "Start Shopping"
+    },
     "continueShopping": "Continue Shopping",
     "orderSummary": "Order Summary",
     "subtotal": "Subtotal",
@@ -249,6 +254,12 @@
     "total": "Total",
     "proceedToCheckout": "Proceed to Checkout",
     "processing": "Processing...",
+    "weightLimit": {
+      "exceeded": "Total weight exceeds the 30kg limit. Please reduce the quantity of items in your cart.",
+      "buttonText": "Weight limit exceeded (30kg max)"
+    },
+    "item": "item",
+    "items": "items",
     "deliveryMethod": {
       "title": "Delivery Method",
       "international": "International Shipping",

@@ -77,11 +77,11 @@ export const insertCartSchema = z.object({
 
 // Schema for the shipping address
 export const shippingAddressSchema = z.object({
-  fullName: z.string().min(3, 'Name must be at least 3 characters').optional(),
-  streetAddress: z.string().min(3, 'Address must be at least 3 characters').optional(),
-  city: z.string().min(3, 'City must be at least 3 characters').optional(),
-  postalCode: z.string().min(3, 'Postal code must be at least 3 characters').optional(),
-  country: z.string().min(3, 'Country must be at least 3 characters').optional(),
+  fullName: z.string().min(3, 'Name must be at least 3 characters'),
+  streetAddress: z.string().min(3, 'Address must be at least 3 characters'),
+  city: z.string().min(3, 'City must be at least 3 characters'),
+  postalCode: z.string().min(3, 'Postal code must be at least 3 characters'),
+  country: z.string().min(3, 'Country must be at least 3 characters'),
   phoneNumber: z.string().min(5, 'Phone number is required').regex(/^[+]?[\d\s-()]+$/, 'Invalid phone number format'),
   deliveryMethod: z.enum(['international', 'omniva'], {
     required_error: 'Please select a delivery method',
@@ -107,26 +107,11 @@ export const shippingAddressSchema = z.object({
 }).refine((data) => {
   // If delivery method is Omniva, require Omniva location
   if (data.deliveryMethod === 'omniva') {
-    return !!data.omnivaLocationId && !!data.omnivaLocationDetails;
-  }
-  // If delivery method is international, require address fields
-  if (data.deliveryMethod === 'international') {
-    return !!(
-      data.fullName &&
-      data.streetAddress &&
-      data.city &&
-      data.postalCode &&
-      data.country
-    );
+    return !!(data.omnivaLocationId && data.omnivaLocationDetails);
   }
   return true;
 }, {
-  message: (data) => {
-    if (data.deliveryMethod === 'omniva') {
-      return 'Please select an Omniva pickup location';
-    }
-    return 'Please fill in all address fields for international shipping';
-  },
+  message: 'Please select an Omniva pickup location',
   path: ['deliveryMethod'],
 });
 

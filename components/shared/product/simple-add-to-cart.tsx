@@ -44,7 +44,7 @@ const SimpleAddToCart = ({ item, lang }: SimpleAddToCartProps) => {
       if (!res.success) {
         toast({
           variant: 'destructive',
-          title: 'Error',
+          title: 'error',
           description: res.message || 'Failed to add item to cart',
         });
         return;
@@ -54,7 +54,7 @@ const SimpleAddToCart = ({ item, lang }: SimpleAddToCartProps) => {
       await updateCart();
 
       toast({
-        title: 'Success',
+        title: 'success',
         description: res.message || 'Item added to cart',
         action: (
           <ToastAction

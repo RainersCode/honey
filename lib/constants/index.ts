@@ -82,6 +82,6 @@ export const DELIVERY_METHODS = [
     id: 'omniva',
     name: 'Omniva Parcel Machine',
     description: 'Pickup from Omniva parcel locker',
-    price: 2.80,
+    price: 3.10,
   },
 ] as const;

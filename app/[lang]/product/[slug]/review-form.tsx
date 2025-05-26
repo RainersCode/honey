@@ -99,6 +99,7 @@ const ReviewForm = ({
     if (!res.success) {
       return toast({
         variant: 'destructive',
+        title: 'error',
         description: res.message,
       });
     }
@@ -108,6 +109,7 @@ const ReviewForm = ({
     onReviewSubmitted();
 
     toast({
+      title: 'success',
       description: res.message,
     });
   };

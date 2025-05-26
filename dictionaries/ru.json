@@ -17,7 +17,8 @@
     "available": "доступно",
     "description": "Описание",
     "reviews": "отзывов",
-    "customerReviews": "Отзывы покупателей"
+    "customerReviews": "Отзывы покупателей",
+    "weight": "Вес"
   },
   "auth": {
     "email": "Эл. почта",
@@ -191,14 +192,22 @@
   },
   "cart": {
     "title": "Корзина",
-    "empty": "Ваша корзина пуста",
+    "empty": {
+      "title": "Ваша корзина пуста",
+      "description": "Похоже, вы еще не добавили товары в корзину.",
+      "action": "Начать покупки"
+    },
     "continueShopping": "Продолжить Покупки",
-    "orderSummary": "Сводка Заказа",
+    "orderSummary": "Сводка заказа",
     "subtotal": "Подытог",
     "shipping": "Доставка",
     "total": "Итого",
-    "proceedToCheckout": "Перейти к Оформлению",
+    "proceedToCheckout": "Перейти к оформлению",
     "processing": "Обработка...",
+    "weightLimit": {
+      "exceeded": "Общий вес превышает лимит в 30кг. Пожалуйста, уменьшите количество товаров в корзине.",
+      "buttonText": "Превышен лимит веса (макс 30кг)"
+    },
     "deliveryMethod": {
       "title": "Способ Доставки",
       "international": "Международная Доставка",

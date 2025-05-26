@@ -67,7 +67,8 @@
     "available": "pieejams",
     "description": "Apraksts",
     "reviews": "atsauksmes",
-    "customerReviews": "Klientu atsauksmes"
+    "customerReviews": "Klientu atsauksmes",
+    "weight": "Svars"
   },
   "auth": {
     "email": "E-pasts",
@@ -244,18 +245,20 @@
     "empty": {
       "title": "Jūsu grozs ir tukšs",
       "description": "Izskatās, ka jūs vēl neesat pievienojis nevienu preci grozam.",
-      "action": "Turpināt iepirkties"
+      "action": "Sākt iepirkties"
     },
-    "items": "Preces grozā",
-    "item": "Prece",
-    "quantity": "Daudzums",
-    "price": "Cena",
-    "summary": {
-      "title": "Pasūtījuma kopsavilkums",
-      "items": "Preces",
-      "total": "Kopā",
-      "checkout": "Turpināt apmaksu"
-    }
+    "orderSummary": "Pasūtījuma kopsavilkums",
+    "subtotal": "Starpsumma",
+    "shipping": "Piegāde",
+    "total": "Kopā",
+    "proceedToCheckout": "Doties uz kasi",
+    "processing": "Apstrāde...",
+    "weightLimit": {
+      "exceeded": "Kopējais svars pārsniedz 30kg limitu. Lūdzu samaziniet preču daudzumu grozā.",
+      "buttonText": "Pārsniegts svara limits (max 30kg)"
+    },
+    "item": "prece",
+    "items": "preces"
   },
   "contact": {
     "meta": {

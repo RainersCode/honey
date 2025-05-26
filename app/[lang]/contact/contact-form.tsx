@@ -68,13 +68,15 @@ const ContactForm = ({ lang }: ContactFormProps) => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       
       toast({
-        title: dict.contact.form.success,
+        title: 'success',
+        description: dict.contact.form.success,
       });
       
       form.reset();
     } catch (error) {
       toast({
-        title: dict.contact.form.error,
+        title: 'error',
+        description: dict.contact.form.error,
         variant: 'destructive',
       });
     } finally {

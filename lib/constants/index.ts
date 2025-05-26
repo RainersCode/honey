@@ -71,17 +71,7 @@ export const forgotPasswordDefaultValues = {
   email: '',
 };
 
-export const DELIVERY_METHODS = [
-  {
-    id: 'international',
-    name: 'International Shipping',
-    description: 'Worldwide delivery',
-    price: 10.00,
-  },
-  {
-    id: 'omniva',
-    name: 'Omniva Parcel Machine',
-    description: 'Pickup from Omniva parcel locker',
-    price: 3.10,
-  },
-] as const;
+export const DELIVERY_METHODS = {
+  INTERNATIONAL: 'international',
+  OMNIVA: 'omniva'
+} as const;

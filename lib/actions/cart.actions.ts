@@ -9,29 +9,46 @@ import { cartItemSchema, insertCartSchema } from '../validators';
 import { revalidatePath } from 'next/cache';
 import { Prisma } from '@prisma/client';
 import { DELIVERY_METHODS } from '../constants';
+import { dict } from '../dict';
+import { getDictionary } from '@/lib/dictionary';
 
 // Calculate cart prices
-const calcPrice = (items: CartItem[], deliveryMethod = 'international') => {
-  const itemsPrice = round2(
-      items.reduce((acc, item) => acc + Number(item.price) * item.qty, 0)
-    ),
-    // Get shipping price based on delivery method and free shipping threshold
-    shippingPrice = itemsPrice > 100 ? 0 : 
-      round2(DELIVERY_METHODS.find(method => method.id === deliveryMethod)?.price || 10),
-    // Latvian VAT rate is 21%
-    taxPrice = round2(0.21 * itemsPrice),
-    totalPrice = round2(itemsPrice + taxPrice + shippingPrice);
+const calcPrice = (items: CartItem[], deliveryMethod: string = 'international') => {
+  const itemsPrice = items.reduce((sum, item) => {
+    const itemPrice = parseFloat(item.price.toString());
+    const itemQty = parseInt(item.qty.toString());
+    return sum + (itemPrice * itemQty);
+  }, 0);
+
+  // Calculate shipping price based on delivery method
+  let shippingPrice = 0;
+  if (deliveryMethod === DELIVERY_METHODS.INTERNATIONAL) {
+    shippingPrice = 15; // International shipping base price
+  } else if (deliveryMethod === DELIVERY_METHODS.OMNIVA) {
+    shippingPrice = 3.10; // Omniva fixed price
+  }
+
+  // Calculate tax price (21%)
+  const taxPrice = round2(itemsPrice * 0.21);
+
+  // Calculate total price with rounded values
+  const roundedItemsPrice = round2(itemsPrice);
+  const roundedShippingPrice = round2(shippingPrice);
+  const totalPrice = round2(roundedItemsPrice + roundedShippingPrice + taxPrice);
 
   return {
-    itemsPrice: itemsPrice.toFixed(2),
-    shippingPrice: shippingPrice.toFixed(2),
-    taxPrice: taxPrice.toFixed(2),
-    totalPrice: totalPrice.toFixed(2),
+    itemsPrice: roundedItemsPrice,
+    shippingPrice: roundedShippingPrice,
+    taxPrice,
+    totalPrice,
   };
 };
 
 export async function addItemToCart(data: CartItem) {
   try {
+    // Get dictionary
+    const dict = await getDictionary('en'); // Default to English for server-side messages
+
     // Check for cart cookie
     const sessionCartId = (await cookies()).get('sessionCartId')?.value;
     if (!sessionCartId) throw new Error('Cart session not found');
@@ -91,7 +108,7 @@ export async function addItemToCart(data: CartItem) {
       if (existItem) {
         // Check stock
         if (product.stock < existItem.qty + 1) {
-          throw new Error('Not enough stock');
+          throw new Error(`${dict.cart.stockLimit.exceeded.replace('{stock}', product.stock.toString())}`);
         }
 
         // Increase the quantity
@@ -101,7 +118,7 @@ export async function addItemToCart(data: CartItem) {
       } else {
         // If item does not exist in cart
         // Check stock
-        if (product.stock < 1) throw new Error('Not enough stock');
+        if (product.stock < 1) throw new Error(dict.cart.stockLimit.error);
 
         // Add item to the cart.items
         cart.items.push(item);
@@ -134,7 +151,7 @@ export async function addItemToCart(data: CartItem) {
     console.error('Error adding item to cart:', error);
     return {
       success: false,
-      message: 'Failed to add item to cart',
+      message: error instanceof Error ? error.message : 'Failed to add item to cart',
     };
   }
 }

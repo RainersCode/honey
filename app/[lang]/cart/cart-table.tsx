@@ -77,14 +77,18 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
     return sum + (itemPrice * itemQty);
   }, 0) || 0;
 
-  const shippingCost = selectedShipping?.rate 
-    ? parseFloat(selectedShipping.rate.toString()) 
-    : cart?.shippingPrice 
-      ? parseFloat(cart.shippingPrice.toString()) 
+  // Get shipping cost from cart or selected shipping
+  const shippingCost = cart?.shippingPrice 
+    ? parseFloat(cart.shippingPrice.toString()) 
+    : selectedShipping?.rate 
+      ? parseFloat(selectedShipping.rate.toString()) 
       : 0;
 
+  // Calculate tax (21% of subtotal)
+  const tax = Number((subtotal * 0.21).toFixed(2));
+
   // Ensure we're working with numbers and round to 2 decimal places
-  const total = Number((subtotal + shippingCost).toFixed(2));
+  const total = Number((subtotal + shippingCost + tax).toFixed(2));
   const totalWeight = calculateTotalWeight();
   const isOverweightLimit = totalWeight > 30;
 
@@ -187,46 +191,21 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
                 </div>
                 <div className="flex justify-between items-center text-base">
                   <div>
-                    <span className="text-gray-600 font-medium text-lg">{dict.common.weight}</span>
-                    <p className="text-base text-gray-500">Total weight</p>
-                  </div>
-                  <span className={`font-semibold text-lg ${isOverweightLimit ? 'text-red-600' : 'text-[#1D1D1F]'}`}>
-                    {totalWeight}kg {isOverweightLimit && '⚠️'}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center text-base">
-                  <div>
                     <span className="text-gray-600 font-medium text-lg">{dict.cart.shipping}</span>
                     <p className="text-base text-gray-500">Delivery fee</p>
                   </div>
                   <span className="font-semibold text-[#1D1D1F] text-lg">{formatCurrency(shippingCost)}</span>
                 </div>
-                <div className="h-px bg-gray-200" />
-                {isOverweightLimit && (
-                  <div className="p-4 bg-[#FF7A3D]/10 border border-[#FF7A3D]/20 rounded-xl">
-                    <div className="flex items-center gap-3">
-                      <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        width="24" 
-                        height="24" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        strokeWidth="2" 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        className="text-[#FF7A3D]"
-                      >
-                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                        <line x1="12" y1="9" x2="12" y2="13"/>
-                        <line x1="12" y1="17" x2="12.01" y2="17"/>
-                      </svg>
-                      <p className="text-[#FF7A3D] font-medium">
-                        {dict.cart.weightLimit.exceeded}
-                      </p>
-                    </div>
+                <div className="flex justify-between items-center text-base">
+                  <div>
+                    <span className="text-gray-600 font-medium text-lg">{dict.cart.tax}</span>
+                    <p className="text-base text-gray-500">VAT (21%)</p>
                   </div>
-                )}
+                  <span className="font-semibold text-[#1D1D1F] text-lg">
+                    {formatCurrency(tax)}
+                  </span>
+                </div>
+                <div className="h-px bg-gray-200" />
                 <div className="flex justify-between items-center">
                   <div>
                     <span className="font-semibold text-[#1D1D1F] text-xl">{dict.cart.total}</span>

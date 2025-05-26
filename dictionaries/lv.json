@@ -257,6 +257,10 @@
       "exceeded": "Kopējais svars pārsniedz 30kg limitu. Lūdzu samaziniet preču daudzumu grozā.",
       "buttonText": "Pārsniegts svara limits (max 30kg)"
     },
+    "stockLimit": {
+      "exceeded": "Nevar pievienot vairāk preču. Noliktavā pieejamas tikai {stock} vienības.",
+      "error": "Nav pietiekami daudz preču noliktavā"
+    },
     "item": "prece",
     "items": "preces"
   },

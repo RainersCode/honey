@@ -258,6 +258,10 @@
       "exceeded": "Total weight exceeds the 30kg limit. Please reduce the quantity of items in your cart.",
       "buttonText": "Weight limit exceeded (30kg max)"
     },
+    "stockLimit": {
+      "exceeded": "Cannot add more items. Only {stock} items available in stock.",
+      "error": "Not enough items in stock"
+    },
     "item": "item",
     "items": "items",
     "deliveryMethod": {

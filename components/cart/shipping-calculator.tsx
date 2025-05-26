@@ -12,6 +12,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { DELIVERY_METHODS } from '@/lib/constants';
 import { OmnivaLocationSelector } from '@/components/shared/omniva-location-selector';
+import { updateCartDeliveryMethod } from '@/lib/actions/cart.actions';
 
 // Add a comprehensive list of countries
 const countries = [
@@ -113,17 +114,39 @@ export default function ShippingCalculator({ cartWeight, onRateSelect }: Shippin
     }
   };
 
-  const handleMethodSelect = (method: 'international' | 'omniva') => {
+  const handleShippingMethodChange = async (method: 'international' | 'omniva') => {
     setSelectedMethod(method);
-    if (method === 'omniva') {
-      setShowOmnivaSelector(true);
-      const omnivaRate = DELIVERY_METHODS.find(m => m.id === 'omniva');
-      if (omnivaRate) {
-        onRateSelect({ service: 'Omniva Parcel Machine', rate: omnivaRate.price });
+    setShowOmnivaSelector(method === 'omniva');
+    
+    try {
+      // Update cart with the new delivery method
+      const result = await updateCartDeliveryMethod(method);
+      
+      if (!result.success) {
+        toast({
+          title: "Error",
+          description: "Failed to update delivery method",
+          variant: "destructive",
+        });
+        return;
       }
-    } else {
-      setShowOmnivaSelector(false);
-      setShippingRates([]);
+
+      // Set default rates based on method
+      if (method === 'omniva') {
+        onRateSelect({
+          service: 'Omniva Pickup',
+          rate: 3.10
+        });
+      } else {
+        // For international, we'll let the calculator determine the exact rate
+        setShippingRates([]);
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update delivery method",
+        variant: "destructive",
+      });
     }
   };
 
@@ -136,7 +159,7 @@ export default function ShippingCalculator({ cartWeight, onRateSelect }: Shippin
         <div className="space-y-4">
           <RadioGroup
             value={selectedMethod}
-            onValueChange={(value: 'international' | 'omniva') => handleMethodSelect(value)}
+            onValueChange={(value: 'international' | 'omniva') => handleShippingMethodChange(value)}
             className="grid grid-cols-2 gap-4"
           >
             <div className="flex items-center space-x-2">

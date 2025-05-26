@@ -34,11 +34,16 @@ const PaymentMethodForm = ({ paymentMethod = 'Stripe', lang }: PaymentMethodForm
   const router = useRouter();
   const { toast } = useToast();
   const [dict, setDict] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadDictionary = async () => {
-      const dictionary = await getDictionary(lang);
-      setDict(dictionary);
+      try {
+        const dictionary = await getDictionary(lang);
+        setDict(dictionary);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     loadDictionary();
@@ -47,7 +52,7 @@ const PaymentMethodForm = ({ paymentMethod = 'Stripe', lang }: PaymentMethodForm
   const form = useForm<z.infer<typeof paymentMethodSchema>>({
     resolver: zodResolver(paymentMethodSchema),
     defaultValues: {
-      type: paymentMethod,
+      type: paymentMethod || 'Stripe',
     },
   });
 
@@ -55,21 +60,34 @@ const PaymentMethodForm = ({ paymentMethod = 'Stripe', lang }: PaymentMethodForm
 
   const onSubmit = async (values: z.infer<typeof paymentMethodSchema>) => {
     startTransition(async () => {
-      const res = await updateUserPaymentMethod(values);
+      try {
+        const res = await updateUserPaymentMethod(values);
 
-      if (!res.success) {
+        if (!res.success) {
+          toast({
+            variant: 'destructive',
+            description: res.message,
+          });
+          return;
+        }
+
+        router.push(`/${lang}/place-order`);
+      } catch (error) {
         toast({
           variant: 'destructive',
-          description: res.message,
+          description: dict?.payment?.form?.errors?.update || 'Failed to update payment method',
         });
-        return;
       }
-
-      router.push(`/${lang}/place-order`);
     });
   };
 
-  if (!dict) return null;
+  if (isLoading || !dict) {
+    return (
+      <div className="flex justify-center items-center min-h-[200px]">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <Form {...form}>

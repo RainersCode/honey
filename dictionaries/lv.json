@@ -764,8 +764,9 @@
     }
   },
   "user": {
-    "profile": "Lietotāja profils",
-    "orders": "Pasūtījumu vēsture"
+    "profile": "Lietotāja Profils",
+    "orders": "Pasūtījumu Vēsture",
+    "updateProfile": "Atjaunināt Profilu"
   },
   "footer": {
     "description": "Nesam dabas saldumu tieši no mūsu saimniecības uz jūsu galdu.",
@@ -831,5 +832,18 @@
         "quote": "Medus ir ne tikai garšīgs, bet arī viņu serviss ir lielisks. Vienmēr svaigs un piegādāts ar rūpību."
       }
     ]
+  },
+  "orders": {
+    "description": "Skatiet un sekojiet visiem saviem pasūtījumiem vienuviet",
+    "id": "ID",
+    "date": "Datums",
+    "total": "Kopā",
+    "paid": "Apmaksāts",
+    "delivered": "Piegādāts",
+    "actions": "Darbības",
+    "details": "Detaļas",
+    "notPaid": "Nav Apmaksāts",
+    "notDelivered": "Nav Piegādāts",
+    "downloadReceipt": "Lejupielādēt Kvīti"
   }
 } 

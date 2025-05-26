@@ -477,7 +477,18 @@
     "receipt": {
       "download": "Download Receipt",
       "error": "Failed to generate receipt"
-    }
+    },
+    "description": "View and track all your orders in one place",
+    "id": "ID",
+    "date": "Date",
+    "total": "Total",
+    "paid": "Paid",
+    "delivered": "Delivered",
+    "actions": "Actions",
+    "details": "Details",
+    "notPaid": "Not Paid",
+    "notDelivered": "Not Delivered",
+    "downloadReceipt": "Download Receipt"
   },
   "privacy": {
     "meta": {
@@ -785,7 +796,21 @@
   },
   "user": {
     "profile": "User Profile",
-    "orders": "Order History"
+    "orders": "Order History",
+    "updateProfile": "Update Profile"
+  },
+  "orders": {
+    "description": "View and track all your orders in one place",
+    "id": "ID",
+    "date": "Date",
+    "total": "Total",
+    "paid": "Paid",
+    "delivered": "Delivered",
+    "actions": "Actions",
+    "details": "Details",
+    "notPaid": "Not Paid",
+    "notDelivered": "Not Delivered",
+    "downloadReceipt": "Download Receipt"
   },
   "footer": {
     "description": "Bringing nature's sweetness directly from our farm to your table.",

@@ -132,8 +132,8 @@ const OrderReceipt = ({ order, dict }: OrderReceiptProps) => (
           </View>
           
           {/* Table Rows */}
-          {order.orderitems.map((item) => (
-            <View key={item.id} style={styles.tableRow}>
+          {order.orderitems?.map((item) => (
+            <View key={item.productId} style={styles.tableRow}>
               <Text style={styles.tableCell}>{item.name}</Text>
               <Text style={styles.tableCell}>{item.qty}</Text>
               <Text style={styles.tableCell}>${Number(item.price).toFixed(2)}</Text>

@@ -285,6 +285,10 @@ export async function getMyOrders({
     orderBy: { createdAt: 'desc' },
     take: limit,
     skip: (page - 1) * limit,
+    include: {
+      orderitems: true,
+      user: { select: { name: true, email: true } },
+    },
   });
 
   const dataCount = await prisma.order.count({

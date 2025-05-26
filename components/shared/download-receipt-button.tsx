@@ -1,0 +1,55 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
+import { Download } from 'lucide-react';
+import { Order } from '@/types';
+import { pdf } from '@react-pdf/renderer';
+import OrderReceipt from './order-receipt';
+import React from 'react';
+
+interface DownloadReceiptButtonProps {
+  order: Order;
+  dict: any;
+  title: string;
+}
+
+export default function DownloadReceiptButton({ order, dict, title }: DownloadReceiptButtonProps) {
+  const handleDownload = async () => {
+    try {
+      // Generate PDF blob
+      const blob = await pdf(
+        React.createElement(OrderReceipt, { order, dict })
+      ).toBlob();
+
+      // Create URL for the blob
+      const url = URL.createObjectURL(blob);
+
+      // Create a link element
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `order-${order.userFacingId}.pdf`;
+
+      // Append link to document, click it, and remove it
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Clean up the URL object
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error generating receipt:', error);
+    }
+  };
+
+  return (
+    <Button 
+      onClick={handleDownload}
+      variant="ghost" 
+      size="icon"
+      className="text-[#FF7A3D] hover:text-[#ff6a24] transition-colors duration-200"
+      title={title}
+    >
+      <Download className="h-4 w-4" />
+    </Button>
+  );
+} 

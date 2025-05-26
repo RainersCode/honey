@@ -33,6 +33,7 @@ import { Package, CreditCard, Truck, MapPin, Pencil, Download } from 'lucide-rea
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import { Locale } from '@/config/i18n.config';
 import { generateReceipt } from '@/lib/utils/generate-receipt';
+import DownloadReceiptButton from '@/components/shared/download-receipt-button';
 
 interface OrderDetailsTableProps {
   order: Omit<Order, 'paymentResult'>;
@@ -377,6 +378,17 @@ const OrderDetailsTable = ({
                   <div className="mt-6 space-y-2">
                     {!isShipped && <MarkAsShippedButton />}
                     {isShipped && <MarkAsDeliveredButton />}
+                  </div>
+                )}
+
+                {/* Download Receipt Button */}
+                {order.isPaid && (
+                  <div className="mb-2">
+                    <DownloadReceiptButton 
+                      order={order}
+                      dict={dict}
+                      title={dict.orders.downloadReceipt}
+                    />
                   </div>
                 )}
               </CardContent>

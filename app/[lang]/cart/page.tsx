@@ -4,11 +4,11 @@ import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 
 export async function generateMetadata({
-  params: { lang }
+  params,
 }: {
   params: { lang: Locale };
 }) {
-  const dict = await getDictionary(lang);
+  const dict = await getDictionary(params.lang);
 
   return {
     title: dict.cart.title,
@@ -16,11 +16,12 @@ export async function generateMetadata({
 }
 
 const CartPage = async ({
-  params: { lang }
+  params,
 }: {
   params: { lang: Locale };
 }) => {
   const cart = await getMyCart();
+  const lang = params.lang;
 
   return (
     <CartTable cart={cart} lang={lang} />

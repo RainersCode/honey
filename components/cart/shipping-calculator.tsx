@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
@@ -30,37 +30,39 @@ export default function ShippingCalculator({ cartWeight, onRateSelect }: Shippin
     }
   };
 
-  const handleShippingMethodChange = async (method: 'international' | 'omniva') => {
-    // First, calculate and update the rate before changing the method
-    const newRate = method === 'omniva' 
-      ? { service: 'Omniva Pickup', rate: 3.10 }
-      : { service: 'International Shipping', rate: calculateInternationalRate(cartWeight) };
-    
-    // Update the rate immediately
-    onRateSelect(newRate);
-    
-    // Then update the UI state
-    setSelectedMethod(method);
-    setShowOmnivaSelector(method === 'omniva');
-    
-    try {
-      const result = await updateCartDeliveryMethod(method);
+  // Apply initial shipping rate
+  useEffect(() => {
+    const applyShippingRate = async () => {
+      const rate = selectedMethod === 'omniva' 
+        ? { service: 'Omniva Pickup', rate: 3.10 }
+        : { service: 'International Shipping', rate: calculateInternationalRate(cartWeight) };
       
-      if (!result.success) {
+      onRateSelect(rate);
+      
+      try {
+        const result = await updateCartDeliveryMethod(selectedMethod);
+        if (!result.success) {
+          toast({
+            title: "Error",
+            description: "Failed to update delivery method",
+            variant: "destructive",
+          });
+        }
+      } catch (error) {
         toast({
           title: "Error",
           description: "Failed to update delivery method",
           variant: "destructive",
         });
-        return;
       }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to update delivery method",
-        variant: "destructive",
-      });
-    }
+    };
+
+    applyShippingRate();
+  }, [selectedMethod, cartWeight]); // Only re-run when method or weight changes
+
+  const handleShippingMethodChange = async (method: 'international' | 'omniva') => {
+    setSelectedMethod(method);
+    setShowOmnivaSelector(method === 'omniva');
   };
 
   return (

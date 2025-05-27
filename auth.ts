@@ -6,6 +6,8 @@ import { prisma } from '@/db/prisma';
 import { cookies } from 'next/headers';
 import { compare } from './lib/encrypt';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { calcPrice } from './lib/calcPrice';
+import { CartItem } from '@/types/cart';
 
 export const config = {
   pages: {
@@ -32,7 +34,7 @@ export const config = {
       // Allows callback URLs on the same origin
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
-    }
+    },
   },
   providers: [
     CredentialsProvider({
@@ -119,10 +121,22 @@ export const config = {
                 where: { userId: user.id },
               });
 
-              // Assign new cart
+              // Calculate prices for the cart
+              const prices = await calcPrice(
+                sessionCart.items as CartItem[],
+                sessionCart.deliveryMethod || 'international'
+              );
+
+              // Assign new cart with updated prices
               await prisma.cart.update({
                 where: { id: sessionCart.id },
-                data: { userId: user.id },
+                data: {
+                  userId: user.id,
+                  itemsPrice: prices.itemsPrice.toString(),
+                  shippingPrice: prices.shippingPrice.toString(),
+                  taxPrice: prices.taxPrice.toString(),
+                  totalPrice: prices.totalPrice.toString(),
+                },
               });
             }
           }

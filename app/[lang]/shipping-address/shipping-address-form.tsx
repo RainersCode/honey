@@ -71,6 +71,7 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
   const [validCountryCodes, setValidCountryCodes] = useState<Set<string>>(
     new Set()
   );
+  const [omnivaError, setOmnivaError] = useState(false);
 
   useEffect(() => {
     const loadDictionary = async () => {
@@ -137,6 +138,9 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
   }, [deliveryMethod, toast]);
 
   const onSubmit = async (values: z.infer<typeof shippingAddressSchema>) => {
+    // Reset error state
+    setOmnivaError(false);
+
     // Validate country selection
     if (
       values.deliveryMethod === 'international' &&
@@ -145,6 +149,21 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
       toast({
         variant: 'destructive',
         description: 'Selected country is not available for shipping',
+      });
+      return;
+    }
+
+    // Validate Omniva location selection
+    if (
+      values.deliveryMethod === 'omniva' &&
+      (!values.omnivaLocationId || !values.omnivaLocationDetails)
+    ) {
+      setOmnivaError(true);
+      toast({
+        variant: 'destructive',
+        description:
+          dict?.shipping.form.selectOmnivaLocation ||
+          'Please select an Omniva pickup location',
       });
       return;
     }
@@ -183,7 +202,15 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                     </FormLabel>
                     <FormControl>
                       <RadioGroup
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          // Reset Omniva location and error when switching delivery methods
+                          if (value !== 'omniva') {
+                            form.setValue('omnivaLocationId', '');
+                            form.setValue('omnivaLocationDetails', undefined);
+                          }
+                          setOmnivaError(false);
+                        }}
                         defaultValue={field.value}
                         className='grid grid-cols-2 gap-4'
                       >
@@ -218,28 +245,93 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
 
               {/* Omniva Location Selector */}
               {deliveryMethod === 'omniva' && (
-                <FormField
-                  control={form.control}
-                  name='omnivaLocationDetails'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className='text-[#1D1D1F] flex items-center'>
-                        {dict.shipping.form.omnivaLocation}
-                        <span className='text-red-500 ml-1'>*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <OmnivaLocationSelector
-                          value={field.value?.id}
-                          onSelect={(location) => {
-                            field.onChange(location);
-                            form.setValue('omnivaLocationId', location.id);
+                <>
+                  <FormField
+                    control={form.control}
+                    name='country'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className='text-[#1D1D1F]'>
+                          {dict.shipping.form.country}
+                          <span className='text-red-500 ml-1'>*</span>
+                        </FormLabel>
+                        <Select
+                          onValueChange={(value) => {
+                            if (!validCountryCodes.has(value)) {
+                              toast({
+                                variant: 'destructive',
+                                description:
+                                  'Selected country is not available for shipping',
+                              });
+                              return;
+                            }
+                            field.onChange(value);
                           }}
-                        />
-                      </FormControl>
-                      <FormMessage className='text-red-500' />
-                    </FormItem>
-                  )}
-                />
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className='border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]'>
+                              <SelectValue
+                                placeholder={
+                                  dict.shipping.form.countryPlaceholder
+                                }
+                              >
+                                {field.value && (
+                                  <div className='flex items-center'>
+                                    <CountryFlag countryCode={field.value} />
+                                    {
+                                      countries.find(
+                                        (c) => c.code === field.value
+                                      )?.name
+                                    }
+                                  </div>
+                                )}
+                              </SelectValue>
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {countries.map((country) => (
+                              <SelectItem
+                                key={country.code}
+                                value={country.code}
+                                className='flex items-center'
+                              >
+                                <CountryFlag countryCode={country.code} />
+                                {country.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name='omnivaLocationDetails'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className='text-[#1D1D1F] flex items-center'>
+                          {dict.shipping.form.omnivaLocation}
+                          <span className='text-red-500 ml-1'>*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <OmnivaLocationSelector
+                            value={field.value?.id}
+                            onSelect={(location) => {
+                              field.onChange(location);
+                              form.setValue('omnivaLocationId', location.id);
+                              setOmnivaError(false);
+                            }}
+                            error={omnivaError}
+                          />
+                        </FormControl>
+                        <FormMessage className='text-red-500' />
+                      </FormItem>
+                    )}
+                  />
+                </>
               )}
 
               {/* Address Fields */}

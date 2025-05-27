@@ -60,20 +60,34 @@ export const signUpFormSchema = z
 
 // Cart Schemas
 export const cartItemSchema = z.object({
-  productId: z.string().min(1, 'Product is required'),
-  name: z.string().min(1, 'Name is required'),
-  slug: z.string().min(1, 'Slug is required'),
-  qty: z.number().int().nonnegative('Quantity must be a positive number'),
-  image: z.string().min(1, 'Image is required'),
-  price: currency,
+  productId: z.string().min(1, 'Product ID is required'),
+  name: z.string().min(1, 'Product name is required'),
+  description: z.string().optional(),
+  price: z.union([z.string(), z.number()]),
+  image: z.string().optional(),
+  qty: z.number().min(1, 'Quantity must be at least 1'),
+  slug: z.string().min(1, 'Product slug is required'),
+  weight: z.any().transform((val) => {
+    if (val === null || val === undefined || val === '') return 0;
+    if (typeof val === 'object') {
+      // If it's a Decimal object from Prisma
+      if (val.toString) return parseFloat(val.toString());
+      return 0;
+    }
+    const num = typeof val === 'string' ? parseFloat(val) : Number(val);
+    return isNaN(num) ? 0 : num;
+  }),
 });
+
+// Create a price schema that accepts both string and number
+const priceSchema = z.union([z.string(), z.number()]);
 
 export const insertCartSchema = z.object({
   items: z.array(cartItemSchema),
-  itemsPrice: currency,
-  totalPrice: currency,
-  shippingPrice: currency,
-  taxPrice: currency,
+  itemsPrice: priceSchema,
+  totalPrice: priceSchema,
+  shippingPrice: priceSchema,
+  taxPrice: priceSchema,
   sessionCartId: z.string().min(1, 'Session cart id is required'),
   userId: z.string().optional().nullable(),
   deliveryMethod: z.enum(['international', 'omniva']).default('international'),
@@ -89,7 +103,8 @@ export const shippingAddressSchema = z
     country: z
       .string()
       .min(2, 'Country code must be 2 characters')
-      .max(2, 'Country code must be 2 characters'),
+      .max(2, 'Country code must be 2 characters')
+      .default('LV'),
     phoneNumber: z
       .string()
       .min(5, 'Phone number is required')
@@ -107,6 +122,7 @@ export const shippingAddressSchema = z
         country: z.string(),
         type: z.string(),
       })
+      .nullable()
       .optional(),
     agreeToTerms: z.boolean().refine((val) => val === true, {
       message: 'You must agree to the terms and conditions',
@@ -127,10 +143,30 @@ export const shippingAddressSchema = z
       return true;
     },
     {
-      message: 'Please select an Omniva pickup location',
-      path: ['deliveryMethod'],
+      message: 'Please select an Omniva pickup location from the list',
+      path: ['omnivaLocationDetails'],
     }
-  );
+  )
+  .refine(
+    (data) => {
+      // If delivery method is Omniva, country must be Latvia (LV)
+      if (data.deliveryMethod === 'omniva') {
+        return data.country === 'LV';
+      }
+      return true;
+    },
+    {
+      message: 'Omniva delivery is only available in Latvia',
+      path: ['country'],
+    }
+  )
+  .transform((data) => {
+    // If Omniva delivery is selected, force country to be Latvia
+    if (data.deliveryMethod === 'omniva') {
+      return { ...data, country: 'LV' };
+    }
+    return data;
+  });
 
 // Schema for payment method
 export const paymentMethodSchema = z

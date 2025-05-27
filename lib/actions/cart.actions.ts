@@ -11,6 +11,7 @@ import { Prisma } from '@prisma/client';
 import { DELIVERY_METHODS, INTERNATIONAL_SHIPPING_RATES } from '../constants';
 import { dict } from '../dict';
 import { getDictionary } from '@/lib/dictionary';
+import { calcPrice } from '../calcPrice';
 
 // Calculate total weight of items in cart
 const calculateTotalWeight = (items: CartItem[]) => {
@@ -115,25 +116,33 @@ export async function addItemToCart(data: CartItem) {
     // Get cart
     const cart = await getMyCart();
 
-    // Parse and validate item
-    const item = cartItemSchema.parse(data);
-
     // Find product in database
     const product = await prisma.product.findFirst({
-      where: { id: item.productId },
+      where: { id: data.productId },
     });
     if (!product) throw new Error('Product not found');
 
-    // Add weight to item
-    item.weight = product.weight || 0;
+    // Prepare item with proper weight and slug
+    const itemData = {
+      ...data,
+      weight: product.weight ? Number(product.weight) : 0,
+      slug: product.slug, // Add the product slug
+    };
+
+    // Parse and validate item
+    const item = cartItemSchema.parse(itemData);
 
     if (!cart) {
       // Create new cart object
+      const prices = await calcPrice([item], 'international');
       const newCart = insertCartSchema.parse({
         userId: userId,
         items: [item],
         sessionCartId: sessionCartId,
-        ...calcPrice([item], 'international'),
+        itemsPrice: prices.itemsPrice.toString(),
+        shippingPrice: prices.shippingPrice.toString(),
+        taxPrice: prices.taxPrice.toString(),
+        totalPrice: prices.totalPrice.toString(),
         deliveryMethod: 'international',
       });
 
@@ -184,12 +193,21 @@ export async function addItemToCart(data: CartItem) {
       // Get current delivery method
       const currentDeliveryMethod = cart.deliveryMethod || 'international';
 
+      // Calculate new prices
+      const prices = await calcPrice(
+        cart.items as CartItem[],
+        currentDeliveryMethod
+      );
+
       // Save to database
       await prisma.cart.update({
         where: { id: cart.id },
         data: {
           items: cart.items as Prisma.CartUpdateitemsInput[],
-          ...calcPrice(cart.items as CartItem[], currentDeliveryMethod),
+          itemsPrice: prices.itemsPrice.toString(),
+          shippingPrice: prices.shippingPrice.toString(),
+          taxPrice: prices.taxPrice.toString(),
+          totalPrice: prices.totalPrice.toString(),
         },
       });
 
@@ -324,10 +342,10 @@ export async function updateCartDeliveryMethod(
       where: { id: cart.id },
       data: {
         deliveryMethod,
-        itemsPrice: newPrices.itemsPrice,
-        shippingPrice: newPrices.shippingPrice,
-        taxPrice: newPrices.taxPrice,
-        totalPrice: newPrices.totalPrice,
+        itemsPrice: newPrices.itemsPrice.toString(),
+        shippingPrice: newPrices.shippingPrice.toString(),
+        taxPrice: newPrices.taxPrice.toString(),
+        totalPrice: newPrices.totalPrice.toString(),
       },
     });
 

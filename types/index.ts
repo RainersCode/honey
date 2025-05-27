@@ -238,6 +238,7 @@ export interface CartItem {
   image?: string;
   qty: number;
   weight: number; // Weight in ounces
+  slug: string;
 }
 
 export interface Cart {

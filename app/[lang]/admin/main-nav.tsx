@@ -17,6 +17,7 @@ interface MainNavProps extends React.HTMLAttributes<HTMLElement> {
         orders: string;
         users: string;
         shipping: string;
+        countries: string;
       };
     };
   };
@@ -45,6 +46,10 @@ const MainNav = ({ className, lang, dict, ...props }: MainNavProps) => {
     {
       title: dict.admin.nav.shipping || 'Shipping',
       href: `/${lang}/admin/shipping`,
+    },
+    {
+      title: dict.admin.nav.countries || 'Countries',
+      href: `/${lang}/admin/countries`,
     },
   ];
 

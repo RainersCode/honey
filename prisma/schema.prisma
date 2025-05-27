@@ -163,3 +163,13 @@ model ShippingRule {
 
   @@unique([zone, minWeight, maxWeight, carrier], name: "shipping_rule_zone_weight_carrier")
 }
+
+model Country {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String   @unique
+  code      String   @unique // ISO country code
+  flag      String // Flag emoji or URL
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt
+}

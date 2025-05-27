@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { formatNumberWithDecimal } from './utils';
 import { PAYMENT_METHODS, DELIVERY_METHODS } from './constants';
+import { getActiveCountries } from './actions/country.actions';
 
 const currency = z
   .string()
@@ -21,11 +22,14 @@ export const insertProductSchema = z.object({
   isFeatured: z.boolean(),
   banner: z.string().nullable(),
   price: currency,
-  weight: z.union([z.number(), z.string()]).optional().transform(val => {
-    if (val === '') return null;
-    const num = typeof val === 'string' ? parseFloat(val) : val;
-    return isNaN(num) ? null : num;
-  }),
+  weight: z
+    .union([z.number(), z.string()])
+    .optional()
+    .transform((val) => {
+      if (val === '') return null;
+      const num = typeof val === 'string' ? parseFloat(val) : val;
+      return isNaN(num) ? null : num;
+    }),
 });
 
 // Schema for updating products
@@ -76,44 +80,57 @@ export const insertCartSchema = z.object({
 });
 
 // Schema for the shipping address
-export const shippingAddressSchema = z.object({
-  fullName: z.string().min(3, 'Name must be at least 3 characters'),
-  streetAddress: z.string().min(3, 'Address must be at least 3 characters'),
-  city: z.string().min(3, 'City must be at least 3 characters'),
-  postalCode: z.string().min(3, 'Postal code must be at least 3 characters'),
-  country: z.string().min(3, 'Country must be at least 3 characters'),
-  phoneNumber: z.string().min(5, 'Phone number is required').regex(/^[+]?[\d\s-()]+$/, 'Invalid phone number format'),
-  deliveryMethod: z.enum(['international', 'omniva'], {
-    required_error: 'Please select a delivery method',
-  }),
-  omnivaLocationId: z.string().optional(),
-  omnivaLocationDetails: z.object({
-    id: z.string(),
-    name: z.string(),
-    address: z.string(),
-    city: z.string(),
-    country: z.string(),
-    type: z.string(),
-  }).optional(),
-  agreeToTerms: z.boolean().refine(val => val === true, {
-    message: 'You must agree to the terms and conditions',
-  }),
-  agreeToPrivacyPolicy: z.boolean().refine(val => val === true, {
-    message: 'You must agree to the privacy policy',
-  }),
-  rememberDetails: z.boolean().optional(),
-  lat: z.number().optional(),
-  lng: z.number().optional(),
-}).refine((data) => {
-  // If delivery method is Omniva, require Omniva location
-  if (data.deliveryMethod === 'omniva') {
-    return !!(data.omnivaLocationId && data.omnivaLocationDetails);
-  }
-  return true;
-}, {
-  message: 'Please select an Omniva pickup location',
-  path: ['deliveryMethod'],
-});
+export const shippingAddressSchema = z
+  .object({
+    fullName: z.string().min(3, 'Name must be at least 3 characters'),
+    streetAddress: z.string().min(3, 'Address must be at least 3 characters'),
+    city: z.string().min(3, 'City must be at least 3 characters'),
+    postalCode: z.string().min(3, 'Postal code must be at least 3 characters'),
+    country: z
+      .string()
+      .min(2, 'Country code must be 2 characters')
+      .max(2, 'Country code must be 2 characters'),
+    phoneNumber: z
+      .string()
+      .min(5, 'Phone number is required')
+      .regex(/^[+]?[\d\s-()]+$/, 'Invalid phone number format'),
+    deliveryMethod: z.enum(['international', 'omniva'], {
+      required_error: 'Please select a delivery method',
+    }),
+    omnivaLocationId: z.string().optional(),
+    omnivaLocationDetails: z
+      .object({
+        id: z.string(),
+        name: z.string(),
+        address: z.string(),
+        city: z.string(),
+        country: z.string(),
+        type: z.string(),
+      })
+      .optional(),
+    agreeToTerms: z.boolean().refine((val) => val === true, {
+      message: 'You must agree to the terms and conditions',
+    }),
+    agreeToPrivacyPolicy: z.boolean().refine((val) => val === true, {
+      message: 'You must agree to the privacy policy',
+    }),
+    rememberDetails: z.boolean().optional(),
+    lat: z.number().optional(),
+    lng: z.number().optional(),
+  })
+  .refine(
+    (data) => {
+      // If delivery method is Omniva, require Omniva location
+      if (data.deliveryMethod === 'omniva') {
+        return !!(data.omnivaLocationId && data.omnivaLocationDetails);
+      }
+      return true;
+    },
+    {
+      message: 'Please select an Omniva pickup location',
+      path: ['deliveryMethod'],
+    }
+  );
 
 // Schema for payment method
 export const paymentMethodSchema = z

@@ -30,16 +30,47 @@ import { Locale } from '@/config/i18n.config';
 import { getDictionary } from '@/lib/dictionary';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import { getMyCart } from '@/lib/actions/cart.actions';
+import { getActiveCountries } from '@/lib/actions/country.actions';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import Flag from 'react-world-flags';
+
+interface Country {
+  id: string;
+  name: string;
+  code: string;
+  flag: string;
+}
 
 interface ShippingAddressFormProps {
   address: ShippingAddress;
   lang: Locale;
 }
 
+// Add CountryFlag component
+const CountryFlag = ({ countryCode }: { countryCode: string }) => (
+  <div className='inline-block mr-2 w-6 h-4 overflow-hidden rounded-sm border border-gray-200'>
+    <Flag
+      code={countryCode}
+      fallback={<span>{countryCode}</span>}
+      height='16'
+    />
+  </div>
+);
+
 const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
   const router = useRouter();
   const { toast } = useToast();
   const [dict, setDict] = useState<any>(null);
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [validCountryCodes, setValidCountryCodes] = useState<Set<string>>(
+    new Set()
+  );
 
   useEffect(() => {
     const loadDictionary = async () => {
@@ -49,6 +80,20 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
 
     loadDictionary();
   }, [lang]);
+
+  // Load active countries
+  useEffect(() => {
+    const loadCountries = async () => {
+      const result = await getActiveCountries();
+      if (result.success) {
+        setCountries(result.countries);
+        // Create a Set of valid country codes
+        setValidCountryCodes(new Set(result.countries.map((c) => c.code)));
+      }
+    };
+
+    loadCountries();
+  }, []);
 
   // Get cart to sync delivery method
   useEffect(() => {
@@ -77,7 +122,7 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
   // Handle delivery method change
   useEffect(() => {
     if (!deliveryMethod) return;
-    
+
     const updateDeliveryMethod = async () => {
       const res = await updateCartDeliveryMethod(deliveryMethod);
       if (!res.success) {
@@ -92,6 +137,18 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
   }, [deliveryMethod, toast]);
 
   const onSubmit = async (values: z.infer<typeof shippingAddressSchema>) => {
+    // Validate country selection
+    if (
+      values.deliveryMethod === 'international' &&
+      !validCountryCodes.has(values.country)
+    ) {
+      toast({
+        variant: 'destructive',
+        description: 'Selected country is not available for shipping',
+      });
+      return;
+    }
+
     startTransition(async () => {
       const res = await updateUserAddress(values);
 
@@ -111,42 +168,44 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <Card className="bg-white/90 backdrop-blur-[2px] shadow-md">
-          <CardContent className="pt-6">
-            <div className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+        <Card className='bg-white/90 backdrop-blur-[2px] shadow-md'>
+          <CardContent className='pt-6'>
+            <div className='space-y-6'>
               {/* Delivery Method */}
               <FormField
                 control={form.control}
-                name="deliveryMethod"
+                name='deliveryMethod'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.deliveryMethod}</FormLabel>
+                    <FormLabel className='text-[#1D1D1F]'>
+                      {dict.shipping.form.deliveryMethod}
+                    </FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        className="grid grid-cols-2 gap-4"
+                        className='grid grid-cols-2 gap-4'
                       >
                         <FormItem>
                           <FormControl>
                             <RadioGroupItem
-                              value="international"
-                              className="peer sr-only"
+                              value='international'
+                              className='peer sr-only'
                             />
                           </FormControl>
-                          <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-[#FF7A3D] [&:has([data-state=checked])]:border-[#FF7A3D] cursor-pointer">
+                          <FormLabel className='flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-[#FF7A3D] [&:has([data-state=checked])]:border-[#FF7A3D] cursor-pointer'>
                             {dict.shipping.form.internationalShipping}
                           </FormLabel>
                         </FormItem>
                         <FormItem>
                           <FormControl>
                             <RadioGroupItem
-                              value="omniva"
-                              className="peer sr-only"
+                              value='omniva'
+                              className='peer sr-only'
                             />
                           </FormControl>
-                          <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-[#FF7A3D] [&:has([data-state=checked])]:border-[#FF7A3D] cursor-pointer">
+                          <FormLabel className='flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-[#FF7A3D] [&:has([data-state=checked])]:border-[#FF7A3D] cursor-pointer'>
                             {dict.shipping.form.omnivaPickup}
                           </FormLabel>
                         </FormItem>
@@ -161,12 +220,12 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
               {deliveryMethod === 'omniva' && (
                 <FormField
                   control={form.control}
-                  name="omnivaLocationDetails"
+                  name='omnivaLocationDetails'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[#1D1D1F] flex items-center">
+                      <FormLabel className='text-[#1D1D1F] flex items-center'>
                         {dict.shipping.form.omnivaLocation}
-                        <span className="text-red-500 ml-1">*</span>
+                        <span className='text-red-500 ml-1'>*</span>
                       </FormLabel>
                       <FormControl>
                         <OmnivaLocationSelector
@@ -177,26 +236,28 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                           }}
                         />
                       </FormControl>
-                      <FormMessage className="text-red-500" />
+                      <FormMessage className='text-red-500' />
                     </FormItem>
                   )}
                 />
               )}
 
               {/* Address Fields */}
-              <div className="space-y-4">
+              <div className='space-y-4'>
                 {/* Full Name */}
                 <FormField
                   control={form.control}
-                  name="fullName"
+                  name='fullName'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.fullName}</FormLabel>
+                      <FormLabel className='text-[#1D1D1F]'>
+                        {dict.shipping.form.fullName}
+                      </FormLabel>
                       <FormControl>
-                        <Input 
+                        <Input
                           placeholder={dict.shipping.form.fullNamePlaceholder}
                           {...field}
-                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                          className='border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]'
                         />
                       </FormControl>
                       <FormMessage />
@@ -204,18 +265,86 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                   )}
                 />
 
+                {/* Country Selection */}
+                {deliveryMethod === 'international' && (
+                  <FormField
+                    control={form.control}
+                    name='country'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className='text-[#1D1D1F]'>
+                          {dict.shipping.form.country}
+                          <span className='text-red-500 ml-1'>*</span>
+                        </FormLabel>
+                        <Select
+                          onValueChange={(value) => {
+                            if (!validCountryCodes.has(value)) {
+                              toast({
+                                variant: 'destructive',
+                                description:
+                                  'Selected country is not available for shipping',
+                              });
+                              return;
+                            }
+                            field.onChange(value);
+                          }}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className='border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]'>
+                              <SelectValue
+                                placeholder={
+                                  dict.shipping.form.countryPlaceholder
+                                }
+                              >
+                                {field.value && (
+                                  <div className='flex items-center'>
+                                    <CountryFlag countryCode={field.value} />
+                                    {
+                                      countries.find(
+                                        (c) => c.code === field.value
+                                      )?.name
+                                    }
+                                  </div>
+                                )}
+                              </SelectValue>
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {countries.map((country) => (
+                              <SelectItem
+                                key={country.code}
+                                value={country.code}
+                                className='flex items-center'
+                              >
+                                <CountryFlag countryCode={country.code} />
+                                {country.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+
                 {/* Phone Number */}
                 <FormField
                   control={form.control}
-                  name="phoneNumber"
+                  name='phoneNumber'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.phoneNumber}</FormLabel>
+                      <FormLabel className='text-[#1D1D1F]'>
+                        {dict.shipping.form.phoneNumber}
+                      </FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder={dict.shipping.form.phoneNumberPlaceholder}
+                        <Input
+                          placeholder={
+                            dict.shipping.form.phoneNumberPlaceholder
+                          }
                           {...field}
-                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                          className='border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]'
                         />
                       </FormControl>
                       <FormMessage />
@@ -226,15 +355,19 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                 {/* Street Address */}
                 <FormField
                   control={form.control}
-                  name="streetAddress"
+                  name='streetAddress'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.streetAddress}</FormLabel>
+                      <FormLabel className='text-[#1D1D1F]'>
+                        {dict.shipping.form.streetAddress}
+                      </FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder={dict.shipping.form.streetAddressPlaceholder}
+                        <Input
+                          placeholder={
+                            dict.shipping.form.streetAddressPlaceholder
+                          }
                           {...field}
-                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                          className='border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]'
                         />
                       </FormControl>
                       <FormMessage />
@@ -245,15 +378,17 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                 {/* City */}
                 <FormField
                   control={form.control}
-                  name="city"
+                  name='city'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.city}</FormLabel>
+                      <FormLabel className='text-[#1D1D1F]'>
+                        {dict.shipping.form.city}
+                      </FormLabel>
                       <FormControl>
-                        <Input 
+                        <Input
                           placeholder={dict.shipping.form.cityPlaceholder}
                           {...field}
-                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                          className='border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]'
                         />
                       </FormControl>
                       <FormMessage />
@@ -264,34 +399,17 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                 {/* Postal Code */}
                 <FormField
                   control={form.control}
-                  name="postalCode"
+                  name='postalCode'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.postalCode}</FormLabel>
+                      <FormLabel className='text-[#1D1D1F]'>
+                        {dict.shipping.form.postalCode}
+                      </FormLabel>
                       <FormControl>
-                        <Input 
+                        <Input
                           placeholder={dict.shipping.form.postalCodePlaceholder}
                           {...field}
-                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Country */}
-                <FormField
-                  control={form.control}
-                  name="country"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-[#1D1D1F]">{dict.shipping.form.country}</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder={dict.shipping.form.countryPlaceholder}
-                          {...field}
-                          className="border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]" 
+                          className='border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]'
                         />
                       </FormControl>
                       <FormMessage />
@@ -301,19 +419,19 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
               </div>
 
               {/* Terms and Privacy Policy */}
-              <div className="space-y-4">
+              <div className='space-y-4'>
                 <FormField
                   control={form.control}
-                  name="agreeToTerms"
+                  name='agreeToTerms'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormItem className='flex flex-row items-start space-x-3 space-y-0'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel className="text-sm font-normal">
+                      <FormLabel className='text-sm font-normal'>
                         {dict.shipping.form.agreeToTerms}
                       </FormLabel>
                     </FormItem>
@@ -322,16 +440,16 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
 
                 <FormField
                   control={form.control}
-                  name="agreeToPrivacyPolicy"
+                  name='agreeToPrivacyPolicy'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormItem className='flex flex-row items-start space-x-3 space-y-0'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel className="text-sm font-normal">
+                      <FormLabel className='text-sm font-normal'>
                         {dict.shipping.form.agreeToPrivacy}
                       </FormLabel>
                     </FormItem>
@@ -340,16 +458,16 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
 
                 <FormField
                   control={form.control}
-                  name="rememberDetails"
+                  name='rememberDetails'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormItem className='flex flex-row items-start space-x-3 space-y-0'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel className="text-sm font-normal">
+                      <FormLabel className='text-sm font-normal'>
                         {dict.shipping.form.rememberDetails}
                       </FormLabel>
                     </FormItem>
@@ -361,16 +479,16 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
         </Card>
 
         <Button
-          type="submit"
-          className="w-full bg-[#FF7A3D] text-white hover:bg-[#ff6a2a] transition-all duration-300"
+          type='submit'
+          className='w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90'
           disabled={isPending}
         >
           {isPending ? (
-            <LoadingSpinner size="sm" />
+            <LoadingSpinner />
           ) : (
             <>
-              {dict.shipping.form.submit}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              {dict.shipping.form.continue}
+              <ArrowRight className='ml-2 h-4 w-4' />
             </>
           )}
         </Button>
@@ -379,4 +497,4 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
   );
 };
 
-export default ShippingAddressForm; 
+export default ShippingAddressForm;

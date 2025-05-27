@@ -15,7 +15,8 @@
       "products": "Products",
       "orders": "Orders",
       "users": "Users",
-      "shipping": "Shipping"
+      "shipping": "Shipping",
+      "countries": "Countries"
     },
     "overview": "Overview",
     "products": "Products",
@@ -48,6 +49,26 @@
       "total": "Total",
       "actions": "Actions",
       "details": "Details"
+    },
+    "countries": {
+      "title": "Shipping Countries",
+      "addNew": "Add New Country",
+      "addDescription": "Add a new country to the shipping destinations list",
+      "list": "Countries List",
+      "listDescription": "Manage available shipping destinations",
+      "name": "Country Name",
+      "namePlaceholder": "e.g., Latvia",
+      "code": "Country Code",
+      "codePlaceholder": "e.g., LV",
+      "flag": "Flag Emoji",
+      "flagPlaceholder": "e.g., 🇱🇻",
+      "status": "Status",
+      "actions": "Actions",
+      "enable": "Enable",
+      "disable": "Disable",
+      "addSuccess": "Country added successfully",
+      "updateSuccess": "Country updated successfully",
+      "error": "An error occurred"
     }
   },
   "common": {

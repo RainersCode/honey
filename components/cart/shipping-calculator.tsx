@@ -6,123 +6,134 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { OmnivaLocationSelector } from '@/components/shared/omniva-location-selector';
-import { updateCartDeliveryMethod } from '@/lib/actions/cart.actions';
-import { INTERNATIONAL_SHIPPING_RATES } from '@/lib/constants';
+import {
+  updateCartDeliveryMethod,
+  getShippingRules,
+} from '@/lib/actions/cart.actions';
+import { formatCurrency } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
+
+interface ShippingRule {
+  id: string;
+  zone: string;
+  minWeight: number;
+  maxWeight: number;
+  price: number;
+  carrier: string;
+}
 
 interface ShippingCalculatorProps {
   cartWeight: number;
   onRateSelect: (rate: { service: string; rate: number }) => void;
 }
 
-export default function ShippingCalculator({ cartWeight, onRateSelect }: ShippingCalculatorProps) {
-  const [selectedMethod, setSelectedMethod] = useState<'international' | 'omniva'>('international');
+export default function ShippingCalculator({
+  cartWeight,
+  onRateSelect,
+}: ShippingCalculatorProps) {
+  const [selectedMethod, setSelectedMethod] = useState<
+    'international' | 'omniva'
+  >('international');
   const [showOmnivaSelector, setShowOmnivaSelector] = useState(false);
+  const [shippingRules, setShippingRules] = useState<ShippingRule[]>([]);
+  const [currentRule, setCurrentRule] = useState<ShippingRule | null>(null);
   const { toast } = useToast();
+  const router = useRouter();
 
-  const calculateInternationalRate = (weight: number) => {
-    if (weight <= INTERNATIONAL_SHIPPING_RATES.LIGHT.maxWeight) {
-      return INTERNATIONAL_SHIPPING_RATES.LIGHT.price;
-    } else if (weight <= INTERNATIONAL_SHIPPING_RATES.MEDIUM.maxWeight) {
-      return INTERNATIONAL_SHIPPING_RATES.MEDIUM.price;
-    } else {
-      const extraWeight = Math.ceil(weight - INTERNATIONAL_SHIPPING_RATES.MEDIUM.maxWeight);
-      return INTERNATIONAL_SHIPPING_RATES.MEDIUM.price + (extraWeight * 2);
-    }
-  };
+  // Fetch shipping rules when method changes
+  useEffect(() => {
+    const fetchShippingRules = async () => {
+      const result = await getShippingRules(cartWeight, selectedMethod);
+      if (result.success) {
+        setShippingRules(result.allRules);
+        setCurrentRule(result.currentRule);
 
-  // Apply initial shipping rate
+        // If we have a current rule, update the cart with its price
+        if (result.currentRule) {
+          const rate = {
+            service:
+              selectedMethod === 'omniva'
+                ? 'Omniva Pickup'
+                : 'International Shipping',
+            rate: Number(result.currentRule.price),
+          };
+          onRateSelect(rate);
+        }
+      }
+    };
+
+    fetchShippingRules();
+  }, [selectedMethod, cartWeight]);
+
+  // Apply shipping rate when method changes
   useEffect(() => {
     const applyShippingRate = async () => {
-      const rate = selectedMethod === 'omniva' 
-        ? { service: 'Omniva Pickup', rate: 3.10 }
-        : { service: 'International Shipping', rate: calculateInternationalRate(cartWeight) };
-      
-      onRateSelect(rate);
-      
       try {
         const result = await updateCartDeliveryMethod(selectedMethod);
+
         if (!result.success) {
           toast({
-            title: "Error",
-            description: "Failed to update delivery method",
-            variant: "destructive",
+            title: 'Error',
+            description: result.message || 'Failed to update delivery method',
+            variant: 'destructive',
           });
+          return;
         }
+
+        // Force a server refresh to get updated cart data
+        router.refresh();
       } catch (error) {
         toast({
-          title: "Error",
-          description: "Failed to update delivery method",
-          variant: "destructive",
+          title: 'Error',
+          description: 'Failed to update delivery method',
+          variant: 'destructive',
         });
       }
     };
 
     applyShippingRate();
-  }, [selectedMethod, cartWeight]); // Only re-run when method or weight changes
+  }, [selectedMethod, cartWeight]); // Re-run when method or weight changes
 
-  const handleShippingMethodChange = async (method: 'international' | 'omniva') => {
+  const handleShippingMethodChange = (method: 'international' | 'omniva') => {
     setSelectedMethod(method);
     setShowOmnivaSelector(method === 'omniva');
   };
 
   return (
-    <Card className="w-full">
+    <Card className='w-full'>
       <CardHeader>
         <CardTitle>Delivery Method</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className='space-y-4'>
           <RadioGroup
             value={selectedMethod}
-            onValueChange={(value: 'international' | 'omniva') => handleShippingMethodChange(value)}
-            className="grid grid-cols-2 gap-4"
+            onValueChange={(value: 'international' | 'omniva') =>
+              handleShippingMethodChange(value)
+            }
+            className='grid grid-cols-2 gap-4'
           >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="international" id="international" />
-              <Label htmlFor="international" className="flex flex-col">
-                <span className="font-medium">International Shipping</span>
-                <span className="text-sm text-muted-foreground">Worldwide delivery</span>
+            <div className='flex items-center space-x-2'>
+              <RadioGroupItem value='international' id='international' />
+              <Label htmlFor='international' className='flex flex-col'>
+                <span className='font-medium'>International Shipping</span>
+                <span className='text-sm text-muted-foreground'>
+                  Worldwide delivery
+                </span>
               </Label>
             </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="omniva" id="omniva" />
-              <Label htmlFor="omniva" className="flex flex-col">
-                <span className="font-medium">Omniva Pickup</span>
-                <span className="text-sm text-muted-foreground">Local parcel machines</span>
+            <div className='flex items-center space-x-2'>
+              <RadioGroupItem value='omniva' id='omniva' />
+              <Label htmlFor='omniva' className='flex flex-col'>
+                <span className='font-medium'>Omniva Pickup</span>
+                <span className='text-sm text-muted-foreground'>
+                  Local parcel machines
+                </span>
               </Label>
             </div>
           </RadioGroup>
-
-          {selectedMethod === 'international' && (
-            <div className="mt-4 p-4 bg-muted rounded-lg">
-              <p className="text-sm font-medium">Shipping Cost Breakdown:</p>
-              <p className="text-sm text-muted-foreground">
-                Package Weight: {cartWeight.toFixed(2)} kg<br />
-                {cartWeight <= INTERNATIONAL_SHIPPING_RATES.LIGHT.maxWeight && 
-                  `Light Package (up to ${INTERNATIONAL_SHIPPING_RATES.LIGHT.maxWeight}kg): €${INTERNATIONAL_SHIPPING_RATES.LIGHT.price}`}
-                {cartWeight > INTERNATIONAL_SHIPPING_RATES.LIGHT.maxWeight && cartWeight <= INTERNATIONAL_SHIPPING_RATES.MEDIUM.maxWeight && 
-                  `Medium Package (${INTERNATIONAL_SHIPPING_RATES.LIGHT.maxWeight}kg - ${INTERNATIONAL_SHIPPING_RATES.MEDIUM.maxWeight}kg): €${INTERNATIONAL_SHIPPING_RATES.MEDIUM.price}`}
-                {cartWeight > INTERNATIONAL_SHIPPING_RATES.MEDIUM.maxWeight && 
-                  `Heavy Package (over ${INTERNATIONAL_SHIPPING_RATES.MEDIUM.maxWeight}kg): €${calculateInternationalRate(cartWeight)}`}
-              </p>
-            </div>
-          )}
-
-          {showOmnivaSelector && (
-            <div className="mt-4">
-              <Label>Select Pickup Location</Label>
-              <OmnivaLocationSelector
-                onSelect={(location) => {
-                  toast({
-                    title: "Location Selected",
-                    description: `Pickup location: ${location.name}`,
-                  });
-                }}
-              />
-            </div>
-          )}
         </div>
       </CardContent>
     </Card>
   );
-} 
+}

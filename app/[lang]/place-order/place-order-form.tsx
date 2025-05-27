@@ -75,41 +75,55 @@ const PlaceOrderForm = ({ cart, user, lang }: PlaceOrderFormProps) => {
   if (!dict) return null;
 
   return (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       {/* Shipping Address */}
-      <Card className="bg-white/90 backdrop-blur-[2px] shadow-md">
+      <Card className='bg-white/90 backdrop-blur-[2px] shadow-md'>
         <CardHeader>
           <CardTitle>{dict.placeOrder.shipping.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2">
-            <p className="text-sm text-gray-600">
-              <span className="font-medium">{dict.placeOrder.shipping.name}:</span>{' '}
+          <div className='space-y-2'>
+            <p className='text-sm text-gray-600'>
+              <span className='font-medium'>
+                {dict.placeOrder.shipping.name}:
+              </span>{' '}
               {user.address?.fullName}
             </p>
-            <p className="text-sm text-gray-600">
-              <span className="font-medium">{dict.placeOrder.shipping.phone}:</span>{' '}
+            <p className='text-sm text-gray-600'>
+              <span className='font-medium'>
+                {dict.placeOrder.shipping.phone}:
+              </span>{' '}
               {user.address?.phoneNumber}
             </p>
             {cart.deliveryMethod === 'international' ? (
               <>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">{dict.placeOrder.shipping.address}:</span>{' '}
-                  {user.address?.streetAddress}, {user.address?.city}, {user.address?.postalCode}, {user.address?.country}
+                <p className='text-sm text-gray-600'>
+                  <span className='font-medium'>
+                    {dict.placeOrder.shipping.address}:
+                  </span>{' '}
+                  {user.address?.streetAddress}, {user.address?.city},{' '}
+                  {user.address?.postalCode}, {user.address?.country}
                 </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">{dict.placeOrder.shipping.method}:</span>{' '}
+                <p className='text-sm text-gray-600'>
+                  <span className='font-medium'>
+                    {dict.placeOrder.shipping.method}:
+                  </span>{' '}
                   International Shipping
                 </p>
               </>
             ) : (
               <>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">{dict.placeOrder.shipping.omnivaLocation}:</span>{' '}
-                  {user.address?.omnivaLocationDetails?.name}, {user.address?.omnivaLocationDetails?.address}
+                <p className='text-sm text-gray-600'>
+                  <span className='font-medium'>
+                    {dict.placeOrder.shipping.omnivaLocation}:
+                  </span>{' '}
+                  {user.address?.omnivaLocationDetails?.name},{' '}
+                  {user.address?.omnivaLocationDetails?.address}
                 </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">{dict.placeOrder.shipping.method}:</span>{' '}
+                <p className='text-sm text-gray-600'>
+                  <span className='font-medium'>
+                    {dict.placeOrder.shipping.method}:
+                  </span>{' '}
                   Omniva Pickup
                 </p>
               </>
@@ -119,42 +133,46 @@ const PlaceOrderForm = ({ cart, user, lang }: PlaceOrderFormProps) => {
       </Card>
 
       {/* Payment Method */}
-      <Card className="bg-white/90 backdrop-blur-[2px] shadow-md">
+      <Card className='bg-white/90 backdrop-blur-[2px] shadow-md'>
         <CardHeader>
           <CardTitle>{dict.placeOrder.payment.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-gray-600">
-            <span className="font-medium">{dict.placeOrder.payment.method}:</span>{' '}
+          <p className='text-sm text-gray-600'>
+            <span className='font-medium'>
+              {dict.placeOrder.payment.method}:
+            </span>{' '}
             {user.paymentMethod}
           </p>
         </CardContent>
       </Card>
 
       {/* Order Items */}
-      <Card className="bg-white/90 backdrop-blur-[2px] shadow-md">
+      <Card className='bg-white/90 backdrop-blur-[2px] shadow-md'>
         <CardHeader>
           <CardTitle>{dict.placeOrder.items.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div className='space-y-4'>
             {cart.items.map((item) => (
-              <div key={item.productId} className="flex items-center gap-4">
-                <div className="relative h-20 w-20">
+              <div key={item.productId} className='flex items-center gap-4'>
+                <div className='relative h-20 w-20'>
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
-                    className="object-cover rounded-md"
+                    className='object-cover rounded-md'
                   />
                 </div>
-                <div className="flex-1">
-                  <p className="font-medium">{item.name}</p>
-                  <p className="text-sm text-gray-600">
+                <div className='flex-1'>
+                  <p className='font-medium'>{item.name}</p>
+                  <p className='text-sm text-gray-600'>
                     {item.qty} x {formatCurrency(item.price)}
                   </p>
                 </div>
-                <p className="font-medium">{formatCurrency(item.qty * Number(item.price))}</p>
+                <p className='font-medium'>
+                  {formatCurrency(item.qty * Number(item.price))}
+                </p>
               </div>
             ))}
           </div>
@@ -162,27 +180,41 @@ const PlaceOrderForm = ({ cart, user, lang }: PlaceOrderFormProps) => {
       </Card>
 
       {/* Order Summary */}
-      <Card className="bg-white/90 backdrop-blur-[2px] shadow-md">
+      <Card className='bg-white/90 backdrop-blur-[2px] shadow-md'>
         <CardHeader>
           <CardTitle>{dict.placeOrder.summary.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2">
-            <div className="flex justify-between">
-              <p className="text-sm text-gray-600">{dict.placeOrder.summary.items}</p>
-              <p className="font-medium">{formatCurrency(cart.itemsPrice)}</p>
+          <div className='space-y-2'>
+            <div className='flex justify-between'>
+              <p className='text-sm text-gray-600'>
+                {dict.placeOrder.summary.items}
+              </p>
+              <p className='font-medium'>
+                {formatCurrency(Number(cart.itemsPrice))}
+              </p>
             </div>
-            <div className="flex justify-between">
-              <p className="text-sm text-gray-600">{dict.placeOrder.summary.shipping}</p>
-              <p className="font-medium">{formatCurrency(cart.shippingPrice)}</p>
+            <div className='flex justify-between'>
+              <p className='text-sm text-gray-600'>
+                {dict.placeOrder.summary.shipping}
+              </p>
+              <p className='font-medium'>
+                {formatCurrency(Number(cart.shippingPrice))}
+              </p>
             </div>
-            <div className="flex justify-between">
-              <p className="text-sm text-gray-600">{dict.placeOrder.summary.tax}</p>
-              <p className="font-medium">{formatCurrency(cart.taxPrice)}</p>
+            <div className='flex justify-between'>
+              <p className='text-sm text-gray-600'>
+                {dict.placeOrder.summary.tax}
+              </p>
+              <p className='font-medium'>
+                {formatCurrency(Number(cart.taxPrice))}
+              </p>
             </div>
-            <div className="flex justify-between border-t pt-2">
-              <p className="font-medium">{dict.placeOrder.summary.total}</p>
-              <p className="font-medium">{formatCurrency(cart.totalPrice)}</p>
+            <div className='flex justify-between border-t pt-2'>
+              <p className='font-medium'>{dict.placeOrder.summary.total}</p>
+              <p className='font-medium'>
+                {formatCurrency(Number(cart.totalPrice))}
+              </p>
             </div>
           </div>
         </CardContent>
@@ -190,15 +222,15 @@ const PlaceOrderForm = ({ cart, user, lang }: PlaceOrderFormProps) => {
 
       <Button
         onClick={onSubmit}
-        className="w-full bg-[#FF7A3D] text-white hover:bg-[#ff6a2a] transition-all duration-300"
+        className='w-full bg-[#FF7A3D] text-white hover:bg-[#ff6a2a] transition-all duration-300'
         disabled={isPending}
       >
         {isPending ? (
-          <LoadingSpinner size="sm" />
+          <LoadingSpinner size='sm' />
         ) : (
           <>
             {dict.placeOrder.submit}
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <ArrowRight className='ml-2 h-4 w-4' />
           </>
         )}
       </Button>
@@ -206,4 +238,4 @@ const PlaceOrderForm = ({ cart, user, lang }: PlaceOrderFormProps) => {
   );
 };
 
-export default PlaceOrderForm; 
+export default PlaceOrderForm;

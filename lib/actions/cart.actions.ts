@@ -17,35 +17,69 @@ const calculateTotalWeight = (items: CartItem[]) => {
   return items.reduce((sum, item) => {
     const itemWeight = parseFloat(item.weight?.toString() || '0');
     const itemQty = parseInt(item.qty.toString());
-    return sum + (itemWeight * itemQty);
+    return sum + itemWeight * itemQty;
   }, 0);
 };
 
+// Calculate shipping price based on weight and delivery method
+const calculateShippingPrice = async (
+  weight: number,
+  deliveryMethod: string = 'international'
+) => {
+  // Find applicable shipping rule
+  const rule = await prisma.shippingRule.findFirst({
+    where: {
+      zone: deliveryMethod,
+      minWeight: {
+        lte: weight,
+      },
+      maxWeight: {
+        gte: weight,
+      },
+    },
+    orderBy: {
+      price: 'asc', // Get the cheapest applicable rule
+    },
+  });
+
+  // If no rule found, use default rates
+  if (!rule) {
+    if (deliveryMethod === DELIVERY_METHODS.INTERNATIONAL) {
+      if (weight <= INTERNATIONAL_SHIPPING_RATES.LIGHT.maxWeight) {
+        return INTERNATIONAL_SHIPPING_RATES.LIGHT.price;
+      } else if (weight <= INTERNATIONAL_SHIPPING_RATES.MEDIUM.maxWeight) {
+        return INTERNATIONAL_SHIPPING_RATES.MEDIUM.price;
+      } else {
+        const extraWeight = Math.ceil(
+          weight - INTERNATIONAL_SHIPPING_RATES.MEDIUM.maxWeight
+        );
+        return INTERNATIONAL_SHIPPING_RATES.MEDIUM.price + extraWeight * 2;
+      }
+    } else if (deliveryMethod === DELIVERY_METHODS.OMNIVA) {
+      return 3.1; // Default Omniva price
+    }
+  }
+
+  return rule ? Number(rule.price) : 0;
+};
+
 // Calculate cart prices
-const calcPrice = (items: CartItem[], deliveryMethod: string = 'international') => {
+const calcPrice = async (
+  items: CartItem[],
+  deliveryMethod: string = 'international'
+) => {
   const itemsPrice = items.reduce((sum, item) => {
     const itemPrice = parseFloat(item.price.toString());
     const itemQty = parseInt(item.qty.toString());
-    return sum + (itemPrice * itemQty);
+    return sum + itemPrice * itemQty;
   }, 0);
 
-  // Calculate shipping price based on delivery method
-  let shippingPrice = 0;
-  if (deliveryMethod === DELIVERY_METHODS.INTERNATIONAL) {
-    const totalWeight = calculateTotalWeight(items);
-    
-    if (totalWeight <= INTERNATIONAL_SHIPPING_RATES.LIGHT.maxWeight) {
-      shippingPrice = INTERNATIONAL_SHIPPING_RATES.LIGHT.price;
-    } else if (totalWeight <= INTERNATIONAL_SHIPPING_RATES.MEDIUM.maxWeight) {
-      shippingPrice = INTERNATIONAL_SHIPPING_RATES.MEDIUM.price;
-    } else {
-      // For weights above 5kg, use the MEDIUM rate plus €2 per additional kg
-      const extraWeight = Math.ceil(totalWeight - INTERNATIONAL_SHIPPING_RATES.MEDIUM.maxWeight);
-      shippingPrice = INTERNATIONAL_SHIPPING_RATES.MEDIUM.price + (extraWeight * 2);
-    }
-  } else if (deliveryMethod === DELIVERY_METHODS.OMNIVA) {
-    shippingPrice = 3.10; // Omniva fixed price
-  }
+  // Calculate total weight and shipping price
+  const totalWeight = calculateTotalWeight(items);
+  const shippingPrice = await calculateShippingPrice(
+    totalWeight,
+    deliveryMethod
+  );
 
   // Calculate tax price (21%)
   const taxPrice = round2(itemsPrice * 0.21);
@@ -53,7 +87,9 @@ const calcPrice = (items: CartItem[], deliveryMethod: string = 'international') 
   // Calculate total price with rounded values
   const roundedItemsPrice = round2(itemsPrice);
   const roundedShippingPrice = round2(shippingPrice);
-  const totalPrice = round2(roundedItemsPrice + roundedShippingPrice + taxPrice);
+  const totalPrice = round2(
+    roundedItemsPrice + roundedShippingPrice + taxPrice
+  );
 
   return {
     itemsPrice: roundedItemsPrice,
@@ -127,7 +163,9 @@ export async function addItemToCart(data: CartItem) {
       if (existItem) {
         // Check stock
         if (product.stock < existItem.qty + 1) {
-          throw new Error(`${dict.cart.stockLimit.exceeded.replace('{stock}', product.stock.toString())}`);
+          throw new Error(
+            `${dict.cart.stockLimit.exceeded.replace('{stock}', product.stock.toString())}`
+          );
         }
 
         // Increase the quantity
@@ -173,7 +211,8 @@ export async function addItemToCart(data: CartItem) {
     console.error('Error adding item to cart:', error);
     return {
       success: false,
-      message: error instanceof Error ? error.message : 'Failed to add item to cart',
+      message:
+        error instanceof Error ? error.message : 'Failed to add item to cart',
     };
   }
 }
@@ -271,13 +310,15 @@ export async function removeItemFromCart(productId: string) {
   }
 }
 
-export async function updateCartDeliveryMethod(deliveryMethod: 'international' | 'omniva') {
+export async function updateCartDeliveryMethod(
+  deliveryMethod: 'international' | 'omniva'
+) {
   try {
     const cart = await getMyCart();
     if (!cart) throw new Error('Cart not found');
 
     // Calculate new prices based on delivery method
-    const newPrices = calcPrice(cart.items as CartItem[], deliveryMethod);
+    const newPrices = await calcPrice(cart.items as CartItem[], deliveryMethod);
 
     await prisma.cart.update({
       where: { id: cart.id },
@@ -286,7 +327,7 @@ export async function updateCartDeliveryMethod(deliveryMethod: 'international' |
         itemsPrice: newPrices.itemsPrice,
         shippingPrice: newPrices.shippingPrice,
         taxPrice: newPrices.taxPrice,
-        totalPrice: newPrices.totalPrice
+        totalPrice: newPrices.totalPrice,
       },
     });
 
@@ -296,13 +337,55 @@ export async function updateCartDeliveryMethod(deliveryMethod: 'international' |
     return {
       success: true,
       message: 'Delivery method updated',
-      prices: newPrices
+      prices: newPrices,
     };
   } catch (error) {
     console.error('Error updating delivery method:', error);
     return {
       success: false,
-      message: 'Failed to update delivery method'
+      message: 'Failed to update delivery method',
+    };
+  }
+}
+
+export async function getShippingRules(weight: number, deliveryMethod: string) {
+  try {
+    // Find applicable shipping rule
+    const rule = await prisma.shippingRule.findFirst({
+      where: {
+        zone: deliveryMethod,
+        minWeight: {
+          lte: weight,
+        },
+        maxWeight: {
+          gte: weight,
+        },
+      },
+      orderBy: {
+        price: 'asc',
+      },
+    });
+
+    // Get all rules for this delivery method for display
+    const allRules = await prisma.shippingRule.findMany({
+      where: {
+        zone: deliveryMethod,
+      },
+      orderBy: {
+        minWeight: 'asc',
+      },
+    });
+
+    return {
+      success: true,
+      currentRule: rule,
+      allRules,
+    };
+  } catch (error) {
+    console.error('Error getting shipping rules:', error);
+    return {
+      success: false,
+      message: 'Failed to get shipping rules',
     };
   }
 }

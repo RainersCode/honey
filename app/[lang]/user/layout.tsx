@@ -3,11 +3,12 @@ import { redirect } from 'next/navigation';
 
 export default async function UserLayout({
   children,
-  params: { lang },
+  params,
 }: {
   children: React.ReactNode;
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }) {
+  const { lang } = await params;
   const session = await auth();
 
   if (!session?.user) {

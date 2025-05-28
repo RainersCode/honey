@@ -1,12 +1,14 @@
 import Header from '@/components/shared/header';
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
-  params: { lang },
+  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }>) {
+  const { lang } = await params;
+  
   return (
     <div className='flex min-h-screen flex-col'>
       <Header lang={lang} />

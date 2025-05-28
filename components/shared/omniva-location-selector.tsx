@@ -86,7 +86,7 @@ export function OmnivaLocationSelector({
           aria-expanded={open}
           aria-required='true'
           className={cn(
-            'w-full justify-between border-[#FFE4D2] hover:bg-[#FFF5EE] hover:border-[#FF7A3D] text-left font-normal',
+            'w-full justify-between border-[#FFE4D2] hover:bg-[#FFF5EE] hover:border-[#FF7A3D] text-left font-normal h-14 py-3',
             error && 'border-red-500 hover:border-red-600'
           )}
         >
@@ -140,21 +140,21 @@ export function OmnivaLocationSelector({
                 <div
                   key={location.id}
                   onClick={() => handleSelect(location)}
-                  className='flex items-start gap-2 px-3 py-2 cursor-pointer hover:bg-[#FFF5EE] text-gray-900 rounded-sm my-1'
+                  className='flex items-start gap-3 px-3 py-3 cursor-pointer hover:bg-[#FFF5EE] text-gray-900 rounded-sm my-1 transition-colors duration-200'
                 >
                   <Check
                     className={cn(
-                      'h-4 w-4 mt-0.5 shrink-0',
+                      'h-4 w-4 mt-1 shrink-0',
                       selectedLocation?.id === location.id
                         ? 'opacity-100 text-[#FF7A3D]'
                         : 'opacity-0'
                     )}
                   />
-                  <div className='flex flex-col'>
-                    <span className='font-medium text-gray-900'>
+                  <div className='flex flex-col gap-1 min-w-0 flex-1'>
+                    <span className='font-medium text-sm text-gray-900 leading-tight'>
                       {location.name}
                     </span>
-                    <span className='text-sm text-gray-600'>
+                    <span className='text-xs text-gray-600 leading-tight'>
                       {location.address}
                     </span>
                   </div>

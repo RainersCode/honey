@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Locale } from '@/config/i18n.config';
 import { getDictionary } from '@/lib/dictionary';
+import { sendContactForm } from '@/lib/actions/contact.actions';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -64,18 +65,25 @@ const ContactForm = ({ lang }: ContactFormProps) => {
     
     setIsSubmitting(true);
     try {
-      // TODO: Implement actual form submission logic here
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const result = await sendContactForm(data);
       
-      toast({
-        title: 'success',
-        description: dict.contact.form.success,
-      });
-      
-      form.reset();
+      if (result.success) {
+        toast({
+          title: 'Success',
+          description: dict.contact.form.success,
+        });
+        form.reset();
+      } else {
+        toast({
+          title: 'Error',
+          description: dict.contact.form.error,
+          variant: 'destructive',
+        });
+      }
     } catch (error) {
+      console.error('Form submission error:', error);
       toast({
-        title: 'error',
+        title: 'Error',
         description: dict.contact.form.error,
         variant: 'destructive',
       });

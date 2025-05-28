@@ -1,7 +1,7 @@
 import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 import { requireAdmin } from '@/lib/auth-guard';
-import { getAllUsers, deleteUser } from '@/lib/actions/user.actions';
+import { getAllUsers } from '@/lib/actions/user.actions';
 import {
   Table,
   TableBody,
@@ -14,7 +14,14 @@ import { formatId } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
-import DeleteDialog from '@/components/shared/delete-dialog';
+import { UserTableActions } from '@/components/admin/user-table-actions';
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
 
 export default async function AdminUsersPage({
   params: { lang },
@@ -25,7 +32,7 @@ export default async function AdminUsersPage({
 }) {
   await requireAdmin();
   const dict = await getDictionary(lang);
-  const { page = '1', query: searchText } = searchParams;
+  const { page = '1', query: searchText = '' } = searchParams;
 
   const users = await getAllUsers({ page: Number(page), query: searchText });
 
@@ -35,7 +42,7 @@ export default async function AdminUsersPage({
         <h1 className="text-3xl font-bold">{dict.admin.users}</h1>
         {searchText && (
           <div className="flex items-center gap-2">
-            <span>Filtered by "{searchText}"</span>
+            <span>Filtered by &ldquo;{searchText}&rdquo;</span>
             <Button asChild variant="outline" size="sm">
               <Link href={`/${lang}/admin/users`}>Clear Filter</Link>
             </Button>
@@ -55,7 +62,7 @@ export default async function AdminUsersPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.data.map((user) => (
+            {users.data.map((user: User) => (
               <TableRow key={user.id}>
                 <TableCell>{formatId(user.id)}</TableCell>
                 <TableCell>{user.name}</TableCell>
@@ -72,7 +79,7 @@ export default async function AdminUsersPage({
                     <Button asChild variant="outline" size="sm">
                       <Link href={`/${lang}/admin/users/${user.id}`}>Edit</Link>
                     </Button>
-                    <DeleteDialog id={user.id} action={deleteUser} />
+                    <UserTableActions userId={user.id} />
                   </div>
                 </TableCell>
               </TableRow>

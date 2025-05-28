@@ -19,6 +19,14 @@ import { revalidatePath } from 'next/cache';
 import { Prisma } from '@prisma/client';
 import { getMyCart } from './cart.actions';
 import { headers } from 'next/headers';
+import { Resend } from 'resend';
+import { VerifyEmail } from '@/email/verify-email';
+import { SENDER_EMAIL, APP_NAME, SERVER_URL } from '@/lib/constants';
+import dotenv from 'dotenv';
+import { redirect } from 'next/navigation';
+dotenv.config();
+
+const resend = new Resend(process.env.RESEND_API_KEY as string);
 
 // Sign in the user with credentials
 export async function signInWithCredentials(
@@ -63,6 +71,8 @@ export async function signOutUser() {
 
 // Sign up user
 export async function signUpUser(prevState: unknown, formData: FormData) {
+  let newUserId: string | null = null;
+  
   try {
     const user = signUpFormSchema.parse({
       name: formData.get('name'),
@@ -71,29 +81,107 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
       confirmPassword: formData.get('confirmPassword'),
     });
 
-    const plainPassword = user.password;
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email: user.email },
+    });
 
-    user.password = await hash(user.password);
+    if (existingUser) {
+      if (existingUser.emailVerified) {
+        return { success: false, message: 'User already exists with this email' };
+      } else {
+        // User exists but email not verified - resend verification email
+        const verificationToken = crypto.randomUUID();
+        const verificationExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
-    await prisma.user.create({
+        await prisma.user.update({
+          where: { email: user.email },
+          data: {
+            verificationToken,
+            verificationExpiry,
+          },
+        });
+
+        const verificationUrl = `${SERVER_URL}/verify-email/${verificationToken}`;
+
+        // Send verification email
+        await resend.emails.send({
+          from: `${APP_NAME} <${SENDER_EMAIL}>`,
+          to: user.email,
+          subject: `Welcome to ${APP_NAME} - Verify your email`,
+          react: VerifyEmail({ verificationUrl, userName: existingUser.name }),
+        });
+
+        // Get current language from headers
+        const headersList = await headers();
+        const referer = headersList.get('referer') || '';
+        const url = new URL(referer);
+        const lang = url.pathname.split('/')[1] || 'en';
+
+        redirect(`/${lang}/registration-success?email=${encodeURIComponent(user.email)}`);
+      }
+    }
+
+    // Hash password
+    const hashedPassword = await hash(user.password);
+
+    // Generate verification token
+    const verificationToken = crypto.randomUUID();
+    const verificationExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+    // Create user with unverified email
+    const newUser = await prisma.user.create({
       data: {
         name: user.name,
         email: user.email,
-        password: user.password,
+        password: hashedPassword,
+        verificationToken,
+        verificationExpiry,
       },
     });
 
-    await signIn('credentials', {
-      email: user.email,
-      password: plainPassword,
+    // Store the user ID for cleanup if needed
+    newUserId = newUser.id;
+
+    // Send verification email
+    const verificationUrl = `${SERVER_URL}/verify-email/${verificationToken}`;
+    
+    await resend.emails.send({
+      from: `${APP_NAME} <${SENDER_EMAIL}>`,
+      to: user.email,
+      subject: `Welcome to ${APP_NAME} - Verify your email`,
+      react: VerifyEmail({ verificationUrl, userName: user.name }),
     });
 
-    return { success: true, message: 'User registered successfully' };
+    // Get current language from headers
+    const headersList = await headers();
+    const referer = headersList.get('referer') || '';
+    const url = new URL(referer);
+    const lang = url.pathname.split('/')[1] || 'en';
+
+    redirect(`/${lang}/registration-success?email=${encodeURIComponent(user.email)}`);
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
     }
-    return { success: false, message: formatError(error) };
+    
+    // If we created a new user but email failed, clean up
+    if (newUserId) {
+      try {
+        await prisma.user.delete({
+          where: { id: newUserId },
+        });
+      } catch (deleteError) {
+        console.error('Failed to cleanup user after email error:', deleteError);
+      }
+    }
+    
+    // Handle email sending errors
+    console.error('Signup error:', error);
+    return { 
+      success: false, 
+      message: 'Failed to send verification email. Please try again later.' 
+    };
   }
 }
 
@@ -266,6 +354,121 @@ export async function updateUser(user: z.infer<typeof updateUserSchema>) {
       message: 'User updated successfully',
     };
   } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+// Verify email address
+export async function verifyEmail(token: string) {
+  try {
+    // Find user with this verification token
+    const user = await prisma.user.findUnique({
+      where: { verificationToken: token },
+    });
+
+    if (!user) {
+      return { success: false, message: 'Invalid verification token' };
+    }
+
+    // Check if token has expired
+    if (!user.verificationExpiry || user.verificationExpiry < new Date()) {
+      return { success: false, message: 'Verification token has expired' };
+    }
+
+    // Check if email is already verified
+    if (user.emailVerified) {
+      return { success: false, message: 'Email is already verified' };
+    }
+
+    // Verify the email
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        emailVerified: new Date(),
+        verificationToken: null,
+        verificationExpiry: null,
+      },
+    });
+
+    return { 
+      success: true, 
+      message: 'Email verified successfully! You can now sign in to your account.',
+      email: user.email
+    };
+  } catch (error) {
+    console.error('Email verification error:', error);
+    return { success: false, message: formatError(error) };
+  }
+}
+
+// Resend verification email
+export async function resendVerificationEmail(email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return { success: false, message: 'User not found' };
+    }
+
+    if (user.emailVerified) {
+      return { success: false, message: 'Email is already verified' };
+    }
+
+    // Generate new verification token
+    const verificationToken = crypto.randomUUID();
+    const verificationExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+    await prisma.user.update({
+      where: { email },
+      data: {
+        verificationToken,
+        verificationExpiry,
+      },
+    });
+
+    // Send verification email
+    const verificationUrl = `${SERVER_URL}/verify-email/${verificationToken}`;
+    
+    try {
+      await resend.emails.send({
+        from: `${APP_NAME} <${SENDER_EMAIL}>`,
+        to: email,
+        subject: `Welcome to ${APP_NAME} - Verify your email`,
+        react: VerifyEmail({ verificationUrl, userName: user.name }),
+      });
+
+      return { 
+        success: true, 
+        message: 'Verification email sent. Please check your email.' 
+      };
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      return { 
+        success: false, 
+        message: 'Failed to send verification email. Please try again later.' 
+      };
+    }
+  } catch (error) {
+    console.error('Resend verification error:', error);
+    return { success: false, message: formatError(error) };
+  }
+}
+
+// Resend verification email (form action)
+export async function resendVerificationEmailAction(prevState: unknown, formData: FormData) {
+  try {
+    const email = formData.get('email') as string;
+    
+    if (!email) {
+      return { success: false, message: 'Email is required' };
+    }
+
+    const result = await resendVerificationEmail(email);
+    return result;
+  } catch (error) {
+    console.error('Resend verification action error:', error);
     return { success: false, message: formatError(error) };
   }
 }

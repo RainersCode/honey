@@ -500,23 +500,14 @@
     },
     "buttons": {
       "processing": "Apstrādā...",
-      "markAsPaid": "Atzīmēt kā Apmaksātu",
-      "markAsDelivered": "Atzīmēt kā Piegādātu",
-      "markAsShipped": "Atzīmēt kā Nosūtītu"
-    },
-    "paypal": {
-      "loading": "Ielādē PayPal...",
-      "error": "Kļūda ielādējot PayPal"
+      "markAsPaid": "Atzīmēt kā apmaksātu",
+      "markAsDelivered": "Atzīmēt kā piegādātu",
+      "markAsShipped": "Atzīmēt kā nosūtītu"
     },
     "stripe": {
       "submit": "Maksāt tagad",
       "errors": {
-        "unexpected": "Radās neparedzēta kļūda"
-      },
-      "success": {
-        "title": "Maksājums veiksmīgs!",
-        "message": "Paldies par pirkumu. Jūsu pasūtījums ir apstiprināts.",
-        "viewOrder": "Skatīt pasūtījuma detaļas"
+        "unexpected": "Radās negaidīta kļūda."
       }
     }
   },

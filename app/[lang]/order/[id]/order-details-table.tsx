@@ -17,13 +17,6 @@ import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { useTransition } from 'react';
 import {
-  PayPalButtons,
-  PayPalScriptProvider,
-  usePayPalScriptReducer,
-} from '@paypal/react-paypal-js';
-import {
-  createPayPalOrder,
-  approvePayPalOrder,
   updateOrderToPaidCOD,
   deliverOrder,
   shipOrder,
@@ -37,7 +30,6 @@ import DownloadReceiptButton from '@/components/shared/download-receipt-button';
 
 interface OrderDetailsTableProps {
   order: Omit<Order, 'paymentResult'>;
-  paypalClientId: string;
   isAdmin: boolean;
   stripeClientSecret: string | null;
   lang: Locale;
@@ -46,7 +38,6 @@ interface OrderDetailsTableProps {
 
 const OrderDetailsTable = ({
   order,
-  paypalClientId,
   isAdmin,
   stripeClientSecret,
   lang,
@@ -70,40 +61,6 @@ const OrderDetailsTable = ({
   } = order;
 
   const { toast } = useToast();
-
-  const PrintLoadingState = () => {
-    const [{ isPending, isRejected }] = usePayPalScriptReducer();
-    let status = '';
-
-    if (isPending) {
-      status = dict.order.paypal.loading;
-    } else if (isRejected) {
-      status = dict.order.paypal.error;
-    }
-    return status;
-  };
-
-  const handleCreatePayPalOrder = async () => {
-    const res = await createPayPalOrder(order.id);
-
-    if (!res.success) {
-      toast({
-        variant: 'destructive',
-        description: res.message,
-      });
-    }
-
-    return res.data;
-  };
-
-  const handleApprovePayPalOrder = async (data: { orderID: string }) => {
-    const res = await approvePayPalOrder(order.id, data);
-
-    toast({
-      variant: res.success ? 'default' : 'destructive',
-      description: res.message,
-    });
-  };
 
   // Button to mark order as paid
   const MarkAsPaidButton = () => {
@@ -198,9 +155,10 @@ const OrderDetailsTable = ({
           <h1 className="text-2xl font-serif">{dict.order.title} {formatId(id)}</h1>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="md:col-span-2 space-y-6">
-            {/* Shipping Address Card */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Shipping Information Card */}
             <Card className="bg-white/90 backdrop-blur-[2px] shadow-md hover:shadow-lg transition-shadow duration-300">
               <CardHeader className="border-b border-[#FFE4D2] pb-4">
                 <div className="flex items-center gap-2">
@@ -269,20 +227,7 @@ const OrderDetailsTable = ({
                   {/* Payment Actions */}
                   {!isPaid && (
                     <div className="mt-4">
-                      {paymentMethod === 'PayPal' ? (
-                        <PayPalScriptProvider
-                          options={{
-                            clientId: paypalClientId,
-                            currency: 'USD',
-                          }}
-                        >
-                          <PrintLoadingState />
-                          <PayPalButtons
-                            createOrder={handleCreatePayPalOrder}
-                            onApprove={handleApprovePayPalOrder}
-                          />
-                        </PayPalScriptProvider>
-                      ) : paymentMethod === 'Stripe' && stripeClientSecret ? (
+                      {paymentMethod === 'Stripe' && stripeClientSecret ? (
                         <StripePayment
                           clientSecret={stripeClientSecret}
                           lang={lang}

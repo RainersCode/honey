@@ -521,19 +521,10 @@
       "markAsDelivered": "Mark as Delivered",
       "markAsShipped": "Mark as Shipped"
     },
-    "paypal": {
-      "loading": "Loading PayPal...",
-      "error": "Error Loading PayPal"
-    },
     "stripe": {
       "submit": "Pay Now",
       "errors": {
-        "unexpected": "An unexpected error occurred"
-      },
-      "success": {
-        "title": "Payment Successful!",
-        "message": "Thank you for your purchase. Your order has been confirmed.",
-        "viewOrder": "View Order Details"
+        "unexpected": "An unexpected error occurred."
       }
     },
     "receipt": {

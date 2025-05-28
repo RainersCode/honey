@@ -24,7 +24,7 @@ const IconBoxes = () => {
             <WalletCards />
             <div className='text-sm font-bold'>Flexible Payment</div>
             <div className='text-sm text-muted-foreground'>
-              Pay with credit card, PayPal or COD
+              Pay with credit card, Stripe or COD
             </div>
           </div>
           <div className='space-y-2'>

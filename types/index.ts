@@ -96,6 +96,7 @@ export interface Dictionary {
       disable: string;
       addSuccess: string;
       updateSuccess: string;
+    };
   common: {
     loading: string;
     error: string;
@@ -273,10 +274,6 @@ export interface Dictionary {
       markAsPaid: string;
       markAsDelivered: string;
       markAsShipped: string;
-    };
-    paypal: {
-      loading: string;
-      error: string;
     };
     stripe: {
       submit: string;

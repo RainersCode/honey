@@ -14,9 +14,7 @@ import Pagination from '@/components/shared/pagination';
 import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 import { Container } from '@/components/ui/container';
-import { Package, Download } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { generateReceipt } from '@/lib/utils/generate-receipt';
+import { Package } from 'lucide-react';
 import DownloadReceiptButton from '@/components/shared/download-receipt-button';
 
 export const generateMetadata = async ({
@@ -51,14 +49,14 @@ const OrdersPage = async ({
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Package className="h-5 w-5 text-[#FF7A3D]" />
-              <h2 className="h2-bold text-[#1D1D1F]">{dict.user.orders}</h2>
+              <h2 className="text-2xl font-semibold text-[#1D1D1F]">{dict.user.orders}</h2>
             </div>
-            <p className="text-muted-foreground">{dict.orders.description}</p>
+            <p className="text-[#1D1D1F]/70">{dict.orders.description}</p>
           </div>
-          <div className="bg-white rounded-lg shadow-sm border border-[#FFE4D2] overflow-hidden">
+          <div className="bg-white rounded-lg border border-[#FFE4D2] overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="bg-[#FFF5EE] border-b border-[#FFE4D2]">
+                <TableRow className="bg-[#FFFBF8] border-b border-[#FFE4D2]">
                   <TableHead className="text-[#1D1D1F] font-medium">{dict.orders.id}</TableHead>
                   <TableHead className="text-[#1D1D1F] font-medium">{dict.orders.date}</TableHead>
                   <TableHead className="text-[#1D1D1F] font-medium">{dict.orders.total}</TableHead>
@@ -69,33 +67,33 @@ const OrdersPage = async ({
               </TableHeader>
               <TableBody>
                 {orders.data.map((order) => (
-                  <TableRow key={order.id} className="border-b border-[#FFE4D2]">
-                    <TableCell className="font-medium">{formatId(order.id)}</TableCell>
-                    <TableCell>{formatDateTime(order.createdAt).dateTime}</TableCell>
-                    <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
+                  <TableRow key={order.id} className="border-b border-[#FFE4D2] hover:bg-[#FFFBF8]/30">
+                    <TableCell className="font-medium text-[#1D1D1F]">{formatId(order.id)}</TableCell>
+                    <TableCell className="text-[#1D1D1F]/70">{formatDateTime(order.createdAt).dateTime}</TableCell>
+                    <TableCell className="font-medium text-[#FF7A3D]">{formatCurrency(order.totalPrice)}</TableCell>
                     <TableCell>
                       {order.isPaid && order.paidAt ? (
-                        <span className="text-green-600">
+                        <span className="text-[#1D1D1F]/70">
                           {formatDateTime(order.paidAt).dateTime}
                         </span>
                       ) : (
-                        <span className="text-red-600">{dict.orders.notPaid}</span>
+                        <span className="text-[#1D1D1F]/50">{dict.orders.notPaid}</span>
                       )}
                     </TableCell>
                     <TableCell>
                       {order.isDelivered && order.deliveredAt ? (
-                        <span className="text-green-600">
+                        <span className="text-[#1D1D1F]/70">
                           {formatDateTime(order.deliveredAt).dateTime}
                         </span>
                       ) : (
-                        <span className="text-yellow-600">{dict.orders.notDelivered}</span>
+                        <span className="text-[#1D1D1F]/50">{dict.orders.notDelivered}</span>
                       )}
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <Link 
                           href={`/${lang}/order/${order.id}`}
-                          className="text-[#FF7A3D] hover:text-[#ff6a24] font-medium transition-colors duration-200"
+                          className="text-[#FF7A3D] hover:text-[#FF7A3D]/80 font-medium transition-colors duration-200"
                         >
                           {dict.orders.details}
                         </Link>

@@ -1,7 +1,7 @@
 {  "navigation": {    "home": "Главная",    "products": "Продукты",    "about": "О нас",    "contact": "Контакты",    "cart": "Корзина",    "login": "Войти",    "register": "Регистрация",    "logout": "Выйти"  },  "admin": {    "nav": {      "overview": "Обзор",      "products": "Продукты",      "orders": "Заказы",      "users": "Пользователи"    },    "overview": "Обзор",    "products": "Продукты",    "orders": "Заказы",    "users": "Пользователи",    "createProduct": "Создать Продукт",    "updateProduct": "Редактировать Продукт",    "adminDashboard": "Панель администратора",    "orderStatus": {      "notPaid": "Не Оплачен",      "notShipped": "Не Отправлен",      "notDelivered": "Не Доставлен",      "details": "Подробности",      "clearFilter": "Очистить Фильтр",      "filteredBy": "Отфильтровано по"    },    "dashboard": {      "totalRevenue": "Общий Доход",      "sales": "Продажи",      "customers": "Клиенты",      "products": "Продукты",      "overview": "Обзор",      "recentSales": "Последние Продажи",      "totalProducts": "Всего продуктов в магазине",      "totalOrders": "Всего заказов",      "registeredUsers": "Зарегистрированные пользователи",      "totalRevenueSub": "Общий доход",      "buyer": "Покупатель",      "date": "Дата",      "total": "Итого",      "actions": "Действия",      "details": "Подробности"    }  },
   "common": {
     "loading": "Загрузка...",
-    "error": "Страница не найдена",
+    "error": "Ошибка",
     "success": "Успешно",
     "addToCart": "Добавить в корзину",
     "removeFromCart": "Удалить из корзины",
@@ -205,6 +205,9 @@
     "proceedToCheckout": "Перейти к оформлению",
     "processing": "Обработка...",
     "weightLimit": {
+      "error": "Вес превышает максимально допустимый вес",
+      "forMethod": "для",
+      "deliveryMethod": "способа доставки",
       "exceeded": "Общий вес превышает лимит в 30кг. Пожалуйста, уменьшите количество товаров в корзине.",
       "buttonText": "Превышен лимит веса (макс 30кг)"
     },
@@ -212,14 +215,25 @@
       "exceeded": "Невозможно добавить больше товаров. В наличии только {stock} единиц.",
       "error": "Недостаточно товара в наличии"
     },
+    "delivery": {
+      "title": "Способ доставки",
+      "international": "Международная доставка",
+      "internationalDesc": "Доставка по всему миру",
+      "omniva": "Пункт выдачи Omniva",
+      "omnivaDesc": "Локальные пункты выдачи",
+      "shippingCost": "Стоимость доставки",
+      "forWeight": "Для веса",
+      "updateError": "Не удалось обновить способ доставки"
+    },
     "item": "товар",
     "items": "товары",
     "deliveryMethod": {
       "title": "Способ Доставки",
       "international": "Международная Доставка",
       "internationalDesc": "Доставка по всему миру",
-      "omniva": "Пункт Выдачи Omniva",
+      "omnivaPickup": "Пункт Выдачи Omniva",
       "omnivaDesc": "Локальные пункты выдачи",
+      "omnivaLocation": "Место получения Omniva",
       "selectLocation": "Выберите Пункт Выдачи",
       "country": "Страна",
       "postalCode": "Почтовый Индекс",
@@ -316,9 +330,10 @@
       "phoneNumber": "Номер Телефона",
       "phoneNumberPlaceholder": "Введите номер телефона",
       "deliveryMethod": "Способ Доставки",
-      "internationalShipping": "Международная Доставка",
+      "internationalShipping": "Международная доставка",
+      "internationalDesc": "Доставка по всему миру",
       "omnivaPickup": "Пункт Выдачи Omniva",
-      "omnivaLocation": "Пункт Выдачи Omniva",
+      "omnivaLocation": "Место получения Omniva",
       "agreeToTerms": "Я согласен с Условиями Использования",
       "agreeToPrivacy": "Я согласен с Политикой Конфиденциальности",
       "rememberDetails": "Запомнить мои данные",
@@ -423,9 +438,14 @@
       "error": "Ошибка загрузки PayPal"
     },
     "stripe": {
-      "submit": "Оплатить",
+      "submit": "Оплатить сейчас",
       "errors": {
-        "unexpected": "Произошла непредвиденная ошибка"
+        "unexpected": "Произошла неожиданная ошибка"
+      },
+      "success": {
+        "title": "Платёж успешен!",
+        "message": "Спасибо за покупку. Ваш заказ подтверждён.",
+        "viewOrder": "Посмотреть детали заказа"
       }
     },
     "receipt": {
@@ -819,5 +839,12 @@
     "notPaid": "Не оплачено",
     "notDelivered": "Не доставлено",
     "downloadReceipt": "Скачать Чек"
+  },
+  "checkout": {
+    "steps": {
+      "userLogin": "Вход пользователя",
+      "shippingAddress": "Адрес доставки",
+      "placeOrder": "Оформить заказ"
+    }
   }
 } 

@@ -13,10 +13,10 @@ import { dict } from '../dict';
 import { getDictionary } from '@/lib/dictionary';
 import { calcPrice } from '../calcPrice';
 
-export async function addItemToCart(data: CartItem) {
+export async function addItemToCart(data: CartItem, lang: string = 'en') {
   try {
-    // Get dictionary
-    const dict = await getDictionary('en'); // Default to English for server-side messages
+    // Get dictionary with the correct language
+    const dict = await getDictionary(lang);
 
     // Check for cart cookie
     const sessionCartId = (await cookies()).get('sessionCartId')?.value;

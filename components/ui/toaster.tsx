@@ -30,10 +30,22 @@ export function Toaster({ lang = 'en' }: { lang?: string }) {
   return (
     <ToastProvider>
       {toasts.map(function ({ id, title, description, ...props }) {
-        // Translate title if it matches a dictionary key
-        const translatedTitle = dict?.common?.[title?.toLowerCase()] || title
-        // Translate description if it matches a dictionary key
-        const translatedDescription = dict?.common?.[description?.toLowerCase()] || description
+        // Only translate simple keys (like 'error', 'success') that exist in common dictionary
+        // Don't translate complex messages that are already translated
+        const isSimpleKey = (str: string) => {
+          if (!str) return false
+          const trimmed = str.trim().toLowerCase()
+          // Simple keys are single words that exist in our common dictionary
+          return !trimmed.includes(' ') && !trimmed.includes('{') && dict?.common?.[trimmed]
+        }
+        
+        const translatedTitle = (title && isSimpleKey(title)) 
+          ? dict.common[title.toLowerCase()]
+          : title
+          
+        const translatedDescription = (description && isSimpleKey(description))
+          ? dict.common[description.toLowerCase()]
+          : description
 
         return (
           <Toast key={id} {...props}>

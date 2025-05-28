@@ -68,7 +68,7 @@ const QuantityCartControl = ({
     }
 
     startTransition(async () => {
-      const res = await addItemToCart(item);
+      const res = await addItemToCart(item, lang);
 
       if (!res.success) {
         toast({
@@ -170,7 +170,7 @@ const QuantityCartControl = ({
       if (diff > 0) {
         // Need to add items
         for (let i = 0; i < diff; i++) {
-          res = await addItemToCart(item);
+          res = await addItemToCart(item, lang);
           if (!res.success) break;
         }
       } else {

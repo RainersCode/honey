@@ -197,6 +197,7 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
             <ShippingCalculator
               cartWeight={calculateTotalWeight()}
               onRateSelect={handleShippingSelect}
+              lang={lang}
             />
 
             <Card>

@@ -7,8 +7,9 @@ import { useToast } from '@/hooks/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.actions';
 import { useTransition } from 'react';
+import { Locale } from '@/config/i18n.config';
 
-const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
+const QuantityCartControl = ({ cart, item, lang }: { cart?: Cart; item: CartItem; lang: Locale }) => {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -16,7 +17,7 @@ const QuantityCartControl = ({ cart, item }: { cart?: Cart; item: CartItem }) =>
 
   const handleAddToCart = async () => {
     startTransition(async () => {
-      const res = await addItemToCart(item);
+      const res = await addItemToCart(item, lang);
 
       if (!res.success) {
         toast({

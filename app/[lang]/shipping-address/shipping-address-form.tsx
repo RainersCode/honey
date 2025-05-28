@@ -19,6 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { Plane, MapPin } from 'lucide-react';
 import { updateUserAddress } from '@/lib/actions/user.actions';
 import { shippingAddressDefaultValues } from '@/lib/constants';
 import { Card, CardContent } from '@/components/ui/card';
@@ -54,11 +55,13 @@ interface ShippingAddressFormProps {
 
 // Add CountryFlag component
 const CountryFlag = ({ countryCode }: { countryCode: string }) => (
-  <div className='inline-block mr-2 w-6 h-4 overflow-hidden rounded-sm border border-gray-200'>
+  <div className='inline-block mr-2 w-6 h-4 overflow-hidden rounded-sm border border-gray-200 flex items-center justify-center'>
     <Flag
       code={countryCode}
-      fallback={<span>{countryCode}</span>}
+      fallback={<span className='text-xs'>{countryCode}</span>}
       height='16'
+      className='object-cover block'
+      style={{ lineHeight: 0 }}
     />
   </div>
 );
@@ -222,7 +225,19 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                             />
                           </FormControl>
                           <FormLabel className='flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-[#FF7A3D] [&:has([data-state=checked])]:border-[#FF7A3D] cursor-pointer'>
-                            {dict.shipping.form.internationalShipping}
+                            <div className='flex items-center gap-3 w-full'>
+                              <div className='flex items-center justify-center w-8 h-8 rounded-full bg-[#FF7A3D]/10'>
+                                <Plane className='h-4 w-4 text-[#FF7A3D]' />
+                              </div>
+                              <div className='flex-1'>
+                                <div className='font-medium text-[#1D1D1F]'>
+                                  {dict.shipping.form.internationalShipping}
+                                </div>
+                                <div className='text-xs text-gray-500'>
+                                  {dict.shipping.form.internationalDesc || 'Worldwide delivery'}
+                                </div>
+                              </div>
+                            </div>
                           </FormLabel>
                         </FormItem>
                         <FormItem>
@@ -233,7 +248,19 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                             />
                           </FormControl>
                           <FormLabel className='flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-[#FF7A3D] [&:has([data-state=checked])]:border-[#FF7A3D] cursor-pointer'>
-                            {dict.shipping.form.omnivaPickup}
+                            <div className='flex items-center gap-3 w-full'>
+                              <div className='flex items-center justify-center w-8 h-8 rounded-full bg-[#FF7A3D]/10'>
+                                <MapPin className='h-4 w-4 text-[#FF7A3D]' />
+                              </div>
+                              <div className='flex-1'>
+                                <div className='font-medium text-[#1D1D1F]'>
+                                  {dict.shipping.form.omnivaPickup}
+                                </div>
+                                <div className='text-xs text-gray-500'>
+                                  {dict.shipping.form.omnivaDesc || 'Local parcel machines'}
+                                </div>
+                              </div>
+                            </div>
                           </FormLabel>
                         </FormItem>
                       </RadioGroup>
@@ -576,10 +603,10 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
           disabled={isPending}
         >
           {isPending ? (
-            <LoadingSpinner />
+            <LoadingSpinner size="sm" />
           ) : (
             <>
-              {dict.shipping.form.continue}
+              {dict.shipping.form.submit}
               <ArrowRight className='ml-2 h-4 w-4' />
             </>
           )}

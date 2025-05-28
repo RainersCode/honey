@@ -12,6 +12,9 @@ import {
 } from '@/lib/actions/cart.actions';
 import { formatCurrency } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { Plane, MapPin } from 'lucide-react';
+import { Locale } from '@/config/i18n.config';
+import { getDictionary } from '@/lib/dictionary';
 
 interface ShippingRule {
   id: string;
@@ -25,11 +28,13 @@ interface ShippingRule {
 interface ShippingCalculatorProps {
   cartWeight: number;
   onRateSelect: (rate: { service: string; rate: number } | null) => void;
+  lang: Locale;
 }
 
 export default function ShippingCalculator({
   cartWeight,
   onRateSelect,
+  lang,
 }: ShippingCalculatorProps) {
   const [selectedMethod, setSelectedMethod] = useState<
     'international' | 'omniva'
@@ -38,8 +43,19 @@ export default function ShippingCalculator({
   const [shippingRules, setShippingRules] = useState<ShippingRule[]>([]);
   const [currentRule, setCurrentRule] = useState<ShippingRule | null>(null);
   const [weightError, setWeightError] = useState<string | null>(null);
+  const [dict, setDict] = useState<any>(null);
   const { toast } = useToast();
   const router = useRouter();
+
+  // Load dictionary
+  useEffect(() => {
+    const loadDictionary = async () => {
+      const dictionary = await getDictionary(lang);
+      setDict(dictionary);
+    };
+
+    loadDictionary();
+  }, [lang]);
 
   // Fetch shipping rules when method changes
   useEffect(() => {
@@ -55,7 +71,7 @@ export default function ShippingCalculator({
           : Infinity; // If no rules, allow any weight
           
         if (cartWeight > maxAllowedWeight && maxAllowedWeight !== Infinity) {
-          setWeightError(`Weight exceeds maximum allowed weight of ${maxAllowedWeight}kg for ${selectedMethod === 'omniva' ? 'Omniva' : 'international'} shipping delivery method`);
+          setWeightError(`${dict?.cart?.weightLimit?.error || 'Weight exceeds maximum allowed weight of'} ${maxAllowedWeight}kg ${dict?.cart?.weightLimit?.forMethod || 'for'} ${selectedMethod === 'omniva' ? (dict?.cart?.delivery?.omniva || 'Omniva') : (dict?.cart?.delivery?.international || 'international')} ${dict?.cart?.weightLimit?.deliveryMethod || 'shipping delivery method'}`);
           onRateSelect(null); // Clear selected rate
         } else {
           setWeightError(null);
@@ -85,8 +101,8 @@ export default function ShippingCalculator({
 
         if (!result.success) {
           toast({
-            title: 'Error',
-            description: result.message || 'Failed to update delivery method',
+            title: dict?.common?.error || 'Error',
+            description: result.message || dict?.cart?.delivery?.updateError || 'Failed to update delivery method',
             variant: 'destructive',
           });
           return;
@@ -96,8 +112,8 @@ export default function ShippingCalculator({
         router.refresh();
       } catch (error) {
         toast({
-          title: 'Error',
-          description: 'Failed to update delivery method',
+          title: dict?.common?.error || 'Error',
+          description: dict?.cart?.delivery?.updateError || 'Failed to update delivery method',
           variant: 'destructive',
         });
       }
@@ -111,10 +127,15 @@ export default function ShippingCalculator({
     setShowOmnivaSelector(method === 'omniva');
   };
 
+  if (!dict) return null;
+
   return (
-    <Card className='w-full'>
-      <CardHeader>
-        <CardTitle>Delivery Method</CardTitle>
+    <Card className='w-full shadow-sm border-gray-200'>
+      <CardHeader className='pb-3'>
+        <CardTitle className='text-lg font-serif text-[#1D1D1F] flex items-center gap-2'>
+          <MapPin className='h-4 w-4 text-[#FF7A3D]' />
+          {dict.cart.delivery.title || 'Delivery Method'}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className='space-y-4'>
@@ -123,25 +144,56 @@ export default function ShippingCalculator({
             onValueChange={(value: 'international' | 'omniva') =>
               handleShippingMethodChange(value)
             }
-            className='grid grid-cols-2 gap-4'
+            className='grid grid-cols-1 gap-3'
           >
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem value='international' id='international' />
-              <Label htmlFor='international' className='flex flex-col'>
-                <span className='font-medium'>International Shipping</span>
-                <span className='text-sm text-muted-foreground'>
-                  Worldwide delivery
-                </span>
-              </Label>
+            <div className={`relative p-3 rounded-lg border-2 transition-all duration-300 cursor-pointer hover:shadow-sm ${
+              selectedMethod === 'international' 
+                ? 'border-[#FF7A3D] bg-[#FF7A3D]/5' 
+                : 'border-gray-200 hover:border-[#FF7A3D]/50'
+            }`}>
+              <div className='flex items-center space-x-2'>
+                <RadioGroupItem value='international' id='international' className='text-[#FF7A3D]' />
+                <div className='flex items-center space-x-2 flex-1'>
+                  <div className={`p-1.5 rounded-md ${
+                    selectedMethod === 'international' 
+                      ? 'bg-[#FF7A3D] text-white' 
+                      : 'bg-gray-100 text-gray-600'
+                  }`}>
+                    <Plane className='h-3.5 w-3.5' />
+                  </div>
+                  <Label htmlFor='international' className='flex flex-col cursor-pointer'>
+                    <span className='font-medium text-sm text-[#1D1D1F]'>{dict.cart.delivery.international || 'International Shipping'}</span>
+                    <span className='text-xs text-gray-500'>
+                      {dict.cart.delivery.internationalDesc || 'Worldwide delivery'}
+                    </span>
+                  </Label>
+                </div>
+              </div>
             </div>
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem value='omniva' id='omniva' />
-              <Label htmlFor='omniva' className='flex flex-col'>
-                <span className='font-medium'>Omniva Pickup</span>
-                <span className='text-sm text-muted-foreground'>
-                  Local parcel machines
-                </span>
-              </Label>
+            
+            <div className={`relative p-3 rounded-lg border-2 transition-all duration-300 cursor-pointer hover:shadow-sm ${
+              selectedMethod === 'omniva' 
+                ? 'border-[#FF7A3D] bg-[#FF7A3D]/5' 
+                : 'border-gray-200 hover:border-[#FF7A3D]/50'
+            }`}>
+              <div className='flex items-center space-x-2'>
+                <RadioGroupItem value='omniva' id='omniva' className='text-[#FF7A3D]' />
+                <div className='flex items-center space-x-2 flex-1'>
+                  <div className={`p-1.5 rounded-md ${
+                    selectedMethod === 'omniva' 
+                      ? 'bg-[#FF7A3D] text-white' 
+                      : 'bg-gray-100 text-gray-600'
+                  }`}>
+                    <MapPin className='h-3.5 w-3.5' />
+                  </div>
+                  <Label htmlFor='omniva' className='flex flex-col cursor-pointer'>
+                    <span className='font-medium text-sm text-[#1D1D1F]'>{dict.cart.delivery.omniva || 'Omniva Pickup'}</span>
+                    <span className='text-xs text-gray-500'>
+                      {dict.cart.delivery.omnivaDesc || 'Local parcel machines'}
+                    </span>
+                  </Label>
+                </div>
+              </div>
             </div>
           </RadioGroup>
 
@@ -156,13 +208,20 @@ export default function ShippingCalculator({
           )}
 
           {!weightError && currentRule && (
-            <div className='mt-4'>
-              <p className='text-sm text-gray-600'>
-                Shipping cost: {formatCurrency(Number(currentRule.price))}
-              </p>
-              <p className='text-xs text-gray-500'>
-                For weight: {cartWeight}kg
-              </p>
+            <div className='mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200'>
+              <div className='flex items-center justify-between'>
+                <div>
+                  <p className='font-medium text-sm text-[#1D1D1F]'>
+                    {dict.cart.delivery.shippingCost || 'Shipping cost'}: {formatCurrency(Number(currentRule.price))}
+                  </p>
+                  <p className='text-xs text-gray-500'>
+                    {dict.cart.delivery.forWeight || 'For weight'}: {Number(cartWeight.toFixed(2))}kg
+                  </p>
+                </div>
+                <div className='text-[#FF7A3D] font-semibold text-base'>
+                  {formatCurrency(Number(currentRule.price))}
+                </div>
+              </div>
             </div>
           )}
         </div>

@@ -88,7 +88,7 @@
   },
   "common": {
     "loading": "Ielādē...",
-    "error": "Lapa nav atrasta",
+    "error": "Kļūda",
     "success": "Veiksmīgi",
     "addToCart": "Pievienot grozam",
     "removeFromCart": "Izņemt no groza",
@@ -291,12 +291,25 @@
     "proceedToCheckout": "Doties uz kasi",
     "processing": "Apstrāde...",
     "weightLimit": {
+      "error": "Svars pārsniedz maksimāli atļauto svaru",
+      "forMethod": "priekš",
+      "deliveryMethod": "piegādes metodes",
       "exceeded": "Kopējais svars pārsniedz 30kg limitu. Lūdzu samaziniet preču daudzumu grozā.",
       "buttonText": "Pārsniegts svara limits (max 30kg)"
     },
     "stockLimit": {
       "exceeded": "Nevar pievienot vairāk preču. Noliktavā pieejamas tikai {stock} vienības.",
       "error": "Nav pietiekami daudz preču noliktavā"
+    },
+    "delivery": {
+      "title": "Piegādes veids",
+      "international": "Starptautiskā piegāde",
+      "internationalDesc": "Piegāde pa visu pasauli",
+      "omniva": "Omniva pakomāts",
+      "omnivaDesc": "Vietējie pakomāti",
+      "shippingCost": "Piegādes izmaksas",
+      "forWeight": "Svaram",
+      "updateError": "Neizdevās atjaunināt piegādes metodi"
     },
     "item": "prece",
     "items": "preces"
@@ -387,9 +400,11 @@
       "phoneNumberPlaceholder": "Ievadiet tālruņa numuru",
       "deliveryMethod": "Piegādes Veids",
       "homeDelivery": "Piegāde uz Mājām",
-      "internationalShipping": "Starptautiskā Piegāde",
+      "internationalShipping": "Starptautiskā piegāde",
+      "internationalDesc": "Piegāde pa visu pasauli",
       "omnivaPickup": "Omniva Pakomāts",
-      "omnivaLocation": "Omniva Pakomāta Atrašanās Vieta",
+      "omnivaDesc": "Vietējie pakomāti",
+      "omnivaLocation": "Omniva saņemšanas vieta",
       "agreeToTerms": "Es piekrītu Lietošanas Noteikumiem",
       "agreeToPrivacy": "Es piekrītu Privātuma Politikai",
       "rememberDetails": "Atcerēties manus datus",
@@ -494,9 +509,14 @@
       "error": "Kļūda ielādējot PayPal"
     },
     "stripe": {
-      "submit": "Apmaksāt",
+      "submit": "Maksāt tagad",
       "errors": {
         "unexpected": "Radās neparedzēta kļūda"
+      },
+      "success": {
+        "title": "Maksājums veiksmīgs!",
+        "message": "Paldies par pirkumu. Jūsu pasūtījums ir apstiprināts.",
+        "viewOrder": "Skatīt pasūtījuma detaļas"
       }
     }
   },
@@ -886,5 +906,12 @@
     "notPaid": "Nav Apmaksāts",
     "notDelivered": "Nav Piegādāts",
     "downloadReceipt": "Lejupielādēt Kvīti"
+  },
+  "checkout": {
+    "steps": {
+      "userLogin": "Lietotāja pieteikšanās",
+      "shippingAddress": "Piegādes adrese",
+      "placeOrder": "Veikt pasūtījumu"
+    }
   }
 } 

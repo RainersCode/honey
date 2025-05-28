@@ -44,12 +44,10 @@ export default function DownloadReceiptButton({ order, dict, title }: DownloadRe
   return (
     <Button 
       onClick={handleDownload}
-      variant="ghost" 
-      size="icon"
-      className="text-[#FF7A3D] hover:text-[#ff6a24] transition-colors duration-200"
-      title={title}
+      className="w-full bg-[#FF7A3D]/10 hover:bg-[#FF7A3D]/20 text-[#FF7A3D] border border-[#FF7A3D]/20 hover:border-[#FF7A3D]/30 transition-all duration-200"
     >
-      <Download className="h-4 w-4" />
+      <Download className="h-4 w-4 mr-2" />
+      {title}
     </Button>
   );
 } 

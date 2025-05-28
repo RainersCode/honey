@@ -39,7 +39,7 @@ const SimpleAddToCart = ({ item, lang }: SimpleAddToCartProps) => {
     if (!dict) return;
 
     startTransition(async () => {
-      const res = await addItemToCart(item);
+      const res = await addItemToCart(item, lang);
 
       if (!res.success) {
         toast({

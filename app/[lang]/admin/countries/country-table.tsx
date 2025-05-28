@@ -58,11 +58,13 @@ interface CountryTableProps {
 
 // Component to display flag with consistent styling
 const CountryFlag = ({ countryCode }: { countryCode: string }) => (
-  <div className='inline-block mr-2 w-8 h-6 overflow-hidden rounded-sm border border-gray-200'>
+  <div className='inline-block mr-2 w-8 h-6 overflow-hidden rounded-sm border border-gray-200 flex items-center justify-center'>
     <Flag
       code={countryCode}
-      fallback={<span>{countryCode}</span>}
+      fallback={<span className='text-xs'>{countryCode}</span>}
       height='24'
+      className='object-cover block'
+      style={{ lineHeight: 0 }}
     />
   </div>
 );

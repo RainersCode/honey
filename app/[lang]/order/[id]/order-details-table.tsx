@@ -114,6 +114,7 @@ const OrderDetailsTable = ({
       <Button
         type='button'
         disabled={isPending}
+        className='w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white'
         onClick={() =>
           startTransition(async () => {
             const res = await updateOrderToPaidCOD(order.id);
@@ -138,6 +139,7 @@ const OrderDetailsTable = ({
       <Button
         type='button'
         disabled={isPending}
+        className='w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white'
         onClick={() =>
           startTransition(async () => {
             const res = await deliverOrder(order.id);
@@ -162,6 +164,7 @@ const OrderDetailsTable = ({
       <Button
         type='button'
         disabled={isPending}
+        className='w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white mb-2'
         onClick={() =>
           startTransition(async () => {
             const res = await shipOrder(order.id);
@@ -171,7 +174,6 @@ const OrderDetailsTable = ({
             });
           })
         }
-        className="mb-2"
       >
         {isPending ? dict.order.buttons.processing : dict.order.buttons.markAsShipped}
       </Button>
@@ -227,15 +229,15 @@ const OrderDetailsTable = ({
                   )}
                   <p className="text-muted-foreground">{dict.order.shipping.phone}: {shippingAddress.phoneNumber}</p>
                   {isDelivered ? (
-                    <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
+                    <Badge className="bg-green-100 text-green-800 hover:bg-green-100 border-green-200">
                       {dict.order.shipping.deliveredAt} {formatDateTime(deliveredAt!).dateTime}
                     </Badge>
                   ) : isShipped ? (
-                    <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">
+                    <Badge className="bg-[#FF7A3D]/10 text-[#FF7A3D] hover:bg-[#FF7A3D]/10 border-[#FF7A3D]/20">
                       {dict.order.shipping.shippedAt} {formatDateTime(shippedAt!).dateTime}
                     </Badge>
                   ) : (
-                    <Badge variant="destructive">
+                    <Badge className="bg-red-50 text-red-700 hover:bg-red-50 border-red-200">
                       {dict.order.shipping.notShipped}
                     </Badge>
                   )}
@@ -255,11 +257,11 @@ const OrderDetailsTable = ({
                 <div className="space-y-2 text-[#1D1D1F]">
                   <p className="font-medium">{dict.order.payment.method}: {paymentMethod}</p>
                   {isPaid ? (
-                    <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
+                    <Badge className="bg-green-100 text-green-800 hover:bg-green-100 border-green-200">
                       {dict.order.payment.paidAt} {formatDateTime(paidAt!).dateTime}
                     </Badge>
                   ) : (
-                    <Badge variant="destructive">
+                    <Badge className="bg-red-50 text-red-700 hover:bg-red-50 border-red-200">
                       {dict.order.payment.notPaid}
                     </Badge>
                   )}
@@ -305,38 +307,38 @@ const OrderDetailsTable = ({
               <CardContent className="pt-4">
                 <Table>
                   <TableHeader>
-                    <TableRow>
-                      <TableHead>{dict.order.items.image}</TableHead>
-                      <TableHead>{dict.order.items.name}</TableHead>
-                      <TableHead>{dict.order.items.quantity}</TableHead>
-                      <TableHead>{dict.order.items.price}</TableHead>
-                      <TableHead>{dict.order.items.total}</TableHead>
+                    <TableRow className="border-b border-[#FFE4D2]">
+                      <TableHead className="text-[#1D1D1F] font-medium">{dict.order.items.image}</TableHead>
+                      <TableHead className="text-[#1D1D1F] font-medium">{dict.order.items.name}</TableHead>
+                      <TableHead className="text-[#1D1D1F] font-medium">{dict.order.items.quantity}</TableHead>
+                      <TableHead className="text-[#1D1D1F] font-medium">{dict.order.items.price}</TableHead>
+                      <TableHead className="text-[#1D1D1F] font-medium">{dict.order.items.total}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {orderitems.map((item) => (
-                      <TableRow key={item.id}>
+                      <TableRow key={item.id} className="border-b border-[#FFE4D2]/50">
                         <TableCell>
-                          <div className="relative h-20 w-20">
+                          <div className="relative h-20 w-20 border border-[#FFE4D2] rounded-md overflow-hidden">
                             <Image
                               src={item.image}
                               alt={item.name}
                               fill
-                              className="object-cover rounded-md"
+                              className="object-cover"
                             />
                           </div>
                         </TableCell>
                         <TableCell>
                           <Link
                             href={`/${lang}/product/${item.productId}`}
-                            className="text-[#FF7A3D] hover:underline"
+                            className="text-[#FF7A3D] hover:text-[#ff6a24] hover:underline font-medium transition-colors duration-200"
                           >
                             {item.name}
                           </Link>
                         </TableCell>
-                        <TableCell>{item.qty}</TableCell>
-                        <TableCell>{formatCurrency(item.price)}</TableCell>
-                        <TableCell>
+                        <TableCell className="text-[#1D1D1F] font-medium">{item.qty}</TableCell>
+                        <TableCell className="text-[#1D1D1F] font-medium">{formatCurrency(item.price)}</TableCell>
+                        <TableCell className="text-[#1D1D1F] font-medium">
                           {formatCurrency(Number(item.price) * item.qty)}
                         </TableCell>
                       </TableRow>
@@ -354,41 +356,41 @@ const OrderDetailsTable = ({
                 <CardTitle className="text-xl font-serif">{dict.order.summary.title}</CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <div className="flex justify-between">
-                    <p className="text-muted-foreground">{dict.order.summary.items}</p>
-                    <p className="font-medium">{formatCurrency(itemsPrice)}</p>
+                    <p className="text-[#1D1D1F]/70">{dict.order.summary.items}</p>
+                    <p className="font-medium text-[#1D1D1F]">{formatCurrency(itemsPrice)}</p>
                   </div>
                   <div className="flex justify-between">
-                    <p className="text-muted-foreground">{dict.order.summary.shipping}</p>
-                    <p className="font-medium">{formatCurrency(shippingPrice)}</p>
+                    <p className="text-[#1D1D1F]/70">{dict.order.summary.shipping}</p>
+                    <p className="font-medium text-[#1D1D1F]">{formatCurrency(shippingPrice)}</p>
                   </div>
                   <div className="flex justify-between">
-                    <p className="text-muted-foreground">{dict.order.summary.tax}</p>
-                    <p className="font-medium">{formatCurrency(taxPrice)}</p>
+                    <p className="text-[#1D1D1F]/70">{dict.order.summary.tax}</p>
+                    <p className="font-medium text-[#1D1D1F]">{formatCurrency(taxPrice)}</p>
                   </div>
-                  <div className="flex justify-between border-t pt-2">
-                    <p className="font-medium">{dict.order.summary.total}</p>
-                    <p className="font-medium">{formatCurrency(totalPrice)}</p>
+                  <div className="flex justify-between border-t border-[#FFE4D2] pt-3">
+                    <p className="font-bold text-lg text-[#1D1D1F]">{dict.order.summary.total}</p>
+                    <p className="font-bold text-xl text-[#FF7A3D]">{formatCurrency(totalPrice)}</p>
                   </div>
                 </div>
 
-                {/* Admin Actions */}
-                {isAdmin && !isDelivered && (
-                  <div className="mt-6 space-y-2">
-                    {!isShipped && <MarkAsShippedButton />}
-                    {isShipped && <MarkAsDeliveredButton />}
-                  </div>
-                )}
-
                 {/* Download Receipt Button */}
                 {order.isPaid && (
-                  <div className="mb-2">
+                  <div className="mt-6 pt-4 border-t border-[#FFE4D2]">
                     <DownloadReceiptButton 
                       order={order}
                       dict={dict}
                       title={dict.orders.downloadReceipt}
                     />
+                  </div>
+                )}
+
+                {/* Admin Actions */}
+                {isAdmin && !isDelivered && (
+                  <div className="mt-6 pt-4 border-t border-[#FFE4D2] space-y-3">
+                    {!isShipped && <MarkAsShippedButton />}
+                    {isShipped && <MarkAsDeliveredButton />}
                   </div>
                 )}
               </CardContent>
@@ -401,3 +403,4 @@ const OrderDetailsTable = ({
 };
 
 export default OrderDetailsTable;
+

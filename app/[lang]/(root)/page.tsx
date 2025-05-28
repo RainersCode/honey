@@ -6,7 +6,7 @@ import {
 import ProductCarousel from '@/components/shared/product/product-carousel';
 import Image from 'next/image';
 import Link from 'next/link';
-import ProductCategories from '@/components/product-categories';
+import ProductCategoriesBento from '@/components/product-categories-bento';
 import ClientTestimonials from '@/components/client-testimonials';
 import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
@@ -51,7 +51,7 @@ export default async function Homepage({
         </div>
       </section>
 
-      <ProductCategories lang={lang} />
+      <ProductCategoriesBento lang={lang} />
 
       {featuredProducts.length > 0 && (
         <ProductCarousel data={featuredProducts} lang={lang} />

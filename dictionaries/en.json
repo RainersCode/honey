@@ -88,7 +88,7 @@
   },
   "common": {
     "loading": "Loading...",
-    "error": "Page not found",
+    "error": "Error",
     "success": "Success",
     "addToCart": "Add to Cart",
     "removeFromCart": "Remove from Cart",
@@ -292,6 +292,9 @@
     "proceedToCheckout": "Proceed to Checkout",
     "processing": "Processing...",
     "weightLimit": {
+      "error": "Weight exceeds maximum allowed weight of",
+      "forMethod": "for",
+      "deliveryMethod": "shipping delivery method",
       "exceeded": "Total weight exceeds the 30kg limit. Please reduce the quantity of items in your cart.",
       "buttonText": "Weight limit exceeded (30kg max)"
     },
@@ -316,6 +319,16 @@
       "calculating": "Calculating...",
       "availableOptions": "Available Shipping Options",
       "deliveryDays": "{days} days"
+    },
+    "delivery": {
+      "title": "Delivery Method",
+      "international": "International Shipping",
+      "internationalDesc": "Worldwide delivery",
+      "omniva": "Omniva Pickup",
+      "omnivaDesc": "Local parcel machines",
+      "shippingCost": "Shipping cost",
+      "forWeight": "For weight",
+      "updateError": "Failed to update delivery method"
     }
   },
   "contact": {
@@ -404,7 +417,9 @@
       "phoneNumberPlaceholder": "Enter phone number",
       "deliveryMethod": "Delivery Method",
       "internationalShipping": "International Shipping",
+      "internationalDesc": "Worldwide delivery",
       "omnivaPickup": "Omniva Pickup",
+      "omnivaDesc": "Local parcel machines",
       "omnivaLocation": "Omniva Pickup Location",
       "agreeToTerms": "I agree to the Terms and Conditions",
       "agreeToPrivacy": "I agree to the Privacy Policy",
@@ -447,7 +462,8 @@
       "method": "Delivery Method",
       "homeDelivery": "Home Delivery",
       "omnivaPickup": "Omniva Pickup",
-      "omnivaLocation": "Pickup Location"
+      "omnivaDesc": "Local parcel machines",
+      "omnivaLocation": "Omniva Pickup Location"
     },
     "payment": {
       "title": "Payment Method",
@@ -513,6 +529,11 @@
       "submit": "Pay Now",
       "errors": {
         "unexpected": "An unexpected error occurred"
+      },
+      "success": {
+        "title": "Payment Successful!",
+        "message": "Thank you for your purchase. Your order has been confirmed.",
+        "viewOrder": "View Order Details"
       }
     },
     "receipt": {
@@ -917,5 +938,12 @@
         "quote": "Not only is the honey delicious, but their service is outstanding. Always fresh and delivered with care."
       }
     ]
+  },
+  "checkout": {
+    "steps": {
+      "userLogin": "User Login",
+      "shippingAddress": "Shipping Address",
+      "placeOrder": "Place Order"
+    }
   }
 } 

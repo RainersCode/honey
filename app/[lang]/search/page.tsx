@@ -109,6 +109,32 @@ const SearchPage = async ({
     }))
   ];
 
+  // Dynamic grid layout based on number of categories
+  const getCategoryGridLayout = (count: number) => {
+    if (count <= 3) {
+      // 1-3 cards: single row
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8";
+    } else if (count === 4) {
+      // 4 cards: 2 rows with 2 cards each
+      return "grid grid-cols-1 sm:grid-cols-2 gap-6 my-8";
+    } else if (count === 5) {
+      // 5 cards: 2 rows (3 on top, 2 on bottom)
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8";
+    } else if (count === 6) {
+      // 6 cards: 2 rows with 3 cards each
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8";
+    } else if (count === 7) {
+      // 7 cards: 2 rows (4 on top, 3 on bottom)
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-8";
+    } else if (count === 8) {
+      // 8 cards: 2 rows with 4 cards each
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-8";
+    } else {
+      // 9+ cards: 3 rows with 3 cards each (or similar balanced distribution)
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8";
+    }
+  };
+
   // Prepare breadcrumb items
   const breadcrumbItems = [];
   if (category !== 'all') {
@@ -133,12 +159,12 @@ const SearchPage = async ({
       <Breadcrumb items={breadcrumbItems} />
       
       {/* Category Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-8">
+      <div className={getCategoryGridLayout(categoryCards.length)}>
         {categoryCards.map((cat) => (
           <Link 
             href={getFilterUrl({ c: cat.key })}
             key={cat.key}
-            className={`group relative overflow-hidden rounded-xl h-[200px] bg-[#FFFBF8] transition-transform duration-300 hover:-translate-y-1 ${
+            className={`group relative overflow-hidden rounded-xl h-[120px] bg-[#FFFBF8] transition-transform duration-300 hover:-translate-y-1 ${
               (cat.key === 'all' && category === 'all') || category === cat.key 
                 ? 'ring-2 ring-[#FF7A3D]' 
                 : ''
@@ -153,22 +179,37 @@ const SearchPage = async ({
               />
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors duration-300"></div>
             </div>
-            <div className="relative h-full flex flex-col justify-center items-center text-center p-6">
-              <h3 className="text-2xl font-serif mb-2 text-white">{cat.name}</h3>
-              <p className="text-white/90 text-sm mb-4">{cat.description}</p>
-              <div className={`px-6 py-2 rounded-full text-sm font-medium text-white transition-all duration-300 ${
-                (cat.key === 'all' && category === 'all') || category === cat.key
-                  ? 'bg-[#FF7A3D] opacity-100' 
-                  : 'bg-[#FF7A3D] opacity-0 group-hover:opacity-100'
-              }`}>
-                {(cat.key === 'all' && category === 'all') || category === cat.key 
-                  ? dict.products.filters.currentlyViewing
-                  : dict.products.filters.viewProducts}
+            <div className="relative h-full flex flex-col justify-between p-6">
+              {/* Button in top right - slides in from right on hover */}
+              <div className="flex justify-end">
+                <div className={`transform translate-x-4 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 ${
+                  (cat.key === 'all' && category === 'all') || category === cat.key
+                    ? 'translate-x-0 opacity-100' 
+                    : ''
+                }`}>
+                  <div className={`px-4 py-2 rounded-full text-sm font-medium text-white hover:text-black bg-[#FF7A3D] hover:bg-[#ff6a2a] transition-colors duration-300 shadow-lg ${
+                    (cat.key === 'all' && category === 'all') || category === cat.key
+                      ? '' 
+                      : ''
+                  }`}>
+                    {(cat.key === 'all' && category === 'all') || category === cat.key 
+                      ? dict.products.filters.currentlyViewing
+                      : dict.products.filters.viewProducts}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Title in bottom left */}
+              <div className="flex justify-start">
+                <h3 className="text-2xl font-serif text-white">{cat.name}</h3>
               </div>
             </div>
           </Link>
         ))}
       </div>
+
+      {/* Spacer line */}
+      <div className="border-t border-[#FF7A3D]/30 my-8"></div>
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left sidebar */}
@@ -186,9 +227,9 @@ const SearchPage = async ({
                     placeholder={dict.products.search.placeholder}
                     className="flex-1"
                   />
-                  <Button type="submit" size="icon">
-                    <SearchIcon className="h-4 w-4" />
-                  </Button>
+                  <button type="submit" className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-[#FF7A3D]/10 transition-colors duration-200">
+                    <SearchIcon className="h-5 w-5 text-[#FF7A3D]" />
+                  </button>
                 </form>
               </div>
 

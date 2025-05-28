@@ -2,8 +2,8 @@ import ProductCard from '@/components/shared/product/product-card';
 import { Button } from '@/components/ui/button';
 import {
   getAllProducts,
-  getAllCategories,
 } from '@/lib/actions/product.actions';
+import { getAllCategories } from '@/lib/actions/category.actions';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -23,12 +23,14 @@ const sortOrders = [
 ];
 
 export async function generateMetadata({
-  params: { lang },
-  searchParams: { q = 'all', category = 'all' }
+  params,
+  searchParams
 }: {
-  params: { lang: Locale };
-  searchParams: { q?: string; category?: string };
+  params: Promise<{ lang: Locale }>;
+  searchParams: Promise<{ q?: string; category?: string }>;
 }) {
+  const { lang } = await params;
+  const { q = 'all', category = 'all' } = await searchParams;
   const dict = await getDictionary(lang);
 
   const isQuerySet = q && q !== 'all' && q.trim() !== '';
@@ -48,12 +50,14 @@ export async function generateMetadata({
 }
 
 const SearchPage = async ({
-  params: { lang },
-  searchParams: { q = 'all', category = 'all', sort = 'newest', page = '1' }
+  params,
+  searchParams
 }: {
-  params: { lang: Locale };
-  searchParams: { q?: string; category?: string; sort?: string; page?: string };
+  params: Promise<{ lang: Locale }>;
+  searchParams: Promise<{ q?: string; category?: string; sort?: string; page?: string }>;
 }) => {
+  const { lang } = await params;
+  const { q = 'all', category = 'all', sort = 'newest', page = '1' } = await searchParams;
   const dict = await getDictionary(lang);
 
   // Construct filter url
@@ -89,35 +93,32 @@ const SearchPage = async ({
 
   const categories = await getAllCategories();
 
-  // Category cards data
+  // Prepare category cards with database categories
   const categoryCards = [
     {
       key: 'all',
+      name: dict.products.categories.all.name,
+      description: dict.products.categories.all.description,
       image: '/images/hero-section/alternative-medicine-concept-ingredients-for-flu-2024-10-18-04-51-28-utc.jpg',
     },
-    {
-      key: 'honey',
-      image: '/images/categories/honey.jpg',
-    },
-    {
-      key: 'beeswax',
-      image: '/images/categories/beeswax.jpg',
-    },
-    {
-      key: 'honeycomb',
-      image: '/images/categories/honeycomb.jpg',
-    }
+    ...categories.map(cat => ({
+      key: cat.key,
+      name: cat.name,
+      description: cat.description,
+      image: cat.image,
+    }))
   ];
 
   // Prepare breadcrumb items
   const breadcrumbItems = [];
   if (category !== 'all') {
+    const selectedCategory = categories.find(cat => cat.key === category);
     breadcrumbItems.push({
       label: dict.navigation.products,
       href: `/${lang}/search`
     });
     breadcrumbItems.push({
-      label: capitalizeWords(category),
+      label: selectedCategory ? selectedCategory.name : capitalizeWords(category),
       href: getFilterUrl({ c: category })
     });
   } else {
@@ -146,15 +147,15 @@ const SearchPage = async ({
             <div className="absolute inset-0">
               <Image
                 src={cat.image}
-                alt={dict.products.categories[cat.key].name}
+                alt={cat.name}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors duration-300"></div>
             </div>
             <div className="relative h-full flex flex-col justify-center items-center text-center p-6">
-              <h3 className="text-2xl font-serif mb-2 text-white">{dict.products.categories[cat.key].name}</h3>
-              <p className="text-white/90 text-sm mb-4">{dict.products.categories[cat.key].description}</p>
+              <h3 className="text-2xl font-serif mb-2 text-white">{cat.name}</h3>
+              <p className="text-white/90 text-sm mb-4">{cat.description}</p>
               <div className={`px-6 py-2 rounded-full text-sm font-medium text-white transition-all duration-300 ${
                 (cat.key === 'all' && category === 'all') || category === cat.key
                   ? 'bg-[#FF7A3D] opacity-100' 
@@ -233,4 +234,4 @@ const SearchPage = async ({
   );
 };
 
-export default SearchPage; 
+export default SearchPage;

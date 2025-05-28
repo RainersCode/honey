@@ -108,5 +108,58 @@ html.dark .upload-field .text-white {
 }
 
 .upload-field .text-white {
-  color: #000 !important;
+  color: #FF7A3D !important;
+}
+
+.upload-field .ut-button {
+  background-color: transparent !important;
+  border: 1px solid #FF7A3D !important;
+  color: #FF7A3D !important;
+  transition: all 0.3s ease !important;
+}
+
+.upload-field .ut-button:hover {
+  background-color: #FF7A3D !important;
+  color: white !important;
+}
+
+html.dark .upload-field .ut-button {
+  border-color: #FF7A3D !important;
+  color: #FF7A3D !important;
+}
+
+html.dark .upload-field .ut-button:hover {
+  background-color: #FF7A3D !important;
+  color: white !important;
+}
+
+/* Additional UploadThing text color overrides */
+.ut-label {
+  color: #1F2937 !important; /* Dark gray for better visibility */
+}
+
+html.dark .ut-label {
+  color: #F3F4F6 !important; /* Light gray for dark mode */
+}
+
+.upload-field button[type="button"] {
+  color: #1F2937 !important; /* Dark gray for the "Choose File" text */
+}
+
+html.dark .upload-field button[type="button"] {
+  color: #F3F4F6 !important; /* Light gray for dark mode */
+}
+
+/* Make sure all UploadThing text is visible */
+.upload-field * {
+  color: #1F2937 !important;
+}
+
+html.dark .upload-field * {
+  color: #F3F4F6 !important;
+}
+
+/* Exception for the button hover state */
+.upload-field .ut-button:hover * {
+  color: white !important;
 }

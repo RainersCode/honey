@@ -17,10 +17,11 @@ import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 
 export async function generateMetadata({
-  params: { lang, slug },
+  params,
 }: {
-  params: { lang: Locale; slug: string };
+  params: Promise<{ lang: Locale; slug: string }>;
 }) {
+  const { lang, slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product) return {};
 
@@ -31,10 +32,11 @@ export async function generateMetadata({
 }
 
 const ProductDetailsPage = async ({
-  params: { lang, slug },
+  params,
 }: {
-  params: { lang: Locale; slug: string };
+  params: Promise<{ lang: Locale; slug: string }>;
 }) => {
+  const { lang, slug } = await params;
   const dict = await getDictionary(lang);
   const product = await getProductBySlug(slug);
   if (!product) notFound();
@@ -51,8 +53,8 @@ const ProductDetailsPage = async ({
       href: `/${lang}/search`,
     },
     {
-      label: capitalizeWords(product.category),
-      href: `/${lang}/search?category=${product.category}`,
+      label: product.category.name,
+      href: `/${lang}/search?category=${product.category.key}`,
     },
     {
       label: product.name,
@@ -80,7 +82,7 @@ const ProductDetailsPage = async ({
                   variant='secondary'
                   className='bg-[#FF7A3D]/10 text-[#FF7A3D] hover:bg-[#FF7A3D]/20'
                 >
-                  {capitalizeWords(product.category)}
+                  {product.category.name}
                 </Badge>
               </div>
               <h1 className='text-3xl md:text-4xl font-serif text-[#1D1D1F] mb-4'>

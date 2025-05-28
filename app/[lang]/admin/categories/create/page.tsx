@@ -1,31 +1,28 @@
 import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 import { requireAdmin } from '@/lib/auth-guard';
-import ProductForm from '@/components/admin/product-form';
 import { Metadata } from 'next';
-import { getAllCategories } from '@/lib/actions/category.actions';
+import CategoryForm from '@/components/admin/category-form';
 
 export const metadata: Metadata = {
-  title: 'Create Product',
+  title: 'Create Category',
 };
 
-export default async function CreateProductPage({
+export default async function CreateCategoryPage({
   params: { lang },
 }: {
   params: { lang: Locale };
 }) {
   await requireAdmin();
   const dict = await getDictionary(lang);
-  const categories = await getAllCategories();
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">{dict.admin.createProduct}</h1>
+      <h1 className="text-3xl font-bold">{dict.admin.createCategory}</h1>
       <div className="max-w-5xl">
-        <ProductForm 
+        <CategoryForm 
           type="Create" 
           lang={lang} 
-          categories={categories}
           dictionary={dict}
         />
       </div>

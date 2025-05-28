@@ -6,9 +6,10 @@ import { Locale } from '@/config/i18n.config';
 export async function generateMetadata({
   params,
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(params.lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang);
 
   return {
     title: dict.cart.title,
@@ -18,10 +19,10 @@ export async function generateMetadata({
 const CartPage = async ({
   params,
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) => {
+  const { lang } = await params;
   const cart = await getMyCart();
-  const lang = params.lang;
 
   return (
     <CartTable cart={cart} lang={lang} />

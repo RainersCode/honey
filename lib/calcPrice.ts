@@ -1,7 +1,7 @@
 import { CartItem } from '@/types';
 import { prisma } from '@/db/prisma';
 import { round2 } from './utils';
-import { DELIVERY_METHODS, INTERNATIONAL_SHIPPING_RATES } from './constants';
+import { DELIVERY_METHODS, INTERNATIONAL_SHIPPING_RATES } from './constants/index';
 
 // Calculate total weight of items in cart
 const calculateTotalWeight = (items: CartItem[]) => {

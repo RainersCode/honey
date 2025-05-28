@@ -1,46 +1,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/lib/dictionary';
+import { getAllCategories } from '@/lib/actions/category.actions';
 
 interface ProductCategoriesProps {
   lang: string;
 }
 
 const ProductCategories = async ({ lang }: ProductCategoriesProps) => {
-  const dictionary = await getDictionary(lang);
-
-  const categories = [
-    {
-      key: 'honey',
-      name: dictionary.productCategories?.categories?.honey?.name || 'Honey',
-      image: '/images/categories/honey.jpg',
-      description:
-        dictionary.productCategories?.categories?.honey?.description ||
-        'Pure, natural honey with rich flavors and golden hues',
-      link: `/${lang}/search?category=honey`,
-    },
-    {
-      key: 'beeswax',
-      name:
-        dictionary.productCategories?.categories?.beeswax?.name || 'Beeswax',
-      image: '/images/categories/beeswax.jpg',
-      description:
-        dictionary.productCategories?.categories?.beeswax?.description ||
-        'Natural beeswax products for home and wellness',
-      link: `/${lang}/search?category=beeswax`,
-    },
-    {
-      key: 'honeycomb',
-      name:
-        dictionary.productCategories?.categories?.honeycomb?.name ||
-        'Honeycomb',
-      image: '/images/categories/honeycomb.jpg',
-      description:
-        dictionary.productCategories?.categories?.honeycomb?.description ||
-        'Fresh, raw honeycomb straight from the hive',
-      link: `/${lang}/search?category=honeycomb`,
-    },
-  ];
+  const [dictionary, categories] = await Promise.all([
+    getDictionary(lang),
+    getAllCategories(),
+  ]);
 
   return (
     <section className='my-16'>
@@ -53,8 +24,8 @@ const ProductCategories = async ({ lang }: ProductCategoriesProps) => {
       <div className='grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto px-4'>
         {categories.map((category) => (
           <Link
-            href={category.link}
-            key={category.key}
+            href={`/${lang}/search?category=${category.key}`}
+            key={category.id}
             className='group relative overflow-hidden rounded-xl h-[250px] bg-[#FFFBF8]'
           >
             <div className='absolute inset-0'>

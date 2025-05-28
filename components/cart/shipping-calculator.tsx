@@ -50,9 +50,12 @@ export default function ShippingCalculator({
         setCurrentRule(result.currentRule);
 
         // Check if weight exceeds maximum allowed weight
-        const maxAllowedWeight = Math.max(...result.allRules.map(rule => Number(rule.maxWeight))) || 0;
-        if (cartWeight > maxAllowedWeight) {
-          setWeightError(`Weight exceeds maximum allowed weight of ${maxAllowedWeight}kg for ${selectedMethod === 'omniva' ? 'Omniva' : 'international'} shipping`);
+        const maxAllowedWeight = result.allRules.length > 0 
+          ? Math.max(...result.allRules.map(rule => Number(rule.maxWeight))) 
+          : Infinity; // If no rules, allow any weight
+          
+        if (cartWeight > maxAllowedWeight && maxAllowedWeight !== Infinity) {
+          setWeightError(`Weight exceeds maximum allowed weight of ${maxAllowedWeight}kg for ${selectedMethod === 'omniva' ? 'Omniva' : 'international'} shipping delivery method`);
           onRateSelect(null); // Clear selected rate
         } else {
           setWeightError(null);

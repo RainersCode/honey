@@ -7,11 +7,15 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { getAllCategories } from '@/lib/actions/product.actions';
+import { getAllCategories } from '@/lib/actions/category.actions';
 import { MenuIcon } from 'lucide-react';
 import Link from 'next/link';
 
-const CategoryDrawer = async () => {
+interface CategoryDrawerProps {
+  lang: string;
+}
+
+const CategoryDrawer = async ({ lang }: CategoryDrawerProps) => {
   const categories = await getAllCategories();
 
   return (
@@ -25,16 +29,16 @@ const CategoryDrawer = async () => {
         <DrawerHeader>
           <DrawerTitle>Select a category</DrawerTitle>
           <div className='space-y-1 mt-4'>
-            {categories.map((x) => (
+            {categories.map((category) => (
               <Button
                 variant='ghost'
                 className='w-full justify-start'
-                key={x.category}
+                key={category.id}
                 asChild
               >
                 <DrawerClose asChild>
-                  <Link href={`/search?category=${x.category}`}>
-                    {x.category} ({x._count})
+                  <Link href={`/${lang}/search?category=${category.key}`}>
+                    {category.name} ({category._count.products})
                   </Link>
                 </DrawerClose>
               </Button>

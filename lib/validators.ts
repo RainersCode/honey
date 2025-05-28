@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { formatNumberWithDecimal } from './utils';
-import { PAYMENT_METHODS, DELIVERY_METHODS } from './constants';
+import { PAYMENT_METHODS, DELIVERY_METHODS } from './constants/index';
 import { getActiveCountries } from './actions/country.actions';
 
 const currency = z
@@ -14,13 +14,13 @@ const currency = z
 export const insertProductSchema = z.object({
   name: z.string().min(3, 'Name must be at least 3 characters'),
   slug: z.string().min(3, 'Slug must be at least 3 characters'),
-  category: z.string().min(3, 'Category must be at least 3 characters'),
+  categoryId: z.string().min(1, 'Category is required'),
   brand: z.string().min(3, 'Brand must be at least 3 characters'),
   description: z.string().min(3, 'Description must be at least 3 characters'),
-  stock: z.coerce.number(),
+  stock: z.coerce.number().min(0, 'Stock must be 0 or greater'),
   images: z.array(z.string()).min(1, 'Product must have at least one image'),
-  isFeatured: z.boolean(),
-  banner: z.string().nullable(),
+  isFeatured: z.boolean().default(false),
+  banner: z.string().nullable().optional(),
   price: currency,
   weight: z
     .union([z.number(), z.string()])

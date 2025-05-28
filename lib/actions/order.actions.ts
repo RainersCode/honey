@@ -7,7 +7,7 @@ import { prisma } from '@/db/prisma';
 import { CartItem, PaymentResult, ShippingAddress } from '@/types';
 import { paypal } from '../paypal';
 import { revalidatePath } from 'next/cache';
-import { PAGE_SIZE } from '../constants';
+import { PAGE_SIZE } from '../constants/index';
 import { Prisma } from '@prisma/client';
 import { sendPurchaseReceipt } from '@/email';
 import { insertOrderSchema } from '../validators';

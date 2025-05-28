@@ -8,11 +8,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Category {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  key         String    @unique
+  name        String
+  description String
+  image       String
+  createdAt   DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+}
+
 model Product {
   id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String
   slug        String      @unique(map: "product_slug_idx")
-  category    String
+  categoryId  String      @db.Uuid
+  category    Category    @relation(fields: [categoryId], references: [id])
   images      String[]
   brand       String
   description String

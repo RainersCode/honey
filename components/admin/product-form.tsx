@@ -24,17 +24,25 @@ import { createProduct, updateProduct } from '@/lib/actions/product.actions';
 import { UploadButton } from '@/lib/uploadthing';
 import { Card, CardContent } from '../ui/card';
 import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Category } from '@prisma/client';
+import { cn } from '@/lib/utils';
 
 const ProductForm = ({
   type,
   product,
   productId,
   lang,
+  categories,
+  dictionary,
 }: {
   type: 'Create' | 'Update';
   product?: Product;
   productId?: string;
   lang: string;
+  categories: Category[];
+  dictionary: any;
 }) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -92,6 +100,7 @@ const ProductForm = ({
   };
 
   const images = form.watch('images');
+  const selectedCategoryId = form.watch('categoryId');
 
   return (
     <Form {...form}>
@@ -158,24 +167,29 @@ const ProductForm = ({
             )}
           />
         </div>
-        <div className='flex flex-col md:flex-row gap-5'>
+        <div className='flex flex-col gap-5'>
           {/* Category */}
           <FormField
             control={form.control}
-            name='category'
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<
-                z.infer<typeof insertProductSchema>,
-                'category'
-              >;
-            }) => (
+            name='categoryId'
+            render={({ field }) => (
               <FormItem className='w-full'>
-                <FormLabel>Category</FormLabel>
-                <FormControl>
-                  <Input placeholder='Enter category' {...field} />
-                </FormControl>
+                <FormLabel>{dictionary.admin.category}</FormLabel>
+                <div className="flex flex-wrap gap-2">
+                  {categories.map((category) => (
+                    <Badge
+                      key={category.id}
+                      variant={field.value === category.id ? "default" : "outline"}
+                      className={cn(
+                        "cursor-pointer hover:bg-[#FF7A3D] hover:text-white transition-colors",
+                        field.value === category.id && "bg-[#FF7A3D] text-white border-[#FF7A3D]"
+                      )}
+                      onClick={() => field.onChange(category.id)}
+                    >
+                      {category.name}
+                    </Badge>
+                  ))}
+                </div>
                 <FormMessage />
               </FormItem>
             )}

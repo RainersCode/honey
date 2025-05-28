@@ -40,8 +40,11 @@ export default async function AdminShippingPage({
   return (
     <div className='space-y-6'>
       <div className='flex items-center justify-between'>
-        <div className='flex items-center gap-3'>
+        <div className='flex flex-col gap-2'>
           <h1 className='text-3xl font-bold'>Shipping Rules</h1>
+          <p className="text-gray-600">
+            Configure shipping rates and maximum weight limits for each shipping method. Orders exceeding the maximum weight will not be allowed.
+          </p>
           {zone && (
             <div className='flex items-center gap-2'>
               <span>Filtered by zone "{zone}"</span>
@@ -61,7 +64,7 @@ export default async function AdminShippingPage({
           <TableHeader>
             <TableRow>
               <TableHead>Zone</TableHead>
-              <TableHead>Weight Range (kg)</TableHead>
+              <TableHead>Weight Range</TableHead>
               <TableHead className='text-right'>Price</TableHead>
               <TableHead>Carrier</TableHead>
               <TableHead className='text-right'>Actions</TableHead>
@@ -72,7 +75,12 @@ export default async function AdminShippingPage({
               <TableRow key={rule.id}>
                 <TableCell>{rule.zone}</TableCell>
                 <TableCell>
-                  {rule.minWeight.toString()} - {rule.maxWeight.toString()}
+                  <div>
+                    <span>{rule.minWeight.toString()} - {rule.maxWeight.toString()} kg</span>
+                    {Number(rule.maxWeight) >= 100 && (
+                      <span className="ml-2 text-amber-600 text-sm">High weight limit</span>
+                    )}
+                  </div>
                 </TableCell>
                 <TableCell className='text-right'>
                   {formatCurrency(Number(rule.price))}

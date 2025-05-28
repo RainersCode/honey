@@ -142,10 +142,13 @@ export default function ShippingRuleForm({
           name='minWeight'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Minimum Weight (kg)</FormLabel>
+              <FormLabel>Starting Weight (kg)</FormLabel>
               <FormControl>
                 <Input type='number' step='0.01' {...field} />
               </FormControl>
+              <p className="text-sm text-gray-500">
+                Minimum weight for this shipping rate to apply
+              </p>
               <FormMessage />
             </FormItem>
           )}
@@ -156,10 +159,13 @@ export default function ShippingRuleForm({
           name='maxWeight'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Maximum Weight (kg)</FormLabel>
+              <FormLabel>Maximum Weight Limit (kg)</FormLabel>
               <FormControl>
                 <Input type='number' step='0.01' {...field} />
               </FormControl>
+              <p className="text-sm text-gray-500">
+                Maximum allowed weight for this shipping method. Orders exceeding this weight will not be allowed.
+              </p>
               <FormMessage />
             </FormItem>
           )}

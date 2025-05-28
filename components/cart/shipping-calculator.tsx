@@ -24,7 +24,7 @@ interface ShippingRule {
 
 interface ShippingCalculatorProps {
   cartWeight: number;
-  onRateSelect: (rate: { service: string; rate: number }) => void;
+  onRateSelect: (rate: { service: string; rate: number } | null) => void;
 }
 
 export default function ShippingCalculator({
@@ -37,6 +37,7 @@ export default function ShippingCalculator({
   const [showOmnivaSelector, setShowOmnivaSelector] = useState(false);
   const [shippingRules, setShippingRules] = useState<ShippingRule[]>([]);
   const [currentRule, setCurrentRule] = useState<ShippingRule | null>(null);
+  const [weightError, setWeightError] = useState<string | null>(null);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -48,16 +49,24 @@ export default function ShippingCalculator({
         setShippingRules(result.allRules);
         setCurrentRule(result.currentRule);
 
-        // If we have a current rule, update the cart with its price
-        if (result.currentRule) {
-          const rate = {
-            service:
-              selectedMethod === 'omniva'
-                ? 'Omniva Pickup'
-                : 'International Shipping',
-            rate: Number(result.currentRule.price),
-          };
-          onRateSelect(rate);
+        // Check if weight exceeds maximum allowed weight
+        const maxAllowedWeight = Math.max(...result.allRules.map(rule => Number(rule.maxWeight))) || 0;
+        if (cartWeight > maxAllowedWeight) {
+          setWeightError(`Weight exceeds maximum allowed weight of ${maxAllowedWeight}kg for ${selectedMethod === 'omniva' ? 'Omniva' : 'international'} shipping`);
+          onRateSelect(null); // Clear selected rate
+        } else {
+          setWeightError(null);
+          // If we have a current rule, update the cart with its price
+          if (result.currentRule) {
+            const rate = {
+              service:
+                selectedMethod === 'omniva'
+                  ? 'Omniva Pickup'
+                  : 'International Shipping',
+              rate: Number(result.currentRule.price),
+            };
+            onRateSelect(rate);
+          }
         }
       }
     };
@@ -132,6 +141,27 @@ export default function ShippingCalculator({
               </Label>
             </div>
           </RadioGroup>
+
+          {weightError && (
+            <div className='text-red-500 text-sm mt-2'>
+              {weightError}
+            </div>
+          )}
+
+          {showOmnivaSelector && !weightError && (
+            <OmnivaLocationSelector />
+          )}
+
+          {!weightError && currentRule && (
+            <div className='mt-4'>
+              <p className='text-sm text-gray-600'>
+                Shipping cost: {formatCurrency(Number(currentRule.price))}
+              </p>
+              <p className='text-xs text-gray-500'>
+                For weight: {cartWeight}kg
+              </p>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

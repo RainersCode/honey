@@ -320,6 +320,10 @@ export interface Dictionary {
       errors: {
         unexpected: string;
       };
+      success: {
+        title: string;
+        message: string;
+      };
     };
   };
 }

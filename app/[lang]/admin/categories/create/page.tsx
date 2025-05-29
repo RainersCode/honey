@@ -9,12 +9,13 @@ export const metadata: Metadata = {
 };
 
 export default async function CreateCategoryPage({
-  params: { lang },
+  params,
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
   await requireAdmin();
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return (
     <div className="space-y-6">

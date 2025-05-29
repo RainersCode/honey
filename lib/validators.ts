@@ -26,7 +26,7 @@ export const insertProductSchema = z.object({
     .union([z.number(), z.string()])
     .optional()
     .transform((val) => {
-      if (val === '') return null;
+      if (val === '' || val === undefined || val === null) return null;
       const num = typeof val === 'string' ? parseFloat(val) : val;
       return isNaN(num) ? null : num;
     }),

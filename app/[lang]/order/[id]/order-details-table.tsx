@@ -262,7 +262,7 @@ const OrderDetailsTable = ({
                   </TableHeader>
                   <TableBody>
                     {orderitems.map((item) => (
-                      <TableRow key={item.id} className="border-b border-[#FFE4D2]/50">
+                      <TableRow key={item.productId} className="border-b border-[#FFE4D2]/50">
                         <TableCell>
                           <div className="relative h-20 w-20 border border-[#FFE4D2] rounded-md overflow-hidden">
                             <Image

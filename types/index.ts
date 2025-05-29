@@ -151,6 +151,7 @@ export interface Dictionary {
     description: string;
     reviews: string;
     customerReviews: string;
+    weight: string;
   };
   notFound: {
     title: string;

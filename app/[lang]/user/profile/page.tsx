@@ -14,7 +14,7 @@ export const generateMetadata = async ({
   const { lang } = await params;
   const dict = await getDictionary(lang);
   return {
-    title: dict.user.profile,
+    title: (dict as any).user?.profile || 'Profile',
   };
 };
 
@@ -33,8 +33,8 @@ const Profile = async ({
         <div className="py-10">
           <div className="mx-auto max-w-xl space-y-8">
             <div className="space-y-2">
-              <h2 className="h2-bold text-[#1D1D1F]">{dict.user.profile}</h2>
-              <p className="text-muted-foreground">{dict.auth.signInDescription}</p>
+              <h2 className="h2-bold text-[#1D1D1F]">{(dict as any).user?.profile || 'Profile'}</h2>
+              <p className="text-muted-foreground">{(dict as any).auth?.signInDescription || 'Sign in to your account to continue'}</p>
             </div>
             <div className="bg-white rounded-lg shadow-sm border border-[#FFE4D2] p-6">
               <ProfileForm lang={lang} />

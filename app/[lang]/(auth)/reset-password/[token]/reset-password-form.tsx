@@ -11,10 +11,11 @@ import { useEffect, useState } from 'react';
 import { Loader, Lock } from 'lucide-react';
 import { useFormStatus } from 'react-dom';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 interface Props {
   token: string;
-  lang: string;
+  lang: Locale;
 }
 
 export default function ResetPasswordForm({ token, lang }: Props) {

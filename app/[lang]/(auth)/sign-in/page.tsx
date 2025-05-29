@@ -13,13 +13,14 @@ import CredentialsSignInForm from './credentials-signin-form';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 export const metadata: Metadata = {
   title: 'Sign In',
 };
 
 const SignInPage = async (props: {
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: Locale }>;
   searchParams: Promise<{
     callbackUrl: string;
   }>;
@@ -51,10 +52,10 @@ const SignInPage = async (props: {
             </Link>
             <div className='space-y-2'>
               <CardTitle className='text-2xl font-serif text-center text-[#1D1D1F]'>
-                {dict.auth?.welcomeBack || 'Welcome Back'}
+                {(dict as any).auth?.welcomeBack || 'Welcome Back'}
               </CardTitle>
               <CardDescription className='text-center text-muted-foreground'>
-                {dict.auth?.signInDescription ||
+                {(dict as any).auth?.signInDescription ||
                   'Sign in to your account to continue'}
               </CardDescription>
             </div>

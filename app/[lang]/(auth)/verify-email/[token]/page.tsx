@@ -13,13 +13,14 @@ import { verifyEmail } from '@/lib/actions/user.actions';
 import { getDictionary } from '@/lib/dictionary';
 import { CheckCircle, XCircle, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Locale } from '@/config/i18n.config';
 
 export const metadata: Metadata = {
   title: 'Email Verification',
 };
 
 const VerifyEmailPage = async (props: {
-  params: Promise<{ lang: string; token: string }>;
+  params: Promise<{ lang: Locale; token: string }>;
 }) => {
   const { lang, token } = await props.params;
   const dict = await getDictionary(lang);

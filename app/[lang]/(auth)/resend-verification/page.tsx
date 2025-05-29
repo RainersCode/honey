@@ -11,13 +11,14 @@ import Image from 'next/image';
 import { APP_NAME } from '@/lib/constants';
 import { getDictionary } from '@/lib/dictionary';
 import ResendVerificationForm from './resend-verification-form';
+import { Locale } from '@/config/i18n.config';
 
 export const metadata: Metadata = {
   title: 'Resend Verification Email',
 };
 
 const ResendVerificationPage = async (props: {
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: Locale }>;
 }) => {
   const { lang } = await props.params;
   const dict = await getDictionary(lang);

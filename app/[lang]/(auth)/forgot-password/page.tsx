@@ -13,13 +13,14 @@ import ForgotPasswordForm from './forgot-password-form';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 export const metadata: Metadata = {
   title: 'Reset Password',
 };
 
 const ForgotPasswordPage = async (props: {
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: Locale }>;
   searchParams: Promise<{
     callbackUrl: string;
   }>;
@@ -51,10 +52,10 @@ const ForgotPasswordPage = async (props: {
             </Link>
             <div className='space-y-2'>
               <CardTitle className='text-2xl font-serif text-center text-[#1D1D1F]'>
-                {dict.auth?.resetPassword || 'Reset Your Password'}
+                {(dict as any).auth?.resetPassword || 'Reset Your Password'}
               </CardTitle>
               <CardDescription className='text-center text-muted-foreground'>
-                {dict.auth?.resetPasswordDescription ||
+                {(dict as any).auth?.resetPasswordDescription ||
                   "Enter your email address and we'll send you a password reset link"}
               </CardDescription>
             </div>

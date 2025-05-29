@@ -11,9 +11,10 @@ import { signUpUser } from '@/lib/actions/user.actions';
 import { useSearchParams } from 'next/navigation';
 import { Loader, UserPlus } from 'lucide-react';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 interface SignUpFormProps {
-  lang: string;
+  lang: Locale;
 }
 
 const SignUpForm = ({ lang }: SignUpFormProps) => {

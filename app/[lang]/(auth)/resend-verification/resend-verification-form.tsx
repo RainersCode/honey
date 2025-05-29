@@ -9,9 +9,10 @@ import { useActionState, useEffect, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Loader, Mail } from 'lucide-react';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 interface ResendVerificationFormProps {
-  lang: string;
+  lang: Locale;
 }
 
 const ResendVerificationForm = ({ lang }: ResendVerificationFormProps) => {

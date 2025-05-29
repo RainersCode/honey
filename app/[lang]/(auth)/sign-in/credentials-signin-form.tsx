@@ -10,9 +10,10 @@ import { useFormStatus } from 'react-dom';
 import { useSearchParams } from 'next/navigation';
 import { Eye, EyeOff, LogIn, Loader, Mail } from 'lucide-react';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 interface CredentialsSignInFormProps {
-  lang: string;
+  lang: Locale;
 }
 
 const CredentialsSignInForm = ({ lang }: CredentialsSignInFormProps) => {

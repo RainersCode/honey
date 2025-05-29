@@ -12,13 +12,14 @@ import { APP_NAME } from '@/lib/constants';
 import { getDictionary } from '@/lib/dictionary';
 import { Mail, CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Locale } from '@/config/i18n.config';
 
 export const metadata: Metadata = {
   title: 'Check Your Email',
 };
 
 const RegistrationSuccessPage = async (props: {
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: Locale }>;
   searchParams: Promise<{ email?: string }>;
 }) => {
   const { lang } = await props.params;

@@ -13,13 +13,14 @@ import SignUpForm from './sign-up-form';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 export const metadata: Metadata = {
   title: 'Create Account',
 };
 
 const SignUpPage = async (props: {
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: Locale }>;
   searchParams: Promise<{
     callbackUrl: string;
   }>;
@@ -51,10 +52,10 @@ const SignUpPage = async (props: {
             </Link>
             <div className='space-y-2'>
               <CardTitle className='text-2xl font-serif text-center text-[#1D1D1F]'>
-                {dict.auth?.createAccount || 'Create Your Account'}
+                {(dict as any).auth?.createAccount || 'Create Your Account'}
               </CardTitle>
               <CardDescription className='text-center text-muted-foreground'>
-                {dict.auth?.signUpDescription ||
+                {(dict as any).auth?.signUpDescription ||
                   'Join us and start shopping today'}
               </CardDescription>
             </div>

@@ -9,9 +9,10 @@ import { useFormStatus } from 'react-dom';
 import { requestPasswordReset } from '@/lib/actions/password-reset.actions';
 import { Loader, Mail } from 'lucide-react';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 interface ForgotPasswordFormProps {
-  lang: string;
+  lang: Locale;
 }
 
 const ForgotPasswordForm = ({ lang }: ForgotPasswordFormProps) => {

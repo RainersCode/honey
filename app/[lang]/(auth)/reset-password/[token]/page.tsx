@@ -14,6 +14,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { APP_NAME } from '@/lib/constants';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 export const metadata: Metadata = {
   title: 'Reset Password',
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 
 interface Props {
   params: Promise<{
-    lang: string;
+    lang: Locale;
     token: string;
   }>;
 }
@@ -68,10 +69,10 @@ export default async function ResetPasswordPage({ params }: Props) {
             </Link>
             <div className='space-y-2'>
               <CardTitle className='text-2xl font-serif text-center text-[#1D1D1F]'>
-                {dict.auth?.createNewPassword || 'Create New Password'}
+                {(dict as any).auth?.createNewPassword || 'Create New Password'}
               </CardTitle>
               <CardDescription className='text-center text-muted-foreground'>
-                {dict.auth?.createNewPasswordDescription ||
+                {(dict as any).auth?.createNewPasswordDescription ||
                   'Enter your new password below to reset your account'}
               </CardDescription>
             </div>

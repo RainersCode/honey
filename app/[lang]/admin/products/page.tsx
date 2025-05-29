@@ -23,23 +23,21 @@ export const metadata: Metadata = {
   title: 'Products',
 };
 
-interface PageProps {
+export default async function AdminProductsPage({
+  params,
+  searchParams,
+}: {
   params: Promise<{ lang: Locale }>;
-  searchParams: {
-    page?: string;
-    query?: string;
-    category?: string;
-  };
-}
-
-export default async function AdminProductsPage({ params, searchParams }: PageProps) {
+  searchParams: Promise<{ page?: string; query?: string; category?: string }>;
+}) {
   await requireAdmin();
   const { lang } = await params;
   const dict = await getDictionary(lang) as any;
-
-  const page = Number(searchParams.page) || 1;
-  const searchText = searchParams.query || '';
-  const category = searchParams.category || '';
+  const searchParamsResolved = await searchParams;
+   
+  const page = Number(searchParamsResolved.page) || 1;
+  const searchText = searchParamsResolved.query || '';
+  const category = searchParamsResolved.category || '';
 
   const [products, categories] = await Promise.all([
     getAllProducts({
@@ -91,13 +89,13 @@ export default async function AdminProductsPage({ params, searchParams }: PagePr
                   <TableCell>{formatId(product.id)}</TableCell>
                   <TableCell>{product.name}</TableCell>
                   <TableCell className="text-right">
-                    {formatCurrency(product.price)}
+                    {formatCurrency(Number(product.price))}
                   </TableCell>
                   <TableCell>
                     {product.category.name}
                   </TableCell>
                   <TableCell>{product.stock}</TableCell>
-                  <TableCell>{product.rating}</TableCell>
+                  <TableCell>{Number(product.rating)}</TableCell>
                   <TableCell className="text-right">
                     <ProductActions 
                       productId={product.id} 
@@ -111,9 +109,8 @@ export default async function AdminProductsPage({ params, searchParams }: PagePr
         </div>
 
         <Pagination
-          currentPage={page}
+          page={page}
           totalPages={products.totalPages}
-          baseUrl={`/${lang}/admin/products`}
         />
       </div>
     </div>

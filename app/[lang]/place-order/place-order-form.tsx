@@ -3,7 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { useTransition, useEffect, useState } from 'react';
-import { Cart, User } from '@/types';
+import { Cart, ShippingAddress } from '@/types';
+import { User } from '@prisma/client';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { createOrder } from '@/lib/actions/order.actions';
@@ -14,9 +15,14 @@ import LoadingSpinner from '@/components/ui/loading-spinner';
 import Image from 'next/image';
 import { formatCurrency } from '@/lib/utils';
 
+// Extend the Prisma User type to include properly typed address
+interface UserWithAddress extends User {
+  address: ShippingAddress | null;
+}
+
 interface PlaceOrderFormProps {
   cart: Cart;
-  user: User;
+  user: UserWithAddress;
   lang: Locale;
 }
 

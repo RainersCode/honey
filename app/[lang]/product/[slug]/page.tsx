@@ -128,7 +128,7 @@ const ProductDetailsPage = async ({
                     {dict.common.weight}
                   </span>
                   <span className='text-lg font-medium text-[#1D1D1F]'>
-                    {product.weight} kg
+                    {Number(product.weight)} kg
                   </span>
                 </div>
               )}

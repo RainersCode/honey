@@ -3,11 +3,12 @@ import { Locale } from '@/config/i18n.config';
 import { Container } from '@/components/ui/container';
 
 export async function generateMetadata({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return {
     title: dict.payment_page.meta.title,
@@ -16,11 +17,12 @@ export async function generateMetadata({
 }
 
 export default async function PaymentPage({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return (
     <Container>

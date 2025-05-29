@@ -12,11 +12,13 @@ import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 import { Product } from '@/types';
 
-export default async function Homepage({
-  params: { lang },
-}: {
-  params: { lang: Locale };
-}) {
+interface PageProps {
+  params: {
+    lang: Locale;
+  };
+}
+
+export default async function Homepage({ params: { lang } }: PageProps) {
   const dict = await getDictionary(lang);
   const latestProducts = (await getLatestProducts()) as Product[];
   const featuredProducts = (await getFeaturedProducts()) as Product[];

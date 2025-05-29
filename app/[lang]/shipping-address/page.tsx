@@ -9,11 +9,12 @@ import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 
 export async function generateMetadata({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return {
     title: dict.shipping.meta.title,
@@ -22,10 +23,11 @@ export async function generateMetadata({
 }
 
 const ShippingAddressPage = async ({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) => {
+  const { lang } = await params;
   const cart = await getMyCart();
 
   if (!cart || cart.items.length === 0) redirect(`/${lang}/cart`);
@@ -36,7 +38,7 @@ const ShippingAddressPage = async ({
   if (!userId) throw new Error('No user ID');
 
   const user = await getUserById(userId);
-  const dict = await getDictionary(lang);
+  const dict = await getDictionary(lang) as any;
 
   return (
     <div className="container mx-auto px-4 py-12">

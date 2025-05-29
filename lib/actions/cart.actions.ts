@@ -35,11 +35,15 @@ export async function addItemToCart(data: CartItem, lang: Locale = 'en') {
     if (!product) throw new Error('Product not found');
 
     // Prepare item with proper weight, slug, and price
-    const itemData = {
-      ...data,
+    const itemData: CartItem = {
+      productId: data.productId,
+      name: data.name,
       price: Number(data.price),
+      qty: data.qty,
       weight: product.weight ? Number(product.weight) : 0,
-      slug: product.slug, // Add the product slug
+      slug: product.slug,
+      description: data.description,
+      image: data.image,
     };
 
     // Parse and validate item

@@ -11,12 +11,13 @@ export const metadata: Metadata = {
 };
 
 export default async function EditCategoryPage({
-  params: { lang, id },
+  params,
 }: {
-  params: { lang: Locale; id: string };
+  params: Promise<{ lang: Locale; id: string }>;
 }) {
   await requireAdmin();
-  const dict = await getDictionary(lang);
+  const { lang, id } = await params;
+  const dict = await getDictionary(lang) as any;
 
   const category = await prisma.category.findUnique({
     where: { id }

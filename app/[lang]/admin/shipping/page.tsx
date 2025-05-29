@@ -108,8 +108,7 @@ export default async function AdminShippingPage({
         <Pagination
           page={page}
           totalPages={rules.totalPages}
-          baseUrl={`/${lang}/admin/shipping`}
-          zone={zone}
+          urlParamName="page"
         />
       )}
     </div>

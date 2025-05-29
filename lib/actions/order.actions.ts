@@ -11,6 +11,17 @@ import { Prisma } from '@prisma/client';
 import { sendPurchaseReceipt } from '@/email';
 import { insertOrderSchema } from '../validators';
 import { format } from 'date-fns';
+import { z } from 'zod';
+
+// Define the input type for creating an order
+type CreateOrderInput = z.infer<typeof insertOrderSchema>;
+
+// Define the action response type
+type ActionResponse = {
+  success: boolean;
+  message: string;
+  redirectTo?: string;
+};
 
 // Create order and create the order items
 export async function createOrder({

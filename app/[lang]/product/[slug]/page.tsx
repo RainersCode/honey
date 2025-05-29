@@ -146,6 +146,7 @@ const ProductDetailsPage = async ({
                     price: Number(product.price),
                     qty: 1,
                     image: product.images[0],
+                    weight: product.weight ? Number(product.weight) : 0,
                   }}
                   lang={lang}
                 />

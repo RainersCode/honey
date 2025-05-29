@@ -36,7 +36,7 @@ export default async function AdminProductPage({
       </h1>
       <ProductForm 
         type="Update"
-        product={product} 
+        product={product as any} 
         productId={id}
         lang={lang}
         categories={categories}

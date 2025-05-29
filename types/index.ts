@@ -348,11 +348,16 @@ export interface CartItem {
 }
 
 export interface Cart {
+  id: string;
+  userId: string | null;
+  sessionCartId: string;
   items: CartItem[];
-  itemsPrice: number;
-  shippingPrice?: number;
-  taxPrice?: number;
-  totalPrice: number;
+  itemsPrice: string;
+  shippingPrice: string;
+  taxPrice: string;
+  totalPrice: string;
+  deliveryMethod: string;
+  createdAt: Date;
 }
 
 export type ShippingAddress = {

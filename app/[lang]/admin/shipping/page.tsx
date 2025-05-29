@@ -20,17 +20,19 @@ import DeleteDialog from '@/components/shared/delete-dialog';
 import Link from 'next/link';
 
 export default async function AdminShippingPage({
-  params: { lang },
+  params,
   searchParams,
 }: {
-  params: { lang: Locale };
-  searchParams: { page?: string; zone?: string };
+  params: Promise<{ lang: Locale }>;
+  searchParams: Promise<{ page?: string; zone?: string }>;
 }) {
   await requireAdmin();
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
+  const searchParamsResolved = await searchParams;
 
-  const page = Number(searchParams.page) || 1;
-  const zone = searchParams.zone || '';
+  const page = Number(searchParamsResolved.page) || 1;
+  const zone = searchParamsResolved.zone || '';
 
   const rules = await getAllShippingRules({
     page,

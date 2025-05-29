@@ -32,7 +32,7 @@ interface CartTableProps {
 const CartTable = ({ cart, lang }: CartTableProps) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [dict, setDict] = useState<Record<string, any>>(null);
+  const [dict, setDict] = useState<Record<string, any> | null>(null);
   const [selectedShipping, setSelectedShipping] = useState<{
     service: string;
     rate: number;

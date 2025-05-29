@@ -79,7 +79,7 @@ export async function createOrder({
             productId,
             name,
             slug,
-            image,
+            image: image || '/placeholder-product.png',
             price,
             qty,
             orderId: insertedOrder.id,

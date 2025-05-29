@@ -22,12 +22,13 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminOverviewPage({
-  params: { lang },
+  params,
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
   await requireAdmin();
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
   const summary = await getOrderSummary();
 
   // Transform salesData to match the expected format

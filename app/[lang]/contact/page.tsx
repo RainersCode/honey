@@ -4,11 +4,12 @@ import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 
 export async function generateMetadata({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return {
     title: dict.contact.meta.title,
@@ -17,11 +18,12 @@ export async function generateMetadata({
 }
 
 const ContactPage = async ({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) => {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return (
     <div className="container mx-auto px-4 py-12">

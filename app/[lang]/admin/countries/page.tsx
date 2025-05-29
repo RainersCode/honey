@@ -10,9 +10,10 @@ export const metadata = {
 export default async function CountriesPage({
   params,
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(params.lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   // Get all countries
   const countries = await prisma.country.findMany({
@@ -30,7 +31,7 @@ export default async function CountriesPage({
         <div className='w-20 h-1 bg-[#FF7A3D] mx-auto rounded-full'></div>
       </div>
 
-      <CountryTable countries={countries} lang={params.lang} />
+      <CountryTable countries={countries} lang={lang} />
     </div>
   );
 }

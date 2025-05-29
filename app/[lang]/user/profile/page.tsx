@@ -7,10 +7,11 @@ import { Locale } from '@/config/i18n.config';
 import { Container } from '@/components/ui/container';
 
 export const generateMetadata = async ({
-  params: { lang },
+  params,
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }): Promise<Metadata> => {
+  const { lang } = await params;
   const dict = await getDictionary(lang);
   return {
     title: dict.user.profile,
@@ -18,10 +19,11 @@ export const generateMetadata = async ({
 };
 
 const Profile = async ({
-  params: { lang },
+  params,
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) => {
+  const { lang } = await params;
   const session = await auth();
   const dict = await getDictionary(lang);
 

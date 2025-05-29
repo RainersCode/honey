@@ -7,7 +7,7 @@ export const generateReceipt = async (order: Omit<Order, "paymentResult">, dict:
   try {
     // Generate PDF blob
     const blob = await pdf(
-      React.createElement(OrderReceipt, { order, dict })
+      <OrderReceipt order={order} dict={dict} />
     ).toBlob();
 
     return blob;

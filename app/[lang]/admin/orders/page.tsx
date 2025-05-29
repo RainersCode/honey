@@ -17,17 +17,19 @@ import Pagination from '@/components/shared/pagination';
 import DeleteDialog from '@/components/shared/delete-dialog';
 
 export default async function AdminOrdersPage({
-  params: { lang },
+  params,
   searchParams,
 }: {
-  params: { lang: Locale };
-  searchParams: { page?: string; query?: string };
+  params: Promise<{ lang: Locale }>;
+  searchParams: Promise<{ page?: string; query?: string }>;
 }) {
   await requireAdmin();
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const searchParamsData = await searchParams;
+  const dict = await getDictionary(lang) as any;
   
-  const page = Number(searchParams.page) || 1;
-  const searchText = searchParams.query || '';
+  const page = Number(searchParamsData.page) || 1;
+  const searchText = searchParamsData.query || '';
 
   const orders = await getAllOrders({
     page,

@@ -9,11 +9,12 @@ import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 
 export async function generateMetadata({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return {
     title: dict.order.meta.title,
@@ -22,13 +23,14 @@ export async function generateMetadata({
 }
 
 const OrderDetailsPage = async ({
-  params: { id, lang }
+  params
 }: {
-  params: {
+  params: Promise<{
     id: string;
     lang: Locale;
-  };
+  }>;
 }) => {
+  const { id, lang } = await params;
   const session = await auth();
   
   // Redirect to login if not authenticated
@@ -39,7 +41,7 @@ const OrderDetailsPage = async ({
   const order = await getOrderById(id);
   if (!order) notFound();
 
-  const dict = await getDictionary(lang);
+  const dict = await getDictionary(lang) as any;
 
   // Redirect the user if they don't own the order
   if (order.userId !== session.user.id && session.user.role !== 'admin') {

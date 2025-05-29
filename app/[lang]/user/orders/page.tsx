@@ -18,10 +18,11 @@ import { Package } from 'lucide-react';
 import DownloadReceiptButton from '@/components/shared/download-receipt-button';
 
 export const generateMetadata = async ({
-  params: { lang },
+  params,
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }): Promise<Metadata> => {
+  const { lang } = await params;
   const dict = await getDictionary(lang);
   return {
     title: dict.user.orders,
@@ -29,14 +30,16 @@ export const generateMetadata = async ({
 };
 
 const OrdersPage = async ({
-  params: { lang },
+  params,
   searchParams,
 }: {
-  params: { lang: Locale };
-  searchParams: { page: string };
+  params: Promise<{ lang: Locale }>;
+  searchParams: Promise<{ page: string }>;
 }) => {
+  const { lang } = await params;
+  const searchParamsResolved = await searchParams;
   const dict = await getDictionary(lang);
-  const { page } = searchParams;
+  const { page } = searchParamsResolved;
 
   const orders = await getMyOrders({
     page: Number(page) || 1,

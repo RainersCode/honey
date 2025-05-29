@@ -7,13 +7,21 @@ export async function generateMetadata({
 }: {
   params: Promise<{ lang: Locale }>;
 }) {
-  const { lang } = await params;
-  const dict = await getDictionary(lang) as any;
+  try {
+    const { lang } = await params;
+    const dict = await getDictionary(lang) as any;
 
-  return {
-    title: dict.privacy.meta.title,
-    description: dict.privacy.meta.description,
-  };
+    return {
+      title: dict.privacy.meta.title,
+      description: dict.privacy.meta.description,
+    };
+  } catch (error) {
+    // Fallback metadata if params is not available during static generation
+    return {
+      title: 'Privacy Policy | Honey Farm',
+      description: 'Our privacy policy and data protection practices.',
+    };
+  }
 }
 
 export default async function PrivacyPage({

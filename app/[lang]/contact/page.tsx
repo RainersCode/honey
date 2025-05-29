@@ -8,13 +8,21 @@ export async function generateMetadata({
 }: {
   params: Promise<{ lang: Locale }>;
 }) {
-  const { lang } = await params;
-  const dict = await getDictionary(lang) as any;
+  try {
+    const { lang } = await params;
+    const dict = await getDictionary(lang) as any;
 
-  return {
-    title: dict.contact.meta.title,
-    description: dict.contact.meta.description,
-  };
+    return {
+      title: dict.contact.meta.title,
+      description: dict.contact.meta.description,
+    };
+  } catch (error) {
+    // Fallback metadata if params is not available during static generation
+    return {
+      title: 'Contact Us | Honey Farm',
+      description: 'Get in touch with us for any questions about our natural honey products.',
+    };
+  }
 }
 
 const ContactPage = async ({

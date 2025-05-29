@@ -8,13 +8,21 @@ export async function generateMetadata({
 }: {
   params: Promise<{ lang: Locale }>;
 }) {
-  const { lang } = await params;
-  const dict = await getDictionary(lang) as any;
+  try {
+    const { lang } = await params;
+    const dict = await getDictionary(lang) as any;
 
-  return {
-    title: dict.terms.meta.title,
-    description: dict.terms.meta.description,
-  };
+    return {
+      title: dict.terms.meta.title,
+      description: dict.terms.meta.description,
+    };
+  } catch (error) {
+    // Fallback metadata if params is not available during static generation
+    return {
+      title: 'Terms of Service | Honey Farm',
+      description: 'Terms and conditions for using our honey farm services.',
+    };
+  }
 }
 
 export default async function TermsPage({

@@ -10,19 +10,16 @@ import ProductCategoriesBento from '@/components/product-categories-bento';
 import ClientTestimonials from '@/components/client-testimonials';
 import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
-import { Product } from '@/types';
 
-type Props = {
-  params: {
-    lang: Locale;
-  };
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
-
-export default async function Homepage({ params: { lang }, searchParams }: Props) {
-  const dict = await getDictionary(lang);
-  const latestProducts = (await getLatestProducts()) as Product[];
-  const featuredProducts = (await getFeaturedProducts()) as Product[];
+export default async function Homepage({ 
+  params 
+}: {
+  params: Promise<{ lang: Locale }>;
+}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
+  const latestProducts = await getLatestProducts();
+  const featuredProducts = await getFeaturedProducts();
 
   return (
     <>
@@ -57,11 +54,11 @@ export default async function Homepage({ params: { lang }, searchParams }: Props
       <ProductCategoriesBento lang={lang} />
 
       {featuredProducts.length > 0 && (
-        <ProductCarousel data={featuredProducts} lang={lang} />
+        <ProductCarousel data={featuredProducts as any} lang={lang} />
       )}
 
       <ProductList
-        data={latestProducts}
+        data={latestProducts as any}
         title={dict.home.latestArrivals}
         limit={4}
         lang={lang}

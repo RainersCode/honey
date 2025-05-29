@@ -4,11 +4,12 @@ import { Container } from '@/components/ui/container';
 import Link from 'next/link';
 
 export async function generateMetadata({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return {
     title: dict.terms.meta.title,
@@ -17,11 +18,12 @@ export async function generateMetadata({
 }
 
 export default async function TermsPage({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return (
     <Container>
@@ -43,7 +45,7 @@ export default async function TermsPage({
             <section className="mb-12">
               <h2 className="text-3xl font-serif text-[#1D1D1F] mb-6">{dict.terms.documents.title}</h2>
               <div className="grid gap-6">
-                {dict.terms.documents.list.map((doc, index) => (
+                {dict.terms.documents.list.map((doc: any, index: number) => (
                   <div key={index} className="p-6 border border-[#FFE4D2] rounded-lg hover:border-[#FF7A3D] transition-colors">
                     <h3 className="text-2xl font-medium text-[#1D1D1F] mb-3">{doc.title}</h3>
                     <p className="text-gray-600 mb-4">{doc.description}</p>

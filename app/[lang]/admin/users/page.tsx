@@ -24,15 +24,17 @@ interface User {
 }
 
 export default async function AdminUsersPage({
-  params: { lang },
+  params,
   searchParams,
 }: {
-  params: { lang: Locale };
-  searchParams: { page?: string; query?: string };
+  params: Promise<{ lang: Locale }>;
+  searchParams: Promise<{ page?: string; query?: string }>;
 }) {
   await requireAdmin();
-  const dict = await getDictionary(lang);
-  const { page = '1', query: searchText = '' } = searchParams;
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
+  const searchParamsResolved = await searchParams;
+  const { page = '1', query: searchText = '' } = searchParamsResolved;
 
   const users = await getAllUsers({ page: Number(page), query: searchText });
 

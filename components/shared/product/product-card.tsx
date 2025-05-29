@@ -2,13 +2,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import ProductPrice from './product-price';
-import { Product } from '@/types';
+import { Product, ProductWithCategory } from '@/types';
 import Rating from './rating';
 import SimpleAddToCart from './simple-add-to-cart';
 import { Locale } from '@/config/i18n.config';
 
 interface ProductCardProps {
-  product: Product;
+  product: Product | ProductWithCategory;
   lang: Locale;
 }
 
@@ -71,9 +71,10 @@ const ProductCard = ({ product, lang }: ProductCardProps) => {
                   productId: product.id,
                   name: product.name,
                   slug: product.slug,
-                  price: product.price,
+                  price: Number(product.price),
                   qty: 1,
                   image: product.images[0],
+                  weight: product.weight || 0,
                 }}
                 lang={lang}
               />

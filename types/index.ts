@@ -347,6 +347,30 @@ export type Product = {
   createdAt: Date;
 };
 
+export type ProductWithCategory = {
+  id: string;
+  name: string;
+  slug: string;
+  category: {
+    id: string;
+    key: string;
+    name: string;
+    description: string;
+    image: string;
+  };
+  brand: string;
+  description: string;
+  stock: number;
+  images: string[];
+  isFeatured: boolean;
+  banner: string | null;
+  price: string;
+  weight: number | null;
+  rating: string;
+  numReviews: number;
+  createdAt: Date;
+};
+
 export interface CartItem {
   productId: string;
   name: string;

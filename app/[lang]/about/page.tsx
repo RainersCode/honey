@@ -3,8 +3,13 @@ import Link from 'next/link';
 import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 
-export async function generateMetadata({ params: { lang } }: { params: { lang: Locale } }) {
-  const dict = await getDictionary(lang);
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: Promise<{ lang: Locale }> 
+}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return {
     title: dict.about.meta.title,
@@ -13,11 +18,12 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
 }
 
 export default async function AboutPage({
-  params: { lang },
+  params,
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return (
     <>

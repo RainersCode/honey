@@ -220,26 +220,34 @@ export async function createProduct(data: any) {
 
 // Update a product
 export async function updateProduct(id: string, data: any) {
-  const product = await prisma.product.update({
-    where: { id },
-    data: {
-      name: data.name,
-      slug: data.slug,
-      categoryId: data.categoryId,
-      brand: data.brand,
-      description: data.description,
-      images: data.images,
-      stock: data.stock,
-      price: data.price,
-      weight: data.weight,
-      isFeatured: data.isFeatured,
-      banner: data.banner,
-    },
-  });
+  try {
+    const product = await prisma.product.update({
+      where: { id },
+      data: {
+        name: data.name,
+        slug: data.slug,
+        categoryId: data.categoryId,
+        brand: data.brand,
+        description: data.description,
+        images: data.images,
+        stock: data.stock,
+        price: data.price,
+        weight: data.weight,
+        isFeatured: data.isFeatured,
+        banner: data.banner,
+      },
+    });
 
-  revalidatePath('/admin/products');
-  revalidatePath('/');
-  return product;
+    revalidatePath('/admin/products');
+    revalidatePath('/');
+    return { success: true, message: 'Product updated successfully' };
+  } catch (error) {
+    console.error('Error updating product:', error);
+    return { 
+      success: false, 
+      message: error instanceof Error ? error.message : 'Failed to update product' 
+    };
+  }
 }
 
 // Get featured products

@@ -22,9 +22,10 @@ import UserButton from './user-button';
 import CartCount from './cart-count';
 import { APP_NAME } from '@/lib/constants';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 interface MenuProps {
-  lang: string;
+  lang: Locale;
 }
 
 const Menu = async ({ lang }: MenuProps) => {

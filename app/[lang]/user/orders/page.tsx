@@ -102,7 +102,10 @@ const OrdersPage = async ({
                         </Link>
                         {order.isPaid && (
                           <DownloadReceiptButton 
-                            order={order}
+                            order={{
+                              ...order,
+                              shippingAddress: order.shippingAddress as any
+                            }}
                             dict={dict}
                             title={dict.orders.downloadReceipt}
                           />

@@ -5,9 +5,10 @@ import Menu from './menu';
 import HeaderContainer from './header-container';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 interface HeaderProps {
-  lang: string;
+  lang: Locale;
 }
 
 const Header = async ({ lang }: HeaderProps) => {

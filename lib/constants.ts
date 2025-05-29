@@ -50,7 +50,7 @@ export const productDefaultValues = {
   isFeatured: false,
   banner: null,
   price: '',
-  weight: '',
+  weight: null,
   rating: '0',
   numReviews: '0',
 };

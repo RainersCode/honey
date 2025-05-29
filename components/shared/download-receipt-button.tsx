@@ -18,7 +18,7 @@ export default function DownloadReceiptButton({ order, dict, title }: DownloadRe
     try {
       // Generate PDF blob
       const blob = await pdf(
-        React.createElement(OrderReceipt, { order, dict })
+        <OrderReceipt order={order} dict={dict} />
       ).toBlob();
 
       // Create URL for the blob

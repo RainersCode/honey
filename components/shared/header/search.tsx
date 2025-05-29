@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { getAllCategories } from '@/lib/actions/product.actions';
+import { getAllCategories } from '@/lib/actions/category.actions';
 import { SearchIcon } from 'lucide-react';
 
 const Search = async () => {
@@ -25,8 +25,8 @@ const Search = async () => {
               All Categories
             </SelectItem>
             {categories.map((x) => (
-              <SelectItem key={x.category} value={x.category}>
-                {x.category}
+              <SelectItem key={x.key} value={x.key}>
+                {x.name}
               </SelectItem>
             ))}
           </SelectContent>

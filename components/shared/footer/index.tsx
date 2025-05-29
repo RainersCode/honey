@@ -2,9 +2,10 @@ import Link from 'next/link';
 import { APP_NAME } from '@/lib/constants';
 import Image from 'next/image';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 interface FooterProps {
-  lang: string;
+  lang: Locale;
 }
 
 const Footer = async ({ lang }: FooterProps) => {

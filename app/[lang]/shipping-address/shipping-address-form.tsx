@@ -89,7 +89,7 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
   useEffect(() => {
     const loadCountries = async () => {
       const result = await getActiveCountries();
-      if (result.success) {
+      if (result.success && result.countries) {
         setCountries(result.countries);
         // Create a Set of valid country codes
         setValidCountryCodes(new Set(result.countries.map((c) => c.code)));
@@ -104,8 +104,8 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
     const syncCartDeliveryMethod = async () => {
       try {
         const cart = await getMyCart();
-        if (cart?.deliveryMethod) {
-          form.setValue('deliveryMethod', cart.deliveryMethod);
+        if (cart?.deliveryMethod && ['international', 'omniva'].includes(cart.deliveryMethod)) {
+          form.setValue('deliveryMethod', cart.deliveryMethod as 'international' | 'omniva');
         }
       } catch (error) {
         console.error('Error syncing cart delivery method:', error);
@@ -172,7 +172,13 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
     }
 
     startTransition(async () => {
-      const res = await updateUserAddress(values);
+      // Convert null to undefined for type compatibility
+      const submissionValues = {
+        ...values,
+        omnivaLocationDetails: values.omnivaLocationDetails || undefined,
+      };
+      
+      const res = await updateUserAddress(submissionValues);
 
       if (!res.success) {
         toast({

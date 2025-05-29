@@ -7,7 +7,7 @@ import { cookies } from 'next/headers';
 import { compare } from './lib/encrypt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { calcPrice } from './lib/calcPrice';
-import { CartItem } from '@/types/cart';
+import { CartItem } from '@/types';
 
 export const config = {
   pages: {
@@ -20,7 +20,8 @@ export const config = {
   },
   adapter: PrismaAdapter(prisma),
   callbacks: {
-    async redirect({ url, baseUrl }) {
+    ...authConfig.callbacks,
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
       // Handle sign out redirect
       if (url.includes('signOut')) {
         const redirectTo = new URL(url).searchParams.get('redirectTo');
@@ -35,52 +36,6 @@ export const config = {
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
-  },
-  providers: [
-    CredentialsProvider({
-      credentials: {
-        email: { type: 'email' },
-        password: { type: 'password' },
-      },
-      async authorize(credentials) {
-        if (credentials == null) return null;
-
-        // Find user in database
-        const user = await prisma.user.findFirst({
-          where: {
-            email: credentials.email as string,
-          },
-        });
-
-        // Check if user exists and if the password matches
-        if (user && user.password) {
-          // Check if email is verified
-          if (!user.emailVerified) {
-            return null; // User exists but email not verified
-          }
-
-          const isMatch = await compare(
-            credentials.password as string,
-            user.password
-          );
-
-          // If password is correct, return user
-          if (isMatch) {
-            return {
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              role: user.role,
-            };
-          }
-        }
-        // If user does not exist or password does not match return null
-        return null;
-      },
-    }),
-  ],
-  callbacks: {
-    ...authConfig.callbacks,
     async session({ session, user, trigger, token }: any) {
       // Set the user ID from the token
       session.user.id = token.sub;
@@ -128,7 +83,7 @@ export const config = {
 
               // Calculate prices for the cart
               const prices = await calcPrice(
-                sessionCart.items as CartItem[],
+                sessionCart.items as unknown as CartItem[],
                 sessionCart.deliveryMethod || 'international'
               );
 
@@ -156,6 +111,49 @@ export const config = {
       return token;
     },
   },
+  providers: [
+    CredentialsProvider({
+      credentials: {
+        email: { type: 'email' },
+        password: { type: 'password' },
+      },
+      async authorize(credentials) {
+        if (credentials == null) return null;
+
+        // Find user in database
+        const user = await prisma.user.findFirst({
+          where: {
+            email: credentials.email as string,
+          },
+        });
+
+        // Check if user exists and if the password matches
+        if (user && user.password) {
+          // Check if email is verified
+          if (!user.emailVerified) {
+            return null; // User exists but email not verified
+          }
+
+          const isMatch = await compare(
+            credentials.password as string,
+            user.password
+          );
+
+          // If password is correct, return user
+          if (isMatch) {
+            return {
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              role: user.role,
+            };
+          }
+        }
+        // If user does not exist or password does not match return null
+        return null;
+      },
+    }),
+  ],
 };
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config);

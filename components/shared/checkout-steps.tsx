@@ -12,9 +12,9 @@ const CheckoutSteps = async ({ current = 0, lang }: CheckoutStepsProps) => {
   const dict = await getDictionary(lang);
   
   const steps = [
-    dict.checkout.steps.userLogin,
-    dict.checkout.steps.shippingAddress,
-    dict.checkout.steps.placeOrder
+    dict.checkout?.steps?.userLogin || 'User Login',
+    dict.checkout?.steps?.shippingAddress || 'Shipping Address',
+    dict.checkout?.steps?.placeOrder || 'Place Order'
   ];
 
   return (
@@ -29,7 +29,7 @@ const CheckoutSteps = async ({ current = 0, lang }: CheckoutStepsProps) => {
           >
             {step}
           </div>
-          {step !== dict.checkout.steps.placeOrder && (
+          {step !== (dict.checkout?.steps?.placeOrder || 'Place Order') && (
             <hr className='w-16 border-t border-[#FFE4D2] mx-2' />
           )}
         </React.Fragment>

@@ -10,9 +10,10 @@ import {
   Gift,
   Crown
 } from 'lucide-react';
+import { Locale } from '@/config/i18n.config';
 
 interface ProductCategoriesBentoProps {
-  lang: string;
+  lang: Locale;
 }
 
 // Icon mapping for different categories

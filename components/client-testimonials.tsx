@@ -7,9 +7,10 @@ import {
 } from '@/components/ui/carousel';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 interface ClientTestimonialsProps {
-  lang: string;
+  lang: Locale;
 }
 
 const ClientTestimonials = async ({ lang }: ClientTestimonialsProps) => {

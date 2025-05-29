@@ -67,12 +67,12 @@ export default function CategoryManagement({ categories, dictionary }: CategoryM
     }
   };
 
-  const handleEdit = async (category: Category) => {
+  const handleEdit = async (category: Category & { _count: { products: number } }) => {
     setEditingCategory(category);
     setIsOpen(true);
   };
 
-  const handleDelete = async (category: Category) => {
+  const handleDelete = async (category: Category & { _count: { products: number } }) => {
     if (category._count.products > 0) {
       toast({
         description: 'Cannot delete category with existing products',

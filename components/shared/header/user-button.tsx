@@ -12,9 +12,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserIcon, Settings, Package, LogOut, ChevronDown } from 'lucide-react';
 import { getDictionary } from '@/lib/dictionary';
+import { Locale } from '@/config/i18n.config';
 
 interface UserButtonProps {
-  lang: string;
+  lang: Locale;
 }
 
 const UserButton = async ({ lang }: UserButtonProps) => {

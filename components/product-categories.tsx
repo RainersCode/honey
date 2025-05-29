@@ -2,9 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/lib/dictionary';
 import { getAllCategories } from '@/lib/actions/category.actions';
+import { Locale } from '@/config/i18n.config';
 
 interface ProductCategoriesProps {
-  lang: string;
+  lang: Locale;
 }
 
 const ProductCategories = async ({ lang }: ProductCategoriesProps) => {

@@ -25,16 +25,17 @@ import { Locale } from '@/config/i18n.config';
 const formSchema = z
   .object({
     zone: z.string().min(1, 'Zone is required'),
-    minWeight: z.string().transform((val) => Number(val)),
-    maxWeight: z.string().transform((val) => Number(val)),
-    price: z.string().transform((val) => Number(val)),
+    minWeight: z.string().min(1, 'Minimum weight is required').transform((val) => Number(val)),
+    maxWeight: z.string().min(1, 'Maximum weight is required').transform((val) => Number(val)),
+    price: z.string().min(1, 'Price is required').transform((val) => Number(val)),
   })
   .refine((data) => Number(data.maxWeight) > Number(data.minWeight), {
     message: 'Maximum weight must be greater than minimum weight',
     path: ['maxWeight'],
   });
 
-type FormData = z.infer<typeof formSchema>;
+type FormInput = z.input<typeof formSchema>;
+type FormData = z.output<typeof formSchema>;
 
 interface ShippingRuleFormProps {
   type: 'Create' | 'Update';
@@ -56,23 +57,33 @@ export default function ShippingRuleForm({
   const router = useRouter();
   const { toast } = useToast();
 
-  const form = useForm<FormData>({
+  const form = useForm<FormInput>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       zone: rule?.zone || '',
-      minWeight: rule?.minWeight?.toString() || '',
-      maxWeight: rule?.maxWeight?.toString() || '',
-      price: rule?.price?.toString() || '',
+      minWeight: rule?.minWeight ? rule.minWeight.toString() : '',
+      maxWeight: rule?.maxWeight ? rule.maxWeight.toString() : '',
+      price: rule?.price ? rule.price.toString() : '',
     },
   });
 
-  async function onSubmit(data: FormData) {
+  async function onSubmit(data: FormInput) {
     try {
-      const action =
-        type === 'Create' ? createShippingRule : updateShippingRule;
-      const result = await (type === 'Create'
-        ? action({ ...data, carrier: 'standard' })
-        : action(rule!.id, { ...data, carrier: 'standard' }));
+      // Transform the string values to numbers as expected by the schema
+      const transformedData = {
+        zone: data.zone,
+        minWeight: Number(data.minWeight),
+        maxWeight: Number(data.maxWeight),
+        price: Number(data.price),
+      };
+
+      let result;
+      
+      if (type === 'Create') {
+        result = await createShippingRule({ ...transformedData, carrier: 'standard' });
+      } else {
+        result = await updateShippingRule(rule!.id, { ...transformedData, carrier: 'standard' });
+      }
 
       if (!result.success) {
         toast({

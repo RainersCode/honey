@@ -1,11 +1,12 @@
 import Header from '@/components/shared/header';
+import { Locale } from '@/config/i18n.config';
 
 export default async function AuthLayout({
   children,
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: Locale }>;
 }>) {
   const { lang } = await params;
   

@@ -19,9 +19,9 @@ import { getDictionary } from '@/lib/dictionary';
 interface ShippingRule {
   id: string;
   zone: string;
-  minWeight: number;
-  maxWeight: number;
-  price: number;
+  minWeight: any; // Prisma Decimal
+  maxWeight: any; // Prisma Decimal
+  price: any; // Prisma Decimal
   carrier: string;
 }
 
@@ -62,12 +62,13 @@ export default function ShippingCalculator({
     const fetchShippingRules = async () => {
       const result = await getShippingRules(cartWeight, selectedMethod);
       if (result.success) {
-        setShippingRules(result.allRules);
-        setCurrentRule(result.currentRule);
+        setShippingRules(result.allRules || []);
+        setCurrentRule(result.currentRule || null);
 
         // Check if weight exceeds maximum allowed weight
-        const maxAllowedWeight = result.allRules.length > 0 
-          ? Math.max(...result.allRules.map(rule => Number(rule.maxWeight))) 
+        const allRules = result.allRules || [];
+        const maxAllowedWeight = allRules.length > 0 
+          ? Math.max(...allRules.map(rule => Number(rule.maxWeight))) 
           : Infinity; // If no rules, allow any weight
           
         if (cartWeight > maxAllowedWeight && maxAllowedWeight !== Infinity) {
@@ -204,7 +205,12 @@ export default function ShippingCalculator({
           )}
 
           {showOmnivaSelector && !weightError && (
-            <OmnivaLocationSelector />
+            <OmnivaLocationSelector 
+              onSelect={(location) => {
+                // Store the selected Omniva location for later use in forms
+                console.log('Selected Omniva location:', location);
+              }}
+            />
           )}
 
           {!weightError && currentRule && (

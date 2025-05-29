@@ -327,6 +327,84 @@ export interface Dictionary {
       };
     };
   };
+  user: {
+    orders: string;
+    profile: string;
+  };
+  orders: {
+    description: string;
+    id: string;
+    date: string;
+    total: string;
+    paid: string;
+    delivered: string;
+    actions: string;
+    notPaid: string;
+    notDelivered: string;
+    details: string;
+    downloadReceipt: string;
+  };
+  clientTestimonials?: {
+    title?: string;
+    testimonials?: Array<{
+      name: string;
+      role: string;
+      quote: string;
+    }>;
+  };
+  productCategories?: {
+    title?: string;
+    shopNow?: string;
+  };
+  checkout?: {
+    steps?: {
+      userLogin?: string;
+      shippingAddress?: string;
+      placeOrder?: string;
+    };
+  };
+  footer?: {
+    description?: string;
+    quickLinks?: {
+      title?: string;
+      aboutUs?: string;
+      products?: string;
+      contact?: string;
+      blog?: string;
+    };
+    contactInfo?: {
+      title?: string;
+      address?: string;
+      phone?: string;
+      email?: string;
+    };
+    hours?: {
+      title?: string;
+      weekdays?: string;
+      saturday?: string;
+      sunday?: string;
+      monday?: string;
+      tuesday?: string;
+      wednesday?: string;
+      thursday?: string;
+      friday?: string;
+    };
+    bottomBar?: {
+      copyright?: string;
+      privacy?: string;
+      privacyPolicy?: string;
+      terms?: string;
+      termsOfService?: string;
+    };
+  };
+  contact?: {
+    info?: {
+      title?: string;
+    };
+    social?: {
+      title?: string;
+    };
+  };
 }
 
 export type Product = {
@@ -347,29 +425,29 @@ export type Product = {
   createdAt: Date;
 };
 
-export type ProductWithCategory = {
+export interface ProductWithCategory {
   id: string;
   name: string;
   slug: string;
   category: {
     id: string;
-    key: string;
     name: string;
     description: string;
     image: string;
+    key: string;
   };
+  images: string[];
+  price: any; // Prisma Decimal
+  rating: any; // Prisma Decimal
+  numReviews: number;
+  weight: any; // Prisma Decimal
+  isFeatured: boolean;
+  banner: string | null;
   brand: string;
   description: string;
   stock: number;
-  images: string[];
-  isFeatured: boolean;
-  banner: string | null;
-  price: string;
-  weight: number | null;
-  rating: string;
-  numReviews: number;
   createdAt: Date;
-};
+}
 
 export interface CartItem {
   productId: string;
@@ -423,11 +501,11 @@ export type Order = z.infer<typeof insertOrderSchema> & {
   id: string;
   userFacingId: string;
   createdAt: Date;
-  isPaid: Boolean;
+  isPaid: boolean;
   paidAt: Date | null;
-  isShipped: Boolean;
+  isShipped: boolean;
   shippedAt: Date | null;
-  isDelivered: Boolean;
+  isDelivered: boolean;
   deliveredAt: Date | null;
   orderitems: OrderItem[];
   user: { name: string; email: string };

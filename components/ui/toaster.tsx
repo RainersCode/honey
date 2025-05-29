@@ -11,8 +11,9 @@ import {
 } from "@/components/ui/toast"
 import { useEffect, useState } from "react"
 import { getDictionary } from "@/lib/dictionary"
+import { Locale } from "@/config/i18n.config"
 
-export function Toaster({ lang = 'en' }: { lang?: string }) {
+export function Toaster({ lang = 'en' }: { lang?: Locale }) {
   const { toasts } = useToast()
   const [dict, setDict] = useState<any>(null)
 
@@ -39,11 +40,11 @@ export function Toaster({ lang = 'en' }: { lang?: string }) {
           return !trimmed.includes(' ') && !trimmed.includes('{') && dict?.common?.[trimmed]
         }
         
-        const translatedTitle = (title && isSimpleKey(title)) 
+        const translatedTitle = (title && typeof title === 'string' && isSimpleKey(title)) 
           ? dict.common[title.toLowerCase()]
           : title
           
-        const translatedDescription = (description && isSimpleKey(description))
+        const translatedDescription = (description && typeof description === 'string' && isSimpleKey(description))
           ? dict.common[description.toLowerCase()]
           : description
 

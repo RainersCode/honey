@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import CategoryDrawer from './CategoryDrawer';
+import CategoryDrawer from './category-drawer';
 
 const Header = async ({ lang }: { lang: string }) => {
   return (

@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 import { updateOrderToPaid } from '@/lib/actions/order.actions';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2023-10-16', // Ensure this matches your Stripe account's default or the version used for payment intent creation
+  apiVersion: '2024-11-20.acacia', // Ensure this matches your Stripe account's default or the version used for payment intent creation
   typescript: true, // Recommended for type safety
 });
 

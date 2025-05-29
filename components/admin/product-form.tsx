@@ -53,7 +53,13 @@ const ProductForm = ({
         ? zodResolver(updateProductSchema)
         : zodResolver(insertProductSchema),
     defaultValues:
-      product && type === 'Update' ? product : productDefaultValues,
+      product && type === 'Update' 
+        ? {
+            ...product,
+            weight: product.weight,
+            price: product.price,
+          }
+        : productDefaultValues,
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof insertProductSchema>> = async (
@@ -83,7 +89,7 @@ const ProductForm = ({
         return;
       }
 
-      const res = await updateProduct({ ...values, id: productId });
+      const res = await updateProduct(productId, values);
 
       if (!res.success) {
         toast({
@@ -257,7 +263,8 @@ const ProductForm = ({
                     type="number"
                     step="0.01"
                     placeholder='Enter product weight' 
-                    {...field} 
+                    {...field}
+                    value={field.value || ''}
                   />
                 </FormControl>
                 <FormMessage />

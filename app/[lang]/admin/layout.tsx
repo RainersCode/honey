@@ -4,12 +4,13 @@ import MainNav from './main-nav';
 
 export default async function AdminLayout({
   children,
-  params: { lang },
+  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }>) {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return (
     <div className='fixed inset-0 bg-gray-50 flex flex-col overflow-hidden z-[90]'>

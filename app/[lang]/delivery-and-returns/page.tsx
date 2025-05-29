@@ -43,7 +43,7 @@ export default async function DeliveryAndReturnsPage({
               <div className="mt-6">
                 <h3 className="text-2xl font-medium text-[#1D1D1F] mb-3">{dict.delivery_returns.delivery.methods.title}</h3>
                 <ul className="list-disc pl-6 text-gray-600 space-y-2">
-                  {dict.delivery_returns.delivery.methods.list.map((method, index) => (
+                  {dict.delivery_returns.delivery.methods.list.map((method: string, index: number) => (
                     <li key={index}>{method}</li>
                   ))}
                 </ul>
@@ -52,7 +52,7 @@ export default async function DeliveryAndReturnsPage({
               <div className="mt-6">
                 <h3 className="text-2xl font-medium text-[#1D1D1F] mb-3">{dict.delivery_returns.delivery.times.title}</h3>
                 <ul className="list-disc pl-6 text-gray-600 space-y-2">
-                  {dict.delivery_returns.delivery.times.list.map((time, index) => (
+                  {dict.delivery_returns.delivery.times.list.map((time: string, index: number) => (
                     <li key={index}>{time}</li>
                   ))}
                 </ul>
@@ -66,7 +66,7 @@ export default async function DeliveryAndReturnsPage({
               <div className="mt-6">
                 <h3 className="text-2xl font-medium text-[#1D1D1F] mb-3">{dict.delivery_returns.returns.process.title}</h3>
                 <ol className="list-decimal pl-6 text-gray-600 space-y-2">
-                  {dict.delivery_returns.returns.process.steps.map((step, index) => (
+                  {dict.delivery_returns.returns.process.steps.map((step: string, index: number) => (
                     <li key={index}>{step}</li>
                   ))}
                 </ol>
@@ -75,7 +75,7 @@ export default async function DeliveryAndReturnsPage({
               <div className="mt-6">
                 <h3 className="text-2xl font-medium text-[#1D1D1F] mb-3">{dict.delivery_returns.returns.conditions.title}</h3>
                 <ul className="list-disc pl-6 text-gray-600 space-y-2">
-                  {dict.delivery_returns.returns.conditions.list.map((condition, index) => (
+                  {dict.delivery_returns.returns.conditions.list.map((condition: string, index: number) => (
                     <li key={index}>{condition}</li>
                   ))}
                 </ul>
@@ -86,7 +86,7 @@ export default async function DeliveryAndReturnsPage({
               <h2 className="text-3xl font-serif text-[#1D1D1F] mb-6">{dict.delivery_returns.refunds.title}</h2>
               <p className="text-gray-600">{dict.delivery_returns.refunds.description}</p>
               <ul className="list-disc pl-6 text-gray-600 space-y-2 mt-4">
-                {dict.delivery_returns.refunds.terms.map((term, index) => (
+                {dict.delivery_returns.refunds.terms.map((term: string, index: number) => (
                   <li key={index}>{term}</li>
                 ))}
               </ul>

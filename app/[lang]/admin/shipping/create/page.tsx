@@ -4,12 +4,13 @@ import { requireAdmin } from '@/lib/auth-guard';
 import ShippingRuleForm from '@/components/shipping/shipping-rule-form';
 
 export default async function CreateShippingRulePage({
-  params: { lang },
+  params,
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
   await requireAdmin();
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return (
     <div className='space-y-6'>

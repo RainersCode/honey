@@ -8,7 +8,7 @@ import OrderReceipt from './order-receipt';
 import React from 'react';
 
 interface DownloadReceiptButtonProps {
-  order: Order;
+  order: Omit<Order, "paymentResult">;
   dict: any;
   title: string;
 }

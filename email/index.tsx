@@ -15,7 +15,7 @@ export const sendPurchaseReceipt = async ({ order }: { order: Order }) => {
   const dict = await getDictionary('en');
   
   // Generate PDF receipt
-  const pdfBlob = await generateReceipt(order, dict, false);
+  const pdfBlob = await generateReceipt(order, dict);
   
   if (!pdfBlob) {
     console.error('Failed to generate PDF receipt');

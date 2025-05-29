@@ -138,7 +138,7 @@ const OrderDetailsTable = ({
   };
 
   const handleDownloadReceipt = async () => {
-    const success = await generateReceipt(order, dict, true);
+    const success = await generateReceipt(order, dict);
     if (!success) {
       toast({
         variant: 'destructive',

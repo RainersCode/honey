@@ -317,6 +317,7 @@ export interface Cart {
   items: CartItem[];
   itemsPrice: number;
   shippingPrice?: number;
+  taxPrice?: number;
   totalPrice: number;
 }
 

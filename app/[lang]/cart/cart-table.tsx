@@ -60,7 +60,9 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
   const handleShippingSelect = async (rate: {
     service: string;
     rate: number;
-  }) => {
+  } | null) => {
+    if (!rate) return; // Handle null case
+    
     setSelectedShipping(rate);
     const method = rate.service.toLowerCase().includes('omniva')
       ? 'omniva'

@@ -39,7 +39,21 @@ const ContactPage = async ({
 }: {
   params: Promise<{ lang: Locale }>;
 }) => {
-  const { lang } = await params;
+  const resolvedParams = await params;
+  
+  // Handle case where params might be undefined during static generation
+  if (!resolvedParams || !resolvedParams.lang) {
+    return (
+      <div className="container mx-auto px-4 py-12">
+        <div className="text-center">
+          <h1 className="text-4xl font-serif text-[#1D1D1F] mb-4">Contact Us</h1>
+          <p className="text-gray-600">Get in touch with us for any questions about our natural honey products.</p>
+        </div>
+      </div>
+    );
+  }
+  
+  const { lang } = resolvedParams;
   const dict = await getDictionary(lang) as any;
 
   return (

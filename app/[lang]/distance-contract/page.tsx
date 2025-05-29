@@ -7,13 +7,30 @@ export async function generateMetadata({
 }: {
   params: Promise<{ lang: Locale }>;
 }) {
-  const { lang } = await params;
-  const dict = await getDictionary(lang) as any;
+  try {
+    const resolvedParams = await params;
+    if (!resolvedParams || !resolvedParams.lang) {
+      // Fallback metadata if params is not available during static generation
+      return {
+        title: 'Distance Contract | Honey Farm',
+        description: 'Distance selling contract terms and conditions.',
+      };
+    }
+    
+    const { lang } = resolvedParams;
+    const dict = await getDictionary(lang) as any;
 
-  return {
-    title: dict.distance_contract.meta.title,
-    description: dict.distance_contract.meta.description,
-  };
+    return {
+      title: dict.distance_contract.meta.title,
+      description: dict.distance_contract.meta.description,
+    };
+  } catch (error) {
+    // Fallback metadata if params is not available during static generation
+    return {
+      title: 'Distance Contract | Honey Farm',
+      description: 'Distance selling contract terms and conditions.',
+    };
+  }
 }
 
 export default async function DistanceContractPage({
@@ -21,7 +38,25 @@ export default async function DistanceContractPage({
 }: {
   params: Promise<{ lang: Locale }>;
 }) {
-  const { lang } = await params;
+  const resolvedParams = await params;
+  
+  // Handle case where params might be undefined during static generation
+  if (!resolvedParams || !resolvedParams.lang) {
+    return (
+      <Container>
+        <div className="py-12">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center">
+              <h1 className="text-4xl font-serif text-[#1D1D1F] mb-4">Distance Contract</h1>
+              <p className="text-gray-600">Distance selling contract terms and conditions.</p>
+            </div>
+          </div>
+        </div>
+      </Container>
+    );
+  }
+  
+  const { lang } = resolvedParams;
   const dict = await getDictionary(lang) as any;
 
   return (

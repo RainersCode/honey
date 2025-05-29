@@ -38,7 +38,25 @@ export default async function PrivacyPage({
 }: {
   params: Promise<{ lang: Locale }>;
 }) {
-  const { lang } = await params;
+  const resolvedParams = await params;
+  
+  // Handle case where params might be undefined during static generation
+  if (!resolvedParams || !resolvedParams.lang) {
+    return (
+      <Container>
+        <div className="py-12">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center">
+              <h1 className="text-4xl font-serif text-[#1D1D1F] mb-4">Privacy Policy</h1>
+              <p className="text-gray-600">Our privacy policy and data protection practices.</p>
+            </div>
+          </div>
+        </div>
+      </Container>
+    );
+  }
+  
+  const { lang } = resolvedParams;
   const dict = await getDictionary(lang) as any;
 
   return (

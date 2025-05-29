@@ -16,7 +16,21 @@ export default async function Homepage({
 }: {
   params: Promise<{ lang: Locale }>;
 }) {
-  const { lang } = await params;
+  const resolvedParams = await params;
+  
+  // Handle case where params might be undefined during static generation
+  if (!resolvedParams || !resolvedParams.lang) {
+    return (
+      <div className="container mx-auto px-4 py-12">
+        <div className="text-center">
+          <h1 className="text-4xl font-serif text-[#1D1D1F] mb-4">Natural Honey Farm</h1>
+          <p className="text-gray-600">Pure, natural honey and sustainable farming practices.</p>
+        </div>
+      </div>
+    );
+  }
+  
+  const { lang } = resolvedParams;
   const dict = await getDictionary(lang) as any;
   const latestProducts = await getLatestProducts();
   const featuredProducts = await getFeaturedProducts();

@@ -62,7 +62,8 @@ export async function signOutUser() {
   }
 
   // Get the current language from the URL
-  const url = new URL(headers().get('referer') || '');
+  const headersList = await headers();
+  const url = new URL(headersList.get('referer') || '');
   const lang = url.pathname.split('/')[1] || 'en';
 
   // Sign out and redirect to home page

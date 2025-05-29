@@ -6,12 +6,13 @@ import ShippingRuleForm from '@/components/shipping/shipping-rule-form';
 import { notFound } from 'next/navigation';
 
 export default async function UpdateShippingRulePage({
-  params: { lang, id },
+  params,
 }: {
-  params: { lang: Locale; id: string };
+  params: Promise<{ lang: Locale; id: string }>;
 }) {
   await requireAdmin();
-  const dict = await getDictionary(lang);
+  const { lang, id } = await params;
+  const dict = await getDictionary(lang) as any;
 
   const rule = await getShippingRuleById(id);
   if (!rule) return notFound();

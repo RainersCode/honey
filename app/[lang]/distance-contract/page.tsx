@@ -3,11 +3,12 @@ import { Locale } from '@/config/i18n.config';
 import { Container } from '@/components/ui/container';
 
 export async function generateMetadata({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return {
     title: dict.distance_contract.meta.title,
@@ -16,11 +17,12 @@ export async function generateMetadata({
 }
 
 export default async function DistanceContractPage({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return (
     <Container>
@@ -42,7 +44,7 @@ export default async function DistanceContractPage({
             <section className="mb-12">
               <h2 className="text-3xl font-serif text-[#1D1D1F] mb-6">{dict.distance_contract.terms.title}</h2>
               <ol className="list-decimal pl-6 text-gray-600 space-y-4">
-                {dict.distance_contract.terms.list.map((term, index) => (
+                {dict.distance_contract.terms.list.map((term: any, index: number) => (
                   <li key={index}>{term}</li>
                 ))}
               </ol>
@@ -52,7 +54,7 @@ export default async function DistanceContractPage({
               <h2 className="text-3xl font-serif text-[#1D1D1F] mb-6">{dict.distance_contract.payment.title}</h2>
               <p className="text-gray-600 mb-4">{dict.distance_contract.payment.description}</p>
               <ul className="list-disc pl-6 text-gray-600 space-y-2">
-                {dict.distance_contract.payment.methods.map((method, index) => (
+                {dict.distance_contract.payment.methods.map((method: any, index: number) => (
                   <li key={index}>{method}</li>
                 ))}
               </ul>
@@ -61,7 +63,7 @@ export default async function DistanceContractPage({
             <section className="mb-12">
               <h2 className="text-3xl font-serif text-[#1D1D1F] mb-6">{dict.distance_contract.delivery.title}</h2>
               <ul className="list-disc pl-6 text-gray-600 space-y-2">
-                {dict.distance_contract.delivery.methods.map((method, index) => (
+                {dict.distance_contract.delivery.methods.map((method: any, index: number) => (
                   <li key={index}>{method}</li>
                 ))}
               </ul>
@@ -70,7 +72,7 @@ export default async function DistanceContractPage({
             <section className="mb-12">
               <h2 className="text-3xl font-serif text-[#1D1D1F] mb-6">{dict.distance_contract.receiving.title}</h2>
               <ul className="list-disc pl-6 text-gray-600 space-y-2">
-                {dict.distance_contract.receiving.conditions.map((condition, index) => (
+                {dict.distance_contract.receiving.conditions.map((condition: any, index: number) => (
                   <li key={index}>{condition}</li>
                 ))}
               </ul>
@@ -82,7 +84,7 @@ export default async function DistanceContractPage({
               <div className="mt-6">
                 <h3 className="text-2xl font-medium text-[#1D1D1F] mb-3">{dict.distance_contract.withdrawal.conditions.title}</h3>
                 <ul className="list-disc pl-6 text-gray-600 space-y-2">
-                  {dict.distance_contract.withdrawal.conditions.list.map((condition, index) => (
+                  {dict.distance_contract.withdrawal.conditions.list.map((condition: any, index: number) => (
                     <li key={index}>{condition}</li>
                   ))}
                 </ul>

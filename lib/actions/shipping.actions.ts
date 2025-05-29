@@ -104,8 +104,8 @@ export async function deleteShippingRule(id: string) {
     });
 
     revalidatePath('/admin/shipping');
-    return { success: true };
+    return { success: true, message: 'Shipping rule deleted successfully' };
   } catch (error) {
-    return { success: false, error: 'Failed to delete shipping rule' };
+    return { success: false, message: 'Failed to delete shipping rule' };
   }
 }

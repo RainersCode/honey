@@ -8,11 +8,12 @@ import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 
 export async function generateMetadata({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) {
-  const dict = await getDictionary(lang);
+  const { lang } = await params;
+  const dict = await getDictionary(lang) as any;
 
   return {
     title: dict.placeOrder.meta.title,
@@ -21,10 +22,11 @@ export async function generateMetadata({
 }
 
 const PlaceOrderPage = async ({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale };
+  params: Promise<{ lang: Locale }>;
 }) => {
+  const { lang } = await params;
   const cart = await getMyCart();
 
   if (!cart || cart.items.length === 0) redirect(`/${lang}/cart`);
@@ -35,7 +37,7 @@ const PlaceOrderPage = async ({
   if (!userId) throw new Error('No user ID');
 
   const user = await getUserById(userId);
-  const dict = await getDictionary(lang);
+  const dict = await getDictionary(lang) as any;
 
   if (!user.address) redirect(`/${lang}/shipping-address`);
   

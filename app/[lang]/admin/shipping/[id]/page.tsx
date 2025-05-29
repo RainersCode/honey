@@ -14,8 +14,17 @@ export default async function UpdateShippingRulePage({
   const { lang, id } = await params;
   const dict = await getDictionary(lang) as any;
 
-  const rule = await getShippingRuleById(id);
-  if (!rule) return notFound();
+  const dbRule = await getShippingRuleById(id);
+  if (!dbRule) return notFound();
+
+  // Convert Decimal types to numbers for the form component
+  const rule = {
+    id: dbRule.id,
+    zone: dbRule.zone,
+    minWeight: Number(dbRule.minWeight),
+    maxWeight: Number(dbRule.maxWeight),
+    price: Number(dbRule.price),
+  };
 
   return (
     <div className='space-y-6'>

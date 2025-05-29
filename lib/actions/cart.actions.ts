@@ -34,9 +34,10 @@ export async function addItemToCart(data: CartItem, lang: Locale = 'en') {
     });
     if (!product) throw new Error('Product not found');
 
-    // Prepare item with proper weight and slug
+    // Prepare item with proper weight, slug, and price
     const itemData = {
       ...data,
+      price: Number(data.price),
       weight: product.weight ? Number(product.weight) : 0,
       slug: product.slug, // Add the product slug
     };

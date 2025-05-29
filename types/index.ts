@@ -21,6 +21,40 @@ export interface Dictionary {
     register: string;
     logout: string;
   };
+  cart: {
+    title: string;
+    empty: {
+      title: string;
+      description: string;
+      action: string;
+    };
+    item: string;
+    items: string;
+    total: string;
+    subtotal: string;
+    shipping: string;
+    tax: string;
+    orderSummary: string;
+    processing: string;
+    proceedToCheckout: string;
+    stockLimit: {
+      exceeded: string;
+      error: string;
+    };
+    weightLimit: {
+      exceeded: string;
+      buttonText: string;
+    };
+    delivery: {
+      title: string;
+      international: string;
+      internationalDesc: string;
+      omniva: string;
+      omnivaDesc: string;
+      shippingCost: string;
+      forWeight: string;
+    };
+  };
   admin: {
     nav: {
       overview: string;

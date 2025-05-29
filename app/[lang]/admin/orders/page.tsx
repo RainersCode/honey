@@ -109,9 +109,7 @@ export default async function AdminOrdersPage({
       {orders.totalPages > 1 && (
         <Pagination 
           page={page} 
-          totalPages={orders.totalPages} 
-          baseUrl={`/${lang}/admin/orders`}
-          query={searchText}
+          totalPages={orders.totalPages}
         />
       )}
     </div>

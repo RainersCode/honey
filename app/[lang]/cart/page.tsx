@@ -25,7 +25,7 @@ const CartPage = async ({
   const cart = await getMyCart();
 
   return (
-    <CartTable cart={cart} lang={lang} />
+    <CartTable cart={cart || null} lang={lang} />
   );
 };
 

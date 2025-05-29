@@ -25,7 +25,7 @@ import ShippingCalculator from '@/components/cart/shipping-calculator';
 import { updateCartDeliveryMethod } from '@/lib/actions/cart.actions';
 
 interface CartTableProps {
-  cart: Cart;
+  cart: Cart | null;
   lang: Locale;
 }
 

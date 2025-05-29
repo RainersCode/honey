@@ -9,7 +9,16 @@ export async function generateMetadata({
   params: Promise<{ lang: Locale }>;
 }) {
   try {
-    const { lang } = await params;
+    const resolvedParams = await params;
+    if (!resolvedParams || !resolvedParams.lang) {
+      // Fallback metadata if params is not available during static generation
+      return {
+        title: 'Contact Us | Honey Farm',
+        description: 'Get in touch with us for any questions about our natural honey products.',
+      };
+    }
+    
+    const { lang } = resolvedParams;
     const dict = await getDictionary(lang) as any;
 
     return {

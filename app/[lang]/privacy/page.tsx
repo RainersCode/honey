@@ -8,7 +8,16 @@ export async function generateMetadata({
   params: Promise<{ lang: Locale }>;
 }) {
   try {
-    const { lang } = await params;
+    const resolvedParams = await params;
+    if (!resolvedParams || !resolvedParams.lang) {
+      // Fallback metadata if params is not available during static generation
+      return {
+        title: 'Privacy Policy | Honey Farm',
+        description: 'Our privacy policy and data protection practices.',
+      };
+    }
+    
+    const { lang } = resolvedParams;
     const dict = await getDictionary(lang) as any;
 
     return {

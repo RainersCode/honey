@@ -9,7 +9,16 @@ export async function generateMetadata({
   params: Promise<{ lang: Locale }>;
 }) {
   try {
-    const { lang } = await params;
+    const resolvedParams = await params;
+    if (!resolvedParams || !resolvedParams.lang) {
+      // Fallback metadata if params is not available during static generation
+      return {
+        title: 'Terms of Service | Honey Farm',
+        description: 'Terms and conditions for using our honey farm services.',
+      };
+    }
+    
+    const { lang } = resolvedParams;
     const dict = await getDictionary(lang) as any;
 
     return {

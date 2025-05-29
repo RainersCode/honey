@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
 });
 
 interface OrderReceiptProps {
-  order: Order;
+  order: Omit<Order, "paymentResult">;
   dict: any;
 }
 

@@ -3,7 +3,7 @@ import { Order } from '@/types';
 import { pdf } from '@react-pdf/renderer';
 import OrderReceipt from '@/components/shared/order-receipt';
 
-export const generateReceipt = async (order: Order, dict: any) => {
+export const generateReceipt = async (order: Omit<Order, "paymentResult">, dict: any) => {
   try {
     // Generate PDF blob
     const blob = await pdf(

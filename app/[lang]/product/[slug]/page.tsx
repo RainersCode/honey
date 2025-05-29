@@ -143,7 +143,7 @@ const ProductDetailsPage = async ({
                     productId: product.id,
                     name: product.name,
                     slug: product.slug,
-                    price: product.price,
+                    price: Number(product.price),
                     qty: 1,
                     image: product.images[0],
                   }}

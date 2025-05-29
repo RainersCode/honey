@@ -57,7 +57,7 @@ export default async function PrivacyPage({
               <h2 className="text-3xl font-serif text-[#1D1D1F] mb-6">{dict.privacy.rights.title}</h2>
               <p className="text-gray-600">{dict.privacy.rights.description}</p>
               <ul className="list-disc pl-6 text-gray-600 space-y-2 mt-4">
-                {dict.privacy.rights.list.map((item, index) => (
+                {dict.privacy.rights.list.map((item: { title: string; description: string }, index: number) => (
                   <li key={index}><strong>{item.title}</strong> - {item.description}</li>
                 ))}
               </ul>
@@ -72,7 +72,7 @@ export default async function PrivacyPage({
 
               <h3 className="text-2xl font-medium text-[#1D1D1F] mt-6 mb-4">{dict.privacy.cookies.types.title}</h3>
               <ul className="list-disc pl-6 text-gray-600 space-y-2 mt-4">
-                {dict.privacy.cookies.types.list.map((item, index) => (
+                {dict.privacy.cookies.types.list.map((item: { title: string; description: string }, index: number) => (
                   <li key={index}><strong>{item.title}</strong> - {item.description}</li>
                 ))}
               </ul>

@@ -131,6 +131,7 @@ export interface Dictionary {
       addSuccess: string;
       updateSuccess: string;
     };
+  };
   common: {
     loading: string;
     error: string;
@@ -150,6 +151,11 @@ export interface Dictionary {
     description: string;
     reviews: string;
     customerReviews: string;
+  };
+  notFound: {
+    title: string;
+    description: string;
+    backHome: string;
   };
   auth: {
     email: string;

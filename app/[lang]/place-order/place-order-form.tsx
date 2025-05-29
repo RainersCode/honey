@@ -64,6 +64,15 @@ const PlaceOrderForm = ({ cart, user, lang }: PlaceOrderFormProps) => {
       }
 
       // Extract orderId from redirectTo URL
+      if (!res.redirectTo) {
+        toast({
+          variant: 'destructive',
+          title: 'error',
+          description: 'No redirect URL provided',
+        });
+        return;
+      }
+
       const orderId = res.redirectTo.split('/').pop();
       if (!orderId) {
         toast({

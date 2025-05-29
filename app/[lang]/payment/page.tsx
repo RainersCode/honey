@@ -43,7 +43,7 @@ export default async function PaymentPage({
                 <li>
                   {dict.payment_page.methods.online_banking}:
                   <ul className="list-none mt-2 space-y-1">
-                    {dict.payment_page.methods.banks.map((bank, index) => (
+                    {dict.payment_page.methods.banks.map((bank: string, index: number) => (
                       <li key={index}>• {bank}</li>
                     ))}
                   </ul>

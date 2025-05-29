@@ -40,8 +40,17 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  return i18n.locales.map((locale) => ({ lang: locale }));
+  // Ensure we always return valid locale parameters
+  try {
+    return i18n.locales.map((locale) => ({ lang: locale }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return [{ lang: 'en' }]; // Fallback to English only
+  }
 }
+
+// Allow for dynamic rendering when needed
+export const dynamic = 'auto';
 
 export default async function RootLayout({
   children,
@@ -50,7 +59,34 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ lang: Locale }>;
 }) {
-  const { lang } = await params;
+  const resolvedParams = await params;
+  
+  // Handle case where params might be undefined during static generation
+  if (!resolvedParams || !resolvedParams.lang) {
+    return (
+      <html
+        lang="en"
+        suppressHydrationWarning
+        className={`${inter.variable} ${playfairDisplay.variable}`}
+      >
+        <body className={`${inter.className} antialiased`}>
+          <CartProvider>
+            <ThemeProvider
+              attribute='class'
+              defaultTheme='light'
+              enableSystem
+              disableTransitionOnChange
+            >
+              <main className='min-h-screen'>{children}</main>
+              <Toaster />
+            </ThemeProvider>
+          </CartProvider>
+        </body>
+      </html>
+    );
+  }
+  
+  const { lang } = resolvedParams;
   
   return (
     <html

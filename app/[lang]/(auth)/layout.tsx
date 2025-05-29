@@ -8,7 +8,18 @@ export default async function AuthLayout({
   children: React.ReactNode;
   params: Promise<{ lang: Locale }>;
 }>) {
-  const { lang } = await params;
+  const resolvedParams = await params;
+  
+  // Handle case where params might be undefined during static generation
+  if (!resolvedParams || !resolvedParams.lang) {
+    return (
+      <div className='flex min-h-screen flex-col'>
+        <main className='flex-1'>{children}</main>
+      </div>
+    );
+  }
+  
+  const { lang } = resolvedParams;
   
   return (
     <div className='flex min-h-screen flex-col'>

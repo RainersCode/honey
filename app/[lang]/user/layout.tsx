@@ -8,7 +8,14 @@ export default async function UserLayout({
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params;
+  const resolvedParams = await params;
+  
+  // Handle case where params might be undefined during static generation
+  if (!resolvedParams || !resolvedParams.lang) {
+    return <>{children}</>;
+  }
+  
+  const { lang } = resolvedParams;
   const session = await auth();
 
   if (!session?.user) {

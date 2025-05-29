@@ -24,7 +24,20 @@ export default async function AdminOrdersPage({
   searchParams: Promise<{ page?: string; query?: string }>;
 }) {
   await requireAdmin();
-  const { lang } = await params;
+  
+  const resolvedParams = await params;
+  
+  // Handle case where params might be undefined during static generation
+  if (!resolvedParams || !resolvedParams.lang) {
+    return (
+      <div className="space-y-8">
+        <h1 className="text-3xl font-bold">Orders</h1>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+  
+  const { lang } = resolvedParams;
   const searchParamsData = await searchParams;
   const dict = await getDictionary(lang) as any;
   

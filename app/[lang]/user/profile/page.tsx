@@ -11,11 +11,26 @@ export const generateMetadata = async ({
 }: {
   params: Promise<{ lang: Locale }>;
 }): Promise<Metadata> => {
-  const { lang } = await params;
-  const dict = await getDictionary(lang);
-  return {
-    title: (dict as any).user?.profile || 'Profile',
-  };
+  try {
+    const resolvedParams = await params;
+    if (!resolvedParams || !resolvedParams.lang) {
+      // Fallback metadata if params is not available during static generation
+      return {
+        title: 'Profile | Honey Farm',
+      };
+    }
+    
+    const { lang } = resolvedParams;
+    const dict = await getDictionary(lang);
+    return {
+      title: (dict as any).user?.profile || 'Profile',
+    };
+  } catch (error) {
+    // Fallback metadata if params is not available during static generation
+    return {
+      title: 'Profile | Honey Farm',
+    };
+  }
 };
 
 const Profile = async ({
@@ -23,7 +38,25 @@ const Profile = async ({
 }: {
   params: Promise<{ lang: Locale }>;
 }) => {
-  const { lang } = await params;
+  const resolvedParams = await params;
+  
+  // Handle case where params might be undefined during static generation
+  if (!resolvedParams || !resolvedParams.lang) {
+    return (
+      <Container>
+        <div className="py-10">
+          <div className="mx-auto max-w-xl space-y-8">
+            <div className="space-y-2">
+              <h2 className="h2-bold text-[#1D1D1F]">Profile</h2>
+              <p className="text-muted-foreground">Manage your profile information</p>
+            </div>
+          </div>
+        </div>
+      </Container>
+    );
+  }
+  
+  const { lang } = resolvedParams;
   const session = await auth();
   const dict = await getDictionary(lang);
 

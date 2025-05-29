@@ -63,7 +63,7 @@ export const cartItemSchema = z.object({
   productId: z.string().min(1, 'Product ID is required'),
   name: z.string().min(1, 'Product name is required'),
   description: z.string().optional(),
-  price: z.union([z.string(), z.number()]),
+  price: z.union([z.string(), z.number()]).transform((val) => Number(val)),
   image: z.string().optional(),
   qty: z.number().min(1, 'Quantity must be at least 1'),
   slug: z.string().min(1, 'Product slug is required'),

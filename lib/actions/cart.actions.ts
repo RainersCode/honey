@@ -46,7 +46,7 @@ export async function addItemToCart(data: CartItem, lang: Locale = 'en') {
       image: data.image,
     };
 
-    // Parse and validate item
+    // Parse and validate item - this ensures proper typing
     const item = cartItemSchema.parse(itemData);
 
     if (!cart) {

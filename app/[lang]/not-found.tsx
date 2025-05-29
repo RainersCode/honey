@@ -5,10 +5,10 @@ import Link from 'next/link'
 export default async function NotFound({
   params,
 }: {
-  params: { lang: Locale }
+  params: Promise<{ lang: Locale }>
 }) {
-  const dict = await getDictionary(params.lang)
-  const lang = params.lang
+  const { lang } = await params;
+  const dict = await getDictionary(lang)
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">

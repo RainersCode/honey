@@ -6,6 +6,7 @@ import PlaceOrderForm from './place-order-form';
 import CheckoutSteps from '@/components/shared/checkout-steps';
 import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
+import { ShippingAddress } from '@/types';
 
 export async function generateMetadata({
   params
@@ -40,6 +41,12 @@ const PlaceOrderPage = async ({
   const dict = await getDictionary(lang) as any;
 
   if (!user.address) redirect(`/${lang}/shipping-address`);
+
+  // Cast the user address from JsonValue to ShippingAddress
+  const typedUser = {
+    ...user,
+    address: user.address as ShippingAddress | null
+  };
   
   return (
     <div className="container mx-auto px-4 py-12">
@@ -51,7 +58,7 @@ const PlaceOrderPage = async ({
         <div className="mt-8">
           <PlaceOrderForm 
             cart={cart} 
-            user={user} 
+            user={typedUser} 
             lang={lang} 
           />
         </div>

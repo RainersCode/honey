@@ -168,7 +168,7 @@ const PlaceOrderForm = ({ cart, user, lang }: PlaceOrderFormProps) => {
               <div key={item.productId} className='flex items-center gap-4 p-3 rounded-lg bg-[#FFFBF8] border border-[#FFE4D2]/30'>
                 <div className='relative h-20 w-20 flex-shrink-0'>
                   <Image
-                    src={item.image}
+                    src={item.image || '/placeholder-product.png'}
                     alt={item.name}
                     fill
                     className='object-cover rounded-md border border-[#FFE4D2]'

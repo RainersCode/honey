@@ -10,8 +10,9 @@ import { revalidatePath } from 'next/cache';
 import { Prisma } from '@prisma/client';
 import { getDictionary } from '@/lib/dictionary';
 import { calcPrice } from '../calcPrice';
+import { Locale } from '@/config/i18n.config';
 
-export async function addItemToCart(data: CartItem, lang: string = 'en') {
+export async function addItemToCart(data: CartItem, lang: Locale = 'en') {
   try {
     // Get dictionary with the correct language
     const dict = await getDictionary(lang);

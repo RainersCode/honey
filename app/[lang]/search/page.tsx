@@ -247,7 +247,7 @@ const SearchPage = async ({
                           : 'hover:bg-[#FF7A3D]/10'
                       }`}
                     >
-                      {dict.products.sort[order.key]}
+                      {dict.products.sort[order.key as keyof typeof dict.products.sort]}
                     </Link>
                   ))}
                 </div>

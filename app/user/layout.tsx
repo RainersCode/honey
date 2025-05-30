@@ -29,7 +29,7 @@ export default function UserLayout({
                   className='object-contain'
                 />
               </div>
-              <span className='sm:block font-serif text-2xl text-[#1D1D1F] tracking-tight font-medium'>
+              <span className='hidden lg:block font-serif text-2xl text-[#1D1D1F] tracking-tight font-medium'>
                 {APP_NAME}
               </span>
             </Link>
@@ -58,14 +58,14 @@ export default function UserLayout({
               >
                 CONTACT
               </Link>
-              <Menu lang="en" />
+              <Menu lang='en' />
             </nav>
           </div>
         </div>
       </HeaderContainer>
       <div className='h-[72px]' /> {/* Spacer for fixed header */}
       <main className='flex-1 wrapper py-8'>{children}</main>
-      <Footer lang="en" />
+      <Footer lang='en' />
     </div>
   );
 }

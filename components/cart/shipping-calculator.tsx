@@ -67,12 +67,15 @@ export default function ShippingCalculator({
 
         // Check if weight exceeds maximum allowed weight
         const allRules = result.allRules || [];
-        const maxAllowedWeight = allRules.length > 0 
-          ? Math.max(...allRules.map(rule => Number(rule.maxWeight))) 
-          : Infinity; // If no rules, allow any weight
-          
+        const maxAllowedWeight =
+          allRules.length > 0
+            ? Math.max(...allRules.map((rule) => Number(rule.maxWeight)))
+            : Infinity; // If no rules, allow any weight
+
         if (cartWeight > maxAllowedWeight && maxAllowedWeight !== Infinity) {
-          setWeightError(`${dict?.cart?.weightLimit?.error || 'Weight exceeds maximum allowed weight of'} ${maxAllowedWeight}kg ${dict?.cart?.weightLimit?.forMethod || 'for'} ${selectedMethod === 'omniva' ? (dict?.cart?.delivery?.omniva || 'Omniva') : (dict?.cart?.delivery?.international || 'international')} ${dict?.cart?.weightLimit?.deliveryMethod || 'shipping delivery method'}`);
+          setWeightError(
+            `${dict?.cart?.weightLimit?.error || 'Weight exceeds maximum allowed weight of'} ${maxAllowedWeight}kg ${dict?.cart?.weightLimit?.forMethod || 'for'} ${selectedMethod === 'omniva' ? dict?.cart?.delivery?.omniva || 'Omniva' : dict?.cart?.delivery?.international || 'international'} ${dict?.cart?.weightLimit?.deliveryMethod || 'shipping delivery method'}`
+          );
           onRateSelect(null); // Clear selected rate
         } else {
           setWeightError(null);
@@ -103,7 +106,10 @@ export default function ShippingCalculator({
         if (!result.success) {
           toast({
             title: dict?.common?.error || 'Error',
-            description: result.message || dict?.cart?.delivery?.updateError || 'Failed to update delivery method',
+            description:
+              result.message ||
+              dict?.cart?.delivery?.updateError ||
+              'Failed to update delivery method',
             variant: 'destructive',
           });
           return;
@@ -114,7 +120,9 @@ export default function ShippingCalculator({
       } catch (error) {
         toast({
           title: dict?.common?.error || 'Error',
-          description: dict?.cart?.delivery?.updateError || 'Failed to update delivery method',
+          description:
+            dict?.cart?.delivery?.updateError ||
+            'Failed to update delivery method',
           variant: 'destructive',
         });
       }
@@ -147,48 +155,76 @@ export default function ShippingCalculator({
             }
             className='grid grid-cols-1 gap-3'
           >
-            <div className={`relative p-3 rounded-lg border-2 transition-all duration-300 cursor-pointer hover:shadow-sm ${
-              selectedMethod === 'international' 
-                ? 'border-[#FF7A3D] bg-[#FF7A3D]/5' 
-                : 'border-gray-200 hover:border-[#FF7A3D]/50'
-            }`}>
+            <div
+              className={`relative p-3 rounded-lg border-2 transition-all duration-300 cursor-pointer hover:shadow-sm ${
+                selectedMethod === 'international'
+                  ? 'border-[#FF7A3D] bg-[#FF7A3D]/5'
+                  : 'border-gray-200 hover:border-[#FF7A3D]/50'
+              }`}
+            >
               <div className='flex items-center space-x-2'>
-                <RadioGroupItem value='international' id='international' className='text-[#FF7A3D]' />
+                <RadioGroupItem
+                  value='international'
+                  id='international'
+                  className='text-[#FF7A3D]'
+                />
                 <div className='flex items-center space-x-2 flex-1'>
-                  <div className={`p-1.5 rounded-md ${
-                    selectedMethod === 'international' 
-                      ? 'bg-[#FF7A3D] text-white' 
-                      : 'bg-gray-100 text-gray-600'
-                  }`}>
+                  <div
+                    className={`p-1.5 rounded-md ${
+                      selectedMethod === 'international'
+                        ? 'bg-[#FF7A3D] text-white'
+                        : 'bg-gray-100 text-gray-600'
+                    }`}
+                  >
                     <Plane className='h-3.5 w-3.5' />
                   </div>
-                  <Label htmlFor='international' className='flex flex-col cursor-pointer'>
-                    <span className='font-medium text-sm text-[#1D1D1F]'>{dict.cart.delivery.international || 'International Shipping'}</span>
+                  <Label
+                    htmlFor='international'
+                    className='flex flex-col cursor-pointer'
+                  >
+                    <span className='font-medium text-sm text-[#1D1D1F]'>
+                      {dict.cart.delivery.international ||
+                        'International Shipping'}
+                    </span>
                     <span className='text-xs text-gray-500'>
-                      {dict.cart.delivery.internationalDesc || 'Worldwide delivery'}
+                      {dict.cart.delivery.internationalDesc ||
+                        'Worldwide delivery'}
                     </span>
                   </Label>
                 </div>
               </div>
             </div>
-            
-            <div className={`relative p-3 rounded-lg border-2 transition-all duration-300 cursor-pointer hover:shadow-sm ${
-              selectedMethod === 'omniva' 
-                ? 'border-[#FF7A3D] bg-[#FF7A3D]/5' 
-                : 'border-gray-200 hover:border-[#FF7A3D]/50'
-            }`}>
+
+            <div
+              className={`relative p-3 rounded-lg border-2 transition-all duration-300 cursor-pointer hover:shadow-sm ${
+                selectedMethod === 'omniva'
+                  ? 'border-[#FF7A3D] bg-[#FF7A3D]/5'
+                  : 'border-gray-200 hover:border-[#FF7A3D]/50'
+              }`}
+            >
               <div className='flex items-center space-x-2'>
-                <RadioGroupItem value='omniva' id='omniva' className='text-[#FF7A3D]' />
+                <RadioGroupItem
+                  value='omniva'
+                  id='omniva'
+                  className='text-[#FF7A3D]'
+                />
                 <div className='flex items-center space-x-2 flex-1'>
-                  <div className={`p-1.5 rounded-md ${
-                    selectedMethod === 'omniva' 
-                      ? 'bg-[#FF7A3D] text-white' 
-                      : 'bg-gray-100 text-gray-600'
-                  }`}>
+                  <div
+                    className={`p-1.5 rounded-md ${
+                      selectedMethod === 'omniva'
+                        ? 'bg-[#FF7A3D] text-white'
+                        : 'bg-gray-100 text-gray-600'
+                    }`}
+                  >
                     <MapPin className='h-3.5 w-3.5' />
                   </div>
-                  <Label htmlFor='omniva' className='flex flex-col cursor-pointer'>
-                    <span className='font-medium text-sm text-[#1D1D1F]'>{dict.cart.delivery.omniva || 'Omniva Pickup'}</span>
+                  <Label
+                    htmlFor='omniva'
+                    className='flex flex-col cursor-pointer'
+                  >
+                    <span className='font-medium text-sm text-[#1D1D1F]'>
+                      {dict.cart.delivery.omniva || 'Omniva Pickup'}
+                    </span>
                     <span className='text-xs text-gray-500'>
                       {dict.cart.delivery.omnivaDesc || 'Local parcel machines'}
                     </span>
@@ -199,13 +235,11 @@ export default function ShippingCalculator({
           </RadioGroup>
 
           {weightError && (
-            <div className='text-red-500 text-sm mt-2'>
-              {weightError}
-            </div>
+            <div className='text-red-500 text-sm mt-2'>{weightError}</div>
           )}
 
           {showOmnivaSelector && !weightError && (
-            <OmnivaLocationSelector 
+            <OmnivaLocationSelector
               onSelect={(location) => {
                 // Store the selected Omniva location for later use in forms
                 console.log('Selected Omniva location:', location);
@@ -218,10 +252,12 @@ export default function ShippingCalculator({
               <div className='flex items-center justify-between'>
                 <div>
                   <p className='font-medium text-sm text-[#1D1D1F]'>
-                    {dict.cart.delivery.shippingCost || 'Shipping cost'}: {formatCurrency(Number(currentRule.price))}
+                    {dict.cart.delivery.shippingCost || 'Shipping cost'}:{' '}
+                    {formatCurrency(Number(currentRule.price))}
                   </p>
-                  <p className='text-xs text-gray-500'>
-                    {dict.cart.delivery.forWeight || 'For weight'}: {Number(cartWeight.toFixed(2))}kg
+                  <p className='hidden text-xs text-gray-500'>
+                    {dict.cart.delivery.forWeight || 'For weight'}:{' '}
+                    {Number(cartWeight.toFixed(2))}kg
                   </p>
                 </div>
                 <div className='text-[#FF7A3D] font-semibold text-base'>

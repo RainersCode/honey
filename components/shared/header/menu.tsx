@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import {
-  ShoppingBasket,
   Phone,
   Mail,
   Facebook,
@@ -9,6 +8,7 @@ import {
   Twitter,
   MapPin,
 } from 'lucide-react';
+import Image from 'next/image';
 import {
   Sheet,
   SheetContent,
@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/sheet';
 import UserButton from './user-button';
 import CartCount from './cart-count';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { APP_NAME } from '@/lib/constants';
 import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
@@ -41,7 +42,17 @@ const Menu = async ({ lang }: MenuProps) => {
       >
         <Link href={`/${lang}/cart`} className='flex items-center gap-2'>
           <div className='relative'>
-            <ShoppingBasket className='h-5 w-5 stroke-[1.5] transition-transform duration-300 group-hover:scale-110' />
+            <Image
+              src='/images/icons/Outline_Honey.svg'
+              alt='Cart'
+              width={24}
+              height={24}
+              className='transition-transform duration-300 group-hover:scale-110'
+              style={{
+                filter:
+                  'invert(21%) sepia(19%) saturate(17%) hue-rotate(349deg) brightness(93%) contrast(93%)',
+              }}
+            />
             <CartCount />
           </div>
           <span className='hidden sm:inline text-sm font-medium'>
@@ -127,7 +138,17 @@ const Menu = async ({ lang }: MenuProps) => {
                   className='flex items-center gap-2 relative'
                 >
                   <div className='relative'>
-                    <ShoppingBasket className='h-5 w-5 stroke-[1.5]' />
+                    <Image
+                      src='/images/icons/Outline_Honey.svg'
+                      alt='Cart'
+                      width={24}
+                      height={24}
+                      className='transition-transform duration-300 group-hover:scale-110'
+                      style={{
+                        filter:
+                          'invert(21%) sepia(19%) saturate(17%) hue-rotate(349deg) brightness(93%) contrast(93%)',
+                      }}
+                    />
                     <CartCount />
                   </div>
                   <span>
@@ -135,6 +156,16 @@ const Menu = async ({ lang }: MenuProps) => {
                   </span>
                 </Link>
               </Button>
+            </div>
+
+            {/* Language Switcher for Mobile */}
+            <div className='border-t border-[#FFE4D2] pt-4'>
+              <div className='flex items-center justify-between'>
+                <span className='text-sm font-medium text-[#1D1D1F]'>
+                  {dictionary.navigation?.language || 'Language'}
+                </span>
+                <LanguageSwitcher />
+              </div>
             </div>
 
             <SheetFooter className='mt-auto border-t border-[#FFE4D2] pt-6'>

@@ -70,7 +70,7 @@ const CheckoutForm = ({ lang, orderId }: { lang: Locale; orderId: string }) => {
       <Button
         type='submit'
         disabled={isLoading || !stripe || !elements}
-        className='w-full mt-4'
+        className='w-full mt-4 bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white'
       >
         {isLoading ? <LoadingSpinner size='sm' /> : dict.order.stripe.submit}
       </Button>

@@ -86,29 +86,36 @@ export function OmnivaLocationSelector({
           aria-expanded={open}
           aria-required='true'
           className={cn(
-            'w-full justify-between border-[#FFE4D2] hover:bg-[#FFF5EE] hover:border-[#FF7A3D] text-left font-normal h-14 py-3',
+            'w-full justify-between border-[#FFE4D2] hover:bg-[#FFF5EE] hover:border-[#FF7A3D] text-left font-normal h-12 sm:h-14 py-2 sm:py-3 text-sm sm:text-base',
             error && 'border-red-500 hover:border-red-600'
           )}
         >
           {selectedLocation ? (
-            <div className='flex items-start gap-2'>
+            <div className='flex items-start gap-2 min-w-0 flex-1'>
               <MapPin className='h-4 w-4 mt-0.5 shrink-0 text-[#FF7A3D]' />
-              <div className='flex flex-col'>
-                <span className='font-medium'>{selectedLocation.name}</span>
-                <span className='text-sm text-gray-600'>
+              <div className='flex flex-col min-w-0 flex-1'>
+                <span className='font-medium text-sm sm:text-base truncate'>
+                  {selectedLocation.name}
+                </span>
+                <span className='text-xs sm:text-sm text-gray-600 truncate'>
                   {selectedLocation.address}
                 </span>
               </div>
             </div>
           ) : (
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-2 min-w-0 flex-1'>
               <MapPin
                 className={cn(
                   'h-4 w-4 shrink-0',
                   error ? 'text-red-500' : 'text-[#FF7A3D]'
                 )}
               />
-              <span className={error ? 'text-red-500' : ''}>
+              <span
+                className={cn(
+                  'text-sm sm:text-base truncate',
+                  error ? 'text-red-500' : ''
+                )}
+              >
                 Select Omniva location... *
               </span>
             </div>
@@ -116,21 +123,26 @@ export function OmnivaLocationSelector({
           <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[400px] p-0' align='start'>
+      <PopoverContent
+        className='w-[calc(100vw-2rem)] sm:w-[400px] max-w-[400px] p-0'
+        align='start'
+        side='bottom'
+        sideOffset={4}
+      >
         <div className='flex h-full w-full flex-col overflow-hidden rounded-md bg-white text-[#1D1D1F]'>
           {/* Search input */}
-          <div className='flex items-center border-b border-[#FFE4D2] px-3'>
+          <div className='flex items-center border-b border-[#FFE4D2] px-3 py-1'>
             <Search className='mr-2 h-4 w-4 shrink-0 opacity-50' />
             <input
-              className='flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50'
-              placeholder='Search Omniva locations...'
+              className='flex h-10 sm:h-11 w-full rounded-md bg-transparent py-2 sm:py-3 text-sm sm:text-base outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50'
+              placeholder='Search locations...'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
           {/* Results list */}
-          <div className='max-h-[300px] overflow-y-auto p-1'>
+          <div className='max-h-[40vh] sm:max-h-[300px] overflow-y-auto p-1'>
             {filteredLocations.length === 0 ? (
               <div className='py-6 text-center text-sm'>
                 No locations match your search.
@@ -140,7 +152,7 @@ export function OmnivaLocationSelector({
                 <div
                   key={location.id}
                   onClick={() => handleSelect(location)}
-                  className='flex items-start gap-3 px-3 py-3 cursor-pointer hover:bg-[#FFF5EE] text-gray-900 rounded-sm my-1 transition-colors duration-200'
+                  className='flex items-start gap-3 px-3 py-3 sm:py-4 cursor-pointer hover:bg-[#FFF5EE] active:bg-[#FFE4D2] text-gray-900 rounded-sm my-1 transition-colors duration-200 touch-manipulation'
                 >
                   <Check
                     className={cn(
@@ -151,11 +163,14 @@ export function OmnivaLocationSelector({
                     )}
                   />
                   <div className='flex flex-col gap-1 min-w-0 flex-1'>
-                    <span className='font-medium text-sm text-gray-900 leading-tight'>
+                    <span className='font-medium text-sm sm:text-base text-gray-900 leading-tight'>
                       {location.name}
                     </span>
-                    <span className='text-xs text-gray-600 leading-tight'>
+                    <span className='text-xs sm:text-sm text-gray-600 leading-tight'>
                       {location.address}
+                    </span>
+                    <span className='text-xs text-gray-500'>
+                      {location.city}
                     </span>
                   </div>
                 </div>

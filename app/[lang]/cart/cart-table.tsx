@@ -57,12 +57,14 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
     }, 0);
   };
 
-  const handleShippingSelect = async (rate: {
-    service: string;
-    rate: number;
-  } | null) => {
+  const handleShippingSelect = async (
+    rate: {
+      service: string;
+      rate: number;
+    } | null
+  ) => {
     if (!rate) return; // Handle null case
-    
+
     setSelectedShipping(rate);
     const method = rate.service.toLowerCase().includes('omniva')
       ? 'omniva'
@@ -129,70 +131,125 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
       ) : (
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
           <div className='lg:col-span-2'>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Product</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead className='text-right'>Price</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {cart.items.map((item) => (
-                  <TableRow key={item.productId}>
-                    <TableCell className='flex items-center gap-4'>
-                      {item.image && (
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          width={80}
-                          height={80}
-                          className='rounded-lg'
-                        />
-                      )}
-                      <div>
-                        <h3 className='font-medium'>{item.name}</h3>
-                        <p className='text-sm text-gray-500'>
-                          {item.description}
+            {/* Mobile Card Layout */}
+            <div className='block md:hidden space-y-4'>
+              {cart.items.map((item) => (
+                <Card key={item.productId} className='p-4'>
+                  <div className='flex gap-3'>
+                    {item.image && (
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={60}
+                        height={60}
+                        className='rounded-lg flex-shrink-0'
+                      />
+                    )}
+                    <div className='flex-1 min-w-0'>
+                      <h3 className='font-medium text-sm leading-tight mb-1'>
+                        {item.name}
+                      </h3>
+                      <p className='text-xs text-gray-500 mb-2 line-clamp-2'>
+                        {item.description}
+                      </p>
+                      <div className='flex items-center justify-between mb-3'>
+                        <p className='text-sm font-medium text-[#FF7A3D]'>
+                          {formatCurrency(item.price)}
                         </p>
-                        <p className='text-sm font-medium text-[#FF7A3D] mt-1'>
-                          {formatCurrency(item.price)} per item
+                        <p className='text-sm font-semibold text-[#1D1D1F]'>
+                          {formatCurrency(item.price * item.qty)}
                         </p>
-                        {item.weight > 0 && (
-                          <p className='text-sm text-gray-500'>
-                            {dict.common.weight}: {item.weight}kg (
-                            {item.weight * item.qty}kg {dict.cart.total})
-                          </p>
-                        )}
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className='space-y-2'>
+                      {item.weight > 0 && (
+                        <p className='hidden text-xs text-gray-500 mb-2'>
+                          {dict.common.weight}: {item.weight}kg (
+                          {item.weight * item.qty}kg {dict.cart.total})
+                        </p>
+                      )}
+                      <div className='flex items-center justify-between'>
                         <QuantityCartControl
                           cart={cart}
                           item={item}
                           lang={lang}
                         />
-                        <p className='text-sm text-gray-500 text-center'>
+                        <span className='text-xs text-gray-500'>
                           {item.qty}{' '}
                           {item.qty === 1 ? dict.cart.item : dict.cart.items}
-                        </p>
+                        </span>
                       </div>
-                    </TableCell>
-                    <TableCell className='text-right'>
-                      <div className='space-y-1'>
-                        <p className='font-medium'>
-                          {formatCurrency(item.price * item.qty)}
-                        </p>
-                        <p className='text-sm text-gray-500'>
-                          {dict.cart.total}
-                        </p>
-                      </div>
-                    </TableCell>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+
+            {/* Desktop Table Layout */}
+            <div className='hidden md:block'>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Product</TableHead>
+                    <TableHead>Quantity</TableHead>
+                    <TableHead className='text-right'>Price</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {cart.items.map((item) => (
+                    <TableRow key={item.productId}>
+                      <TableCell className='flex items-center gap-4'>
+                        {item.image && (
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={80}
+                            height={80}
+                            className='rounded-lg'
+                          />
+                        )}
+                        <div>
+                          <h3 className='font-medium'>{item.name}</h3>
+                          <p className='text-sm text-gray-500'>
+                            {item.description}
+                          </p>
+                          <p className='text-sm font-medium text-[#FF7A3D] mt-1'>
+                            {formatCurrency(item.price)} per item
+                          </p>
+                          {item.weight > 0 && (
+                            <p className='hidden text-sm text-gray-500'>
+                              {dict.common.weight}: {item.weight}kg (
+                              {item.weight * item.qty}kg {dict.cart.total})
+                            </p>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className='space-y-2'>
+                          <QuantityCartControl
+                            cart={cart}
+                            item={item}
+                            lang={lang}
+                          />
+                          <p className='text-sm text-gray-500 text-center'>
+                            {item.qty}{' '}
+                            {item.qty === 1 ? dict.cart.item : dict.cart.items}
+                          </p>
+                        </div>
+                      </TableCell>
+                      <TableCell className='text-right'>
+                        <div className='space-y-1'>
+                          <p className='font-medium'>
+                            {formatCurrency(item.price * item.qty)}
+                          </p>
+                          <p className='text-sm text-gray-500'>
+                            {dict.cart.total}
+                          </p>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
 
           <div className='space-y-6'>

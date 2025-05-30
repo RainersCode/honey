@@ -10,14 +10,13 @@ const Header = async ({ lang }: { lang: string }) => {
           <CategoryDrawer lang={lang} />
           <Link href={`/${lang}`} className='flex items-center gap-2'>
             <Image src='/logo.svg' alt='Logo' width={32} height={32} />
-            <span className='font-serif text-xl'>Honey</span>
+            <span className='hidden lg:block font-serif text-xl'>Honey</span>
           </Link>
         </div>
-
         // ... rest of the code ...
       </nav>
     </header>
   );
 };
 
-export default Header; 
+export default Header;

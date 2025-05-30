@@ -11,42 +11,46 @@ import ClientTestimonials from '@/components/client-testimonials';
 import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 
-export default async function Homepage({ 
-  params 
+export default async function Homepage({
+  params,
 }: {
   params: Promise<{ lang: Locale }>;
 }) {
   const resolvedParams = await params;
-  
+
   // Handle case where params might be undefined during static generation
   if (!resolvedParams || !resolvedParams.lang) {
     return (
-      <div className="container mx-auto px-4 py-12">
-        <div className="text-center">
-          <h1 className="text-4xl font-serif text-[#1D1D1F] mb-4">Natural Honey Farm</h1>
-          <p className="text-gray-600">Pure, natural honey and sustainable farming practices.</p>
+      <div className='container mx-auto px-4 py-12'>
+        <div className='text-center'>
+          <h1 className='text-4xl font-serif text-[#1D1D1F] mb-4'>
+            Natural Honey Farm
+          </h1>
+          <p className='text-gray-600'>
+            Pure, natural honey and sustainable farming practices.
+          </p>
         </div>
       </div>
     );
   }
-  
+
   const { lang } = resolvedParams;
-  const dict = await getDictionary(lang) as any;
+  const dict = (await getDictionary(lang)) as any;
   const latestProducts = await getLatestProducts();
   const featuredProducts = await getFeaturedProducts();
 
   return (
     <>
       {/* Hero Section */}
-      <section className='relative min-h-[600px] w-full flex items-center rounded-xl overflow-hidden'>
+      <section className='relative min-h-[600px] w-full flex items-center overflow-hidden'>
         <Image
           src='/images/hero-section/alternative-medicine-concept-ingredients-for-flu-2024-10-18-04-51-28-utc.jpg'
           alt='Natural honey ingredients and alternative medicine concept'
           fill
-          className='object-cover brightness-[0.85] rounded-xl'
+          className='object-cover brightness-[0.85]'
           priority
         />
-        <div className='absolute inset-0 bg-black/30 rounded-xl' />
+        <div className='absolute inset-0 bg-black/30' />
         <div className='relative z-10 max-w-7xl mx-auto px-4 py-20 text-center'>
           <h1 className='text-5xl md:text-7xl font-serif text-white mb-6'>
             {dict.home.hero.title}
@@ -54,10 +58,10 @@ export default async function Homepage({
           <p className='text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto'>
             {dict.home.hero.description}
           </p>
-          <div className='flex flex-col sm:flex-row gap-4 justify-center'>
+          <div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
             <Link
               href={`/${lang}/search`}
-              className='inline-block bg-[#FF7A3D] text-white px-8 py-4 rounded-full font-medium hover:bg-[#ff6a2a] transition-colors text-lg'
+              className='bg-[#FF7A3D] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-medium hover:bg-[#ff6a2a] transition-colors text-base sm:text-lg max-w-xs sm:max-w-none text-center'
             >
               {dict.home.hero.cta}
             </Link>
@@ -83,7 +87,7 @@ export default async function Homepage({
         <div className='absolute inset-0 w-[99vw] left-[50%] translate-x-[-50%] bg-[#FFFBF8]' />
         <div className='relative max-w-7xl mx-auto px-4'>
           <div className='grid md:grid-cols-2 gap-12 items-center'>
-            <div className='relative h-[500px] rounded-2xl overflow-hidden shadow-lg'>
+            <div className='relative h-[350px] rounded-2xl overflow-hidden shadow-lg'>
               <Image
                 src='/images/about-us/about-us.jpg'
                 alt={dict.home.about.imageAlt}
@@ -105,7 +109,7 @@ export default async function Homepage({
               <div className='pt-4'>
                 <Link
                   href={`/${lang}/about`}
-                  className='inline-block bg-[#FF7A3D] text-white px-8 py-4 rounded-full font-medium hover:bg-[#ff6a2a] transition-colors text-lg'
+                  className='bg-[#FF7A3D] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-medium hover:bg-[#ff6a2a] transition-colors text-base sm:text-lg max-w-xs sm:max-w-none text-center'
                 >
                   {dict.home.about.cta}
                 </Link>

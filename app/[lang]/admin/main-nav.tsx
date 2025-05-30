@@ -71,7 +71,7 @@ const MainNav = ({ className, lang, dict, ...props }: MainNavProps) => {
               className='object-contain'
             />
           </div>
-          <span className='font-serif text-xl text-[#4A3F35] tracking-tight font-medium'>
+          <span className='hidden lg:block font-serif text-xl text-[#4A3F35] tracking-tight font-medium'>
             {APP_NAME}
           </span>
         </Link>

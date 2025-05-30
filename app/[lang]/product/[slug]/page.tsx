@@ -123,7 +123,7 @@ const ProductDetailsPage = async ({
                 )}
               </div>
               {product.weight && (
-                <div className='flex items-center justify-between'>
+                <div className='hidden flex items-center justify-between'>
                   <span className='text-lg text-gray-600'>
                     {dict.common.weight}
                   </span>

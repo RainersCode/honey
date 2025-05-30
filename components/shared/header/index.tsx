@@ -33,7 +33,7 @@ const Header = async ({ lang }: HeaderProps) => {
                   className='object-contain'
                 />
               </div>
-              <span className='sm:block font-serif text-2xl text-[#4A3F35] tracking-tight font-medium'>
+              <span className='hidden lg:block font-serif text-2xl text-[#4A3F35] tracking-tight font-medium'>
                 {APP_NAME}
               </span>
             </Link>
@@ -63,7 +63,9 @@ const Header = async ({ lang }: HeaderProps) => {
               >
                 {dictionary.navigation?.contact?.toUpperCase() || 'CONTACT'}
               </Link>
-              <LanguageSwitcher />
+              <div className='hidden lg:flex'>
+                <LanguageSwitcher />
+              </div>
               <Menu lang={lang} />
             </nav>
           </div>

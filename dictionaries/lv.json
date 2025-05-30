@@ -7,7 +7,8 @@
     "cart": "Grozs",
     "login": "Ieiet",
     "register": "Reģistrēties",
-    "logout": "Iziet"
+    "logout": "Iziet",
+    "language": "Valoda"
   },
   "admin": {
     "nav": {
@@ -303,7 +304,7 @@
     },
     "delivery": {
       "title": "Piegādes veids",
-      "international": "Starptautiskā piegāde",
+      "international": "Pasts",
       "internationalDesc": "Piegāde pa visu pasauli",
       "omniva": "Omniva pakomāts",
       "omnivaDesc": "Vietējie pakomāti",
@@ -400,7 +401,7 @@
       "phoneNumberPlaceholder": "Ievadiet tālruņa numuru",
       "deliveryMethod": "Piegādes Veids",
       "homeDelivery": "Piegāde uz Mājām",
-      "internationalShipping": "Starptautiskā piegāde",
+      "internationalShipping": "Pasts",
       "internationalDesc": "Piegāde pa visu pasauli",
       "omnivaPickup": "Omniva Pakomāts",
       "omnivaDesc": "Vietējie pakomāti",

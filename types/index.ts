@@ -20,6 +20,7 @@ export interface Dictionary {
     login: string;
     register: string;
     logout: string;
+    language: string;
   };
   cart: {
     title: string;

@@ -104,8 +104,14 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
     const syncCartDeliveryMethod = async () => {
       try {
         const cart = await getMyCart();
-        if (cart?.deliveryMethod && ['international', 'omniva'].includes(cart.deliveryMethod)) {
-          form.setValue('deliveryMethod', cart.deliveryMethod as 'international' | 'omniva');
+        if (
+          cart?.deliveryMethod &&
+          ['international', 'omniva'].includes(cart.deliveryMethod)
+        ) {
+          form.setValue(
+            'deliveryMethod',
+            cart.deliveryMethod as 'international' | 'omniva'
+          );
         }
       } catch (error) {
         console.error('Error syncing cart delivery method:', error);
@@ -177,7 +183,7 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
         ...values,
         omnivaLocationDetails: values.omnivaLocationDetails || undefined,
       };
-      
+
       const res = await updateUserAddress(submissionValues);
 
       if (!res.success) {
@@ -240,7 +246,8 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                                   {dict.shipping.form.internationalShipping}
                                 </div>
                                 <div className='text-xs text-gray-500'>
-                                  {dict.shipping.form.internationalDesc || 'Worldwide delivery'}
+                                  {dict.shipping.form.internationalDesc ||
+                                    'Worldwide delivery'}
                                 </div>
                               </div>
                             </div>
@@ -263,7 +270,8 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                                   {dict.shipping.form.omnivaPickup}
                                 </div>
                                 <div className='text-xs text-gray-500'>
-                                  {dict.shipping.form.omnivaDesc || 'Local parcel machines'}
+                                  {dict.shipping.form.omnivaDesc ||
+                                    'Local parcel machines'}
                                 </div>
                               </div>
                             </div>
@@ -303,7 +311,7 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger className='border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]'>
+                            <SelectTrigger className='border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D] h-12 text-base'>
                               <SelectValue
                                 placeholder={
                                   dict.shipping.form.countryPlaceholder
@@ -312,25 +320,31 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                                 {field.value && (
                                   <div className='flex items-center'>
                                     <CountryFlag countryCode={field.value} />
-                                    {
-                                      countries.find(
-                                        (c) => c.code === field.value
-                                      )?.name
-                                    }
+                                    <span className='text-sm sm:text-base'>
+                                      {
+                                        countries.find(
+                                          (c) => c.code === field.value
+                                        )?.name
+                                      }
+                                    </span>
                                   </div>
                                 )}
                               </SelectValue>
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className='max-h-[60vh] overflow-y-auto'>
                             {countries.map((country) => (
                               <SelectItem
                                 key={country.code}
                                 value={country.code}
-                                className='flex items-center'
+                                className='flex items-center py-3 px-4 text-base cursor-pointer hover:bg-gray-50'
                               >
-                                <CountryFlag countryCode={country.code} />
-                                {country.name}
+                                <div className='flex items-center w-full'>
+                                  <CountryFlag countryCode={country.code} />
+                                  <span className='text-sm sm:text-base'>
+                                    {country.name}
+                                  </span>
+                                </div>
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -416,7 +430,7 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger className='border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D]'>
+                            <SelectTrigger className='border-[#FFE4D2] focus:border-[#FF7A3D] focus:ring-[#FF7A3D] h-12 text-base'>
                               <SelectValue
                                 placeholder={
                                   dict.shipping.form.countryPlaceholder
@@ -425,25 +439,31 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
                                 {field.value && (
                                   <div className='flex items-center'>
                                     <CountryFlag countryCode={field.value} />
-                                    {
-                                      countries.find(
-                                        (c) => c.code === field.value
-                                      )?.name
-                                    }
+                                    <span className='text-sm sm:text-base'>
+                                      {
+                                        countries.find(
+                                          (c) => c.code === field.value
+                                        )?.name
+                                      }
+                                    </span>
                                   </div>
                                 )}
                               </SelectValue>
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className='max-h-[60vh] overflow-y-auto'>
                             {countries.map((country) => (
                               <SelectItem
                                 key={country.code}
                                 value={country.code}
-                                className='flex items-center'
+                                className='flex items-center py-3 px-4 text-base cursor-pointer hover:bg-gray-50'
                               >
-                                <CountryFlag countryCode={country.code} />
-                                {country.name}
+                                <div className='flex items-center w-full'>
+                                  <CountryFlag countryCode={country.code} />
+                                  <span className='text-sm sm:text-base'>
+                                    {country.name}
+                                  </span>
+                                </div>
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -609,7 +629,7 @@ const ShippingAddressForm = ({ address, lang }: ShippingAddressFormProps) => {
           disabled={isPending}
         >
           {isPending ? (
-            <LoadingSpinner size="sm" />
+            <LoadingSpinner size='sm' />
           ) : (
             <>
               {dict.shipping.form.submit}

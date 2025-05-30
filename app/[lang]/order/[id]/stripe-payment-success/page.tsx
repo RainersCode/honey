@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Locale } from '@/config/i18n.config';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { getDictionary } from '@/lib/dictionary';
 
 const SuccessPage = () => {
@@ -34,9 +34,13 @@ const SuccessPage = () => {
           order: {
             stripe: {
               success: {
-                title: 'Payment Successful!',
-                message: 'Your payment has been processed successfully.',
-                viewOrder: 'View Order',
+                title: 'Payment Successful',
+                message:
+                  'Your payment has been processed successfully. You will receive an email confirmation shortly.',
+                viewOrder: 'View Order Details',
+                orderId: 'Order ID',
+                emailConfirmation:
+                  'An email confirmation has been sent to your registered email address.',
               },
             },
           },
@@ -58,7 +62,7 @@ const SuccessPage = () => {
       } catch (error) {
         console.error('Navigation error:', error);
       }
-    }, 5000);
+    }, 8000);
 
     return () => clearTimeout(timer);
   }, [router, orderId, lang, isLoading]);
@@ -75,43 +79,66 @@ const SuccessPage = () => {
 
   if (isLoading) {
     return (
-      <div className='flex items-center justify-center min-h-screen'>
+      <div className='flex items-center justify-center min-h-screen bg-gray-50'>
         <div className='text-center'>
-          <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A3D] mx-auto'></div>
-          <p className='mt-2 text-[#1D1D1F]'>Loading...</p>
+          <div className='animate-spin rounded-full h-8 w-8 border-2 border-gray-300 border-t-gray-900 mx-auto'></div>
+          <p className='mt-4 text-gray-600 text-sm'>Loading...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className='flex items-center justify-center min-h-screen bg-[#FFFBF8]'>
-      <div className='text-center space-y-6 p-8 max-w-md mx-auto'>
-        <div className='flex justify-center'>
-          <CheckCircle className='h-16 w-16 text-green-500' />
-        </div>
+    <div className='min-h-screen bg-gray-50 flex items-center justify-center px-4'>
+      <div className='max-w-md w-full'>
+        <div className='bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center'>
+          {/* Success Icon */}
+          <div className='mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-50 mb-6'>
+            <CheckCircle2 className='h-8 w-8 text-green-600' />
+          </div>
 
-        <div className='space-y-2'>
-          <h1 className='text-2xl font-bold text-[#1D1D1F]'>
-            {dict?.order?.stripe?.success?.title || 'Payment Successful!'}
-          </h1>
-          <p className='text-[#1D1D1F]/70'>
-            {dict?.order?.stripe?.success?.message ||
-              'Your payment has been processed successfully.'}
-          </p>
-          {error && <p className='text-sm text-orange-600'>{error}</p>}
-        </div>
+          {/* Success Message */}
+          <div className='mb-8'>
+            <h1 className='text-2xl font-semibold text-gray-900 mb-3'>
+              {dict?.order?.stripe?.success?.title || 'Payment Successful'}
+            </h1>
+            <p className='text-gray-600 leading-relaxed'>
+              {dict?.order?.stripe?.success?.message ||
+                'Your payment has been processed successfully. You will receive an email confirmation shortly.'}
+            </p>
+            {error && <p className='text-sm text-amber-600 mt-2'>{error}</p>}
+          </div>
 
-        <div className='space-y-3'>
+          {/* Order ID */}
+          <div className='bg-gray-50 rounded-md p-4 mb-6'>
+            <p className='text-sm text-gray-500 mb-1'>
+              {dict?.order?.stripe?.success?.orderId || 'Order ID'}
+            </p>
+            <p className='font-mono text-gray-900 font-medium'>{orderId}</p>
+          </div>
+
+          {/* Action Button */}
           <Button
             onClick={handleViewOrder}
-            className='w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white'
+            className='w-full bg-gray-900 hover:bg-gray-800 text-white h-11 rounded-md transition-colors duration-200'
           >
-            {dict?.order?.stripe?.success?.viewOrder || 'View Order'}
+            <span>
+              {dict?.order?.stripe?.success?.viewOrder || 'View Order Details'}
+            </span>
+            <ArrowRight className='ml-2 h-4 w-4' />
           </Button>
 
-          <p className='text-sm text-[#1D1D1F]/50'>
-            Redirecting automatically in 5 seconds...
+          {/* Auto redirect notice */}
+          <p className='text-xs text-gray-500 mt-4'>
+            Redirecting automatically in 8 seconds...
+          </p>
+        </div>
+
+        {/* Additional Info */}
+        <div className='mt-6 text-center'>
+          <p className='text-sm text-gray-500'>
+            {dict?.order?.stripe?.success?.emailConfirmation ||
+              'An email confirmation has been sent to your registered email address.'}
           </p>
         </div>
       </div>

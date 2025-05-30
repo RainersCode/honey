@@ -34,30 +34,35 @@ export async function POST(req: NextRequest) {
       return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
     }
 
-    if (event.type === 'charge.succeeded') {
-      const charge = event.data.object as Stripe.Charge;
-      const orderId = charge.metadata?.orderId;
+    if (event.type === 'payment_intent.succeeded') {
+      const paymentIntent = event.data.object as Stripe.PaymentIntent;
+      const orderId = paymentIntent.metadata?.orderId;
 
       if (!orderId) {
-        console.error('No orderId in charge metadata:', charge.id);
-        return new NextResponse('No orderId found in charge metadata', {
+        console.error(
+          'No orderId in payment_intent metadata:',
+          paymentIntent.id
+        );
+        return new NextResponse('No orderId found in payment_intent metadata', {
           status: 400,
         });
       }
 
       try {
-        console.log(`Processing charge.succeeded for orderId: ${orderId}`);
+        console.log(
+          `Processing payment_intent.succeeded for orderId: ${orderId}`
+        );
         await updateOrderToPaid({
           orderId,
           paymentResult: {
-            id: charge.id,
+            id: paymentIntent.id,
             status: 'COMPLETED',
-            email_address: charge.billing_details?.email || '',
-            pricePaid: (charge.amount / 100).toFixed(2),
+            email_address: paymentIntent.receipt_email || '',
+            pricePaid: (paymentIntent.amount / 100).toFixed(2),
           },
         });
         console.log(
-          `Order ${orderId} updated successfully for charge ${charge.id}`
+          `Order ${orderId} updated successfully for payment_intent ${paymentIntent.id}`
         );
         return NextResponse.json({
           received: true,

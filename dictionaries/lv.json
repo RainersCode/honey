@@ -508,6 +508,13 @@
       "submit": "Maksāt tagad",
       "errors": {
         "unexpected": "Radās negaidīta kļūda."
+      },
+      "success": {
+        "title": "Maksājums Veiksmīgs",
+        "message": "Jūsu maksājums ir veiksmīgi apstrādāts. Jūs drīzumā saņemsiet e-pasta apstiprinājumu.",
+        "viewOrder": "Skatīt Pasūtījuma Detaļas",
+        "orderId": "Pasūtījuma ID",
+        "emailConfirmation": "E-pasta apstiprinājums ir nosūtīts uz jūsu reģistrēto e-pasta adresi."
       }
     }
   },

@@ -525,6 +525,13 @@
       "submit": "Pay Now",
       "errors": {
         "unexpected": "An unexpected error occurred."
+      },
+      "success": {
+        "title": "Payment Successful",
+        "message": "Your payment has been processed successfully. You will receive an email confirmation shortly.",
+        "viewOrder": "View Order Details",
+        "orderId": "Order ID",
+        "emailConfirmation": "An email confirmation has been sent to your registered email address."
       }
     },
     "receipt": {

@@ -324,6 +324,9 @@ export interface Dictionary {
       success: {
         title: string;
         message: string;
+        viewOrder: string;
+        orderId: string;
+        emailConfirmation: string;
       };
     };
   };

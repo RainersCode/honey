@@ -35,7 +35,7 @@ const ProductCarousel = ({ products, lang }: ProductCarouselProps) => {
   }, [api]);
 
   return (
-    <div className='relative overflow-hidden'>
+    <div className='relative overflow-hidden pb-12'>
       <Carousel
         opts={{
           align: 'center',
@@ -59,7 +59,7 @@ const ProductCarousel = ({ products, lang }: ProductCarouselProps) => {
                 key={product.slug}
                 className='pl-0 basis-[85%] sm:basis-[70%] md:basis-[60%] lg:basis-[45%] xl:basis-[40%]'
               >
-                <div className='px-0 sm:px-0.5 py-4'>
+                <div className='px-2 sm:px-4 md:px-6 py-4'>
                   <div
                     className={`transition-all duration-500 hover:scale-105 ${
                       isCenter
@@ -90,11 +90,11 @@ const ProductCarousel = ({ products, lang }: ProductCarouselProps) => {
         </div>
 
         {/* Dot indicators for mobile */}
-        <div className='flex md:hidden justify-center mt-3 space-x-2'>
+        <div className='flex md:hidden justify-center mt-4 space-x-2 pb-4'>
           {products.map((_, index) => (
             <button
               key={index}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
                 index === current
                   ? 'bg-[#FF7A3D] scale-125'
                   : 'bg-gray-300 hover:bg-gray-400'
@@ -107,8 +107,8 @@ const ProductCarousel = ({ products, lang }: ProductCarouselProps) => {
       </Carousel>
 
       {/* Fade gradients for better visual indication */}
-      <div className='absolute left-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-r from-white/60 via-white/40 to-transparent pointer-events-none z-10' />
-      <div className='absolute right-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-l from-white/60 via-white/40 to-transparent pointer-events-none z-10' />
+      <div className='absolute left-0 top-0 bottom-12 w-8 sm:w-16 bg-gradient-to-r from-white/60 via-white/40 to-transparent pointer-events-none z-10' />
+      <div className='absolute right-0 top-0 bottom-12 w-8 sm:w-16 bg-gradient-to-l from-white/60 via-white/40 to-transparent pointer-events-none z-10' />
     </div>
   );
 };

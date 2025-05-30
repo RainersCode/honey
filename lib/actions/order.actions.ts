@@ -60,15 +60,17 @@ export async function createOrder({
     // Create a transaction to create order and order items in database
     const insertedOrderId = await prisma.$transaction(async (tx) => {
       // Generate user-facing ID in format: ORD-YYYYMMDD-XXXX
-      const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+      const randomNum = Math.floor(Math.random() * 10000)
+        .toString()
+        .padStart(4, '0');
       const userFacingId = `ORD-${format(new Date(), 'yyyyMMdd')}-${randomNum}`;
-      
+
       // Create order with user-facing ID
-      const insertedOrder = await tx.order.create({ 
+      const insertedOrder = await tx.order.create({
         data: {
           ...order,
           userFacingId,
-        }
+        },
       });
 
       // Create order items from the cart items
@@ -169,7 +171,7 @@ type SalesDataType = {
 export async function getOrderSummary() {
   // Get counts for each resource
   const ordersCount = await prisma.order.count({
-    where: { isPaid: true }
+    where: { isPaid: true },
   });
   const productsCount = await prisma.product.count();
   const usersCount = await prisma.user.count();
@@ -337,7 +339,7 @@ export async function shipOrder(orderId: string) {
     });
 
     if (!order) throw new Error('Order not found');
-    
+
     // Update order to shipped
     await prisma.order.update({
       where: { id: orderId },
@@ -366,6 +368,11 @@ export async function updateOrderToPaid({
   orderId: string;
   paymentResult?: PaymentResult;
 }) {
+  console.log('🔄 Starting updateOrderToPaid process:', {
+    orderId,
+    paymentResult,
+  });
+
   // Get order from database
   const order = await prisma.order.findFirst({
     where: {
@@ -376,9 +383,21 @@ export async function updateOrderToPaid({
     },
   });
 
-  if (!order) throw new Error('Order not found');
+  if (!order) {
+    console.error('❌ Order not found:', orderId);
+    throw new Error('Order not found');
+  }
 
-  if (order.isPaid) throw new Error('Order is already paid');
+  if (order.isPaid) {
+    console.error('❌ Order is already paid:', orderId);
+    throw new Error('Order is already paid');
+  }
+
+  console.log('✅ Order found, processing payment:', {
+    orderId,
+    isPaid: order.isPaid,
+    orderItemsCount: order.orderitems.length,
+  });
 
   // Transaction to update order and account for product stock
   await prisma.$transaction(async (tx) => {
@@ -401,6 +420,8 @@ export async function updateOrderToPaid({
     });
   });
 
+  console.log('✅ Database transaction completed successfully');
+
   // Get updated order after transaction
   const updatedOrder = await prisma.order.findFirst({
     where: { id: orderId },
@@ -410,13 +431,33 @@ export async function updateOrderToPaid({
     },
   });
 
-  if (!updatedOrder) throw new Error('Order not found');
+  if (!updatedOrder) {
+    console.error('❌ Updated order not found:', orderId);
+    throw new Error('Order not found');
+  }
 
-  sendPurchaseReceipt({
-    order: {
-      ...updatedOrder,
-      shippingAddress: updatedOrder.shippingAddress as ShippingAddress,
-      paymentResult: updatedOrder.paymentResult as PaymentResult,
-    },
+  console.log('🚀 Calling sendPurchaseReceipt for order:', {
+    orderId,
+    userEmail: updatedOrder.user.email,
+    userName: updatedOrder.user.name,
+    userFacingId: updatedOrder.userFacingId,
   });
+
+  try {
+    await sendPurchaseReceipt({
+      order: {
+        ...updatedOrder,
+        shippingAddress: updatedOrder.shippingAddress as ShippingAddress,
+        paymentResult: updatedOrder.paymentResult as PaymentResult,
+      },
+    });
+    console.log('✅ sendPurchaseReceipt completed successfully');
+  } catch (emailError) {
+    console.error('❌ Error in sendPurchaseReceipt:', {
+      error: emailError,
+      orderId,
+      userEmail: updatedOrder.user.email,
+    });
+    // Don't throw here - we don't want payment to fail if email fails
+  }
 }

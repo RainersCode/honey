@@ -628,7 +628,7 @@
         {
           "title": "Distances līgums",
           "description": "Informācija par distances līguma noteikumiem, tā noslēgšanu un izpildi.",
-          "link": "/distances-ligums"
+          "link": "/distance-contract"
         },
         {
           "title": "Privātuma politika un sīkdatnes",
@@ -643,7 +643,7 @@
         {
           "title": "Piegāde un preču atgriešana",
           "description": "Informācija par preču piegādes noteikumiem un atgriešanas kārtību.",
-          "link": "/piegade-un-atgriesana"
+          "link": "/delivery-and-returns"
         }
       ]
     },

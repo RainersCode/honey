@@ -553,7 +553,7 @@
         {
           "title": "Договор дистанционной продажи",
           "description": "Информация об условиях договора дистанционной продажи, его заключении и исполнении.",
-          "link": "/dogovor-distancionnoj-prodazhi"
+          "link": "/distance-contract"
         },
         {
           "title": "Политика конфиденциальности и файлы cookie",
@@ -568,7 +568,7 @@
         {
           "title": "Доставка и возврат",
           "description": "Информация об условиях доставки товаров и порядке возврата.",
-          "link": "/dostavka-i-vozvrat"
+          "link": "/delivery-and-returns"
         }
       ]
     },

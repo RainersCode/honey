@@ -56,16 +56,16 @@ const ProductCarousel = ({ products, lang }: ProductCarouselProps) => {
           skipSnaps: false,
           dragFree: false,
         }}
-        className='w-full'
+        className='w-full py-2'
         setApi={setApi}
       >
-        <CarouselContent className='space-x-4 md:space-x-6'>
+        <CarouselContent className='space-x-4 md:space-x-6 py-2'>
           {products.map((product: Product, index: number) => (
             <CarouselItem
               key={product.slug}
               className='basis-[280px] md:basis-[320px] lg:basis-[350px] flex-shrink-0'
             >
-              <div className='h-full transform transition-transform duration-200 hover:scale-[1.02]'>
+              <div className='h-full transform transition-transform duration-200 hover:scale-[1.02] p-1'>
                 <ProductCard product={product} lang={lang} />
               </div>
             </CarouselItem>

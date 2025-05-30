@@ -23,13 +23,15 @@ import { Locale } from '@/config/i18n.config';
 import { getDictionary } from '@/lib/dictionary';
 import ShippingCalculator from '@/components/cart/shipping-calculator';
 import { updateCartDeliveryMethod } from '@/lib/actions/cart.actions';
+import { Session } from 'next-auth';
 
 interface CartTableProps {
   cart: Cart | null;
   lang: Locale;
+  session: Session | null;
 }
 
-const CartTable = ({ cart, lang }: CartTableProps) => {
+const CartTable = ({ cart, lang, session }: CartTableProps) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [dict, setDict] = useState<Record<string, any> | null>(null);
@@ -92,6 +94,18 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
       // Force a server refresh to get updated cart data
       router.refresh();
     });
+  };
+
+  const handleCheckout = () => {
+    if (!session) {
+      // User is not authenticated, redirect to sign-in with callback URL
+      const callbackUrl = encodeURIComponent(`/${lang}/shipping-address`);
+      router.push(`/${lang}/sign-in?callbackUrl=${callbackUrl}`);
+      return;
+    }
+
+    // User is authenticated, proceed to checkout
+    router.push(`/${lang}/shipping-address`);
   };
 
   // Calculate prices
@@ -313,7 +327,7 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
                 </div>
                 <Button
                   className='w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white mt-4'
-                  onClick={() => router.push(`/${lang}/shipping-address`)}
+                  onClick={handleCheckout}
                   disabled={isPending || !selectedShipping || isOverweightLimit}
                 >
                   {isPending ? (
@@ -323,6 +337,11 @@ const CartTable = ({ cart, lang }: CartTableProps) => {
                     </>
                   ) : isOverweightLimit ? (
                     dict.cart.weightLimit.buttonText
+                  ) : !session ? (
+                    <>
+                      {dict.auth?.signInToContinue || 'Sign In to Continue'}
+                      <ArrowRight className='ml-2 h-4 w-4' />
+                    </>
                   ) : (
                     <>
                       {dict.cart.proceedToCheckout}

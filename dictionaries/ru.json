@@ -30,6 +30,7 @@
     "registerTitle": "Создать новый аккаунт",
     "welcomeBack": "С возвращением",
     "signInDescription": "Войдите в свой аккаунт, чтобы продолжить",
+    "signInToContinue": "Войти для продолжения",
     "enterEmail": "Введите свой email",
     "enterPassword": "Введите свой пароль",
     "signingIn": "Выполняется вход...",

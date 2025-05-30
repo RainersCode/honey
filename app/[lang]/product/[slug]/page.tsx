@@ -150,7 +150,7 @@ const ProductDetailsPage = async ({
                   }}
                   lang={lang}
                 />
-                <ProceedToCheckout lang={lang} />
+                <ProceedToCheckout lang={lang} session={session} />
               </div>
             )}
 

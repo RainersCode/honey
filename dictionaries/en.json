@@ -118,6 +118,7 @@
     "registerTitle": "Create new account",
     "welcomeBack": "Welcome Back",
     "signInDescription": "Sign in to your account to continue",
+    "signInToContinue": "Sign In to Continue",
     "enterEmail": "Enter your email",
     "enterPassword": "Enter your password",
     "signingIn": "Signing In...",

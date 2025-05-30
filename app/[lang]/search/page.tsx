@@ -179,7 +179,7 @@ const SearchPage = async ({
       <section className='my-12'>
         <div className='mb-8 text-center'>
           <h2 className='text-3xl font-serif text-[#1D1D1F] mb-4'>
-            {dict.products.categories.title || 'Product Categories'}
+            Product Categories
           </h2>
           <div className='w-20 h-1 bg-[#FF7A3D] mx-auto rounded-full'></div>
         </div>
@@ -235,11 +235,7 @@ const SearchPage = async ({
         {/* Mobile Search & Sort */}
         <div className='lg:hidden space-y-4'>
           {/* Search Bar */}
-          <form
-            action={`/${lang}/search`}
-            method='GET'
-            className='flex gap-2'
-          >
+          <form action={`/${lang}/search`} method='GET' className='flex gap-2'>
             <Input
               type='text'
               name='q'

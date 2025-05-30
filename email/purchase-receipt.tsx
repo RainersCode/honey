@@ -67,21 +67,21 @@ export default function PurchaseReceiptEmail({ order }: OrderInformationProps) {
           <div className='space-y-4'>
             {order.orderitems.map((item) => (
               <Row key={item.productId} className='bg-[#FFF8F3] rounded-lg p-4'>
-                <Column className='w-20'>
+                <Column className='w-12'>
                   <Img
                     src={
                       item.image.startsWith('/')
                         ? `${process.env.NEXT_PUBLIC_SERVER_URL}${item.image}`
                         : item.image
                     }
-                    width='80'
-                    height='80'
+                    width='40'
+                    height='40'
                     alt={item.name}
-                    className='rounded-md'
+                    className='rounded-md object-cover'
                   />
                 </Column>
-                <Column className='align-top flex-1'>
-                  <Text className='text-[#1D1D1F] font-medium m-0'>
+                <Column className='align-top flex-1 pl-4'>
+                  <Text className='text-[#1D1D1F] font-medium m-0 mb-1'>
                     {item.name}
                   </Text>
                   <Text className='text-[#666666] text-sm m-0'>

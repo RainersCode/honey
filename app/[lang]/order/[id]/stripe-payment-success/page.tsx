@@ -120,7 +120,7 @@ const SuccessPage = () => {
           {/* Action Button */}
           <Button
             onClick={handleViewOrder}
-            className='w-full bg-gray-900 hover:bg-gray-800 text-white h-11 rounded-md transition-colors duration-200'
+            className='w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white h-11 rounded-md transition-colors duration-200'
           >
             <span>
               {dict?.order?.stripe?.success?.viewOrder || 'View Order Details'}

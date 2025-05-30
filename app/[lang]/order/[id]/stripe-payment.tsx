@@ -3,7 +3,12 @@
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
 import { Button } from '@/components/ui/button';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import { getDictionary } from '@/lib/dictionary';
@@ -11,9 +16,11 @@ import { Locale } from '@/config/i18n.config';
 import { Dictionary } from '@/types';
 import { StripeElementsOptions } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
-const CheckoutForm = ({ lang }: { lang: Locale }) => {
+const CheckoutForm = ({ lang, orderId }: { lang: Locale; orderId: string }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState<string | null>(null);
@@ -42,7 +49,7 @@ const CheckoutForm = ({ lang }: { lang: Locale }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/${lang}/order/${window.location.pathname.split('/')[3]}/stripe-payment-success`,
+        return_url: `${window.location.origin}/${lang}/order/${orderId}/stripe-payment-success`,
       },
     });
 
@@ -61,21 +68,13 @@ const CheckoutForm = ({ lang }: { lang: Locale }) => {
     <form onSubmit={handleSubmit}>
       <PaymentElement />
       <Button
-        type="submit"
+        type='submit'
         disabled={isLoading || !stripe || !elements}
-        className="w-full mt-4"
+        className='w-full mt-4'
       >
-        {isLoading ? (
-          <LoadingSpinner size="sm" />
-        ) : (
-          dict.order.stripe.submit
-        )}
+        {isLoading ? <LoadingSpinner size='sm' /> : dict.order.stripe.submit}
       </Button>
-      {message && (
-        <div className="text-red-500 mt-2 text-sm">
-          {message}
-        </div>
-      )}
+      {message && <div className='text-red-500 mt-2 text-sm'>{message}</div>}
     </form>
   );
 };
@@ -83,9 +82,11 @@ const CheckoutForm = ({ lang }: { lang: Locale }) => {
 const StripePayment = ({
   clientSecret,
   lang,
+  orderId,
 }: {
   clientSecret: string;
   lang: Locale;
+  orderId: string;
 }) => {
   const options: StripeElementsOptions = {
     clientSecret,
@@ -96,7 +97,7 @@ const StripePayment = ({
 
   return (
     <Elements stripe={stripePromise} options={options}>
-      <CheckoutForm lang={lang} />
+      <CheckoutForm lang={lang} orderId={orderId} />
     </Elements>
   );
 };

@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
+import { Container } from '@/components/ui/container';
 import { getDictionary } from '@/lib/dictionary';
 import { Locale } from '@/config/i18n.config';
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: Promise<{ lang: Locale }>;
 }): Promise<Metadata> {
@@ -21,5 +22,11 @@ export default function SuccessLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
-} 
+  return (
+    <Container>
+      <div className='py-10'>
+        <div className='mx-auto max-w-6xl'>{children}</div>
+      </div>
+    </Container>
+  );
+}

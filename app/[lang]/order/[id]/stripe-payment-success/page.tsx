@@ -1,50 +1,49 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Locale } from '@/config/i18n.config';
 import { CheckCircle } from 'lucide-react';
 import { getDictionary } from '@/lib/dictionary';
 
-const SuccessPage = ({
-  params,
-}: {
-  params: Promise<{
-    id: string;
-    lang: Locale;
-  }>;
-}) => {
+const SuccessPage = () => {
   const router = useRouter();
+  const params = useParams();
   const [dict, setDict] = useState<any>(null);
-  const [resolvedParams, setResolvedParams] = useState<{
-    id: string;
-    lang: Locale;
-  } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const orderId = params.id as string;
+  const lang = params.lang as Locale;
 
   useEffect(() => {
-    const resolveParams = async () => {
-      const resolvedParamsData = await params;
-      setResolvedParams(resolvedParamsData);
-
-      const dictionary = await getDictionary(resolvedParamsData.lang);
-      setDict(dictionary);
+    const loadDictionary = async () => {
+      try {
+        const dictionary = await getDictionary(lang);
+        setDict(dictionary);
+      } catch (error) {
+        console.error('Error loading dictionary:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    resolveParams();
-  }, [params]);
+    if (lang) {
+      loadDictionary();
+    }
+  }, [lang]);
 
   useEffect(() => {
-    if (!resolvedParams) return;
+    if (!orderId || !lang || isLoading) return;
 
     const timer = setTimeout(() => {
-      router.push(`/${resolvedParams.lang}/order/${resolvedParams.id}`);
+      router.push(`/${lang}/order/${orderId}`);
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, [router, resolvedParams]);
+  }, [router, orderId, lang, isLoading]);
 
-  if (!dict || !resolvedParams) {
+  if (isLoading || !dict) {
     return (
       <div className='flex items-center justify-center min-h-screen'>
         <div className='text-center'>
@@ -73,9 +72,7 @@ const SuccessPage = ({
 
         <div className='space-y-3'>
           <Button
-            onClick={() =>
-              router.push(`/${resolvedParams.lang}/order/${resolvedParams.id}`)
-            }
+            onClick={() => router.push(`/${lang}/order/${orderId}`)}
             className='w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white'
           >
             {dict.order.stripe.success.viewOrder}

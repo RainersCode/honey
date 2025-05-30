@@ -8,33 +8,43 @@ import { CheckCircle } from 'lucide-react';
 import { getDictionary } from '@/lib/dictionary';
 
 const SuccessPage = ({
-  params: { id, lang },
+  params,
 }: {
-  params: {
+  params: Promise<{
     id: string;
     lang: Locale;
-  };
+  }>;
 }) => {
   const router = useRouter();
   const [dict, setDict] = useState<any>(null);
+  const [resolvedParams, setResolvedParams] = useState<{
+    id: string;
+    lang: Locale;
+  } | null>(null);
 
   useEffect(() => {
-    const loadDictionary = async () => {
-      const dictionary = await getDictionary(lang);
+    const resolveParams = async () => {
+      const resolvedParamsData = await params;
+      setResolvedParams(resolvedParamsData);
+
+      const dictionary = await getDictionary(resolvedParamsData.lang);
       setDict(dictionary);
     };
-    loadDictionary();
-  }, [lang]);
+
+    resolveParams();
+  }, [params]);
 
   useEffect(() => {
+    if (!resolvedParams) return;
+
     const timer = setTimeout(() => {
-      router.push(`/${lang}/order/${id}`);
+      router.push(`/${resolvedParams.lang}/order/${resolvedParams.id}`);
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, [router, id, lang]);
+  }, [router, resolvedParams]);
 
-  if (!dict) {
+  if (!dict || !resolvedParams) {
     return (
       <div className='flex items-center justify-center min-h-screen'>
         <div className='text-center'>
@@ -63,7 +73,9 @@ const SuccessPage = ({
 
         <div className='space-y-3'>
           <Button
-            onClick={() => router.push(`/${lang}/order/${id}`)}
+            onClick={() =>
+              router.push(`/${resolvedParams.lang}/order/${resolvedParams.id}`)
+            }
             className='w-full bg-[#FF7A3D] hover:bg-[#FF7A3D]/90 text-white'
           >
             {dict.order.stripe.success.viewOrder}

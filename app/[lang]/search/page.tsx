@@ -199,7 +199,6 @@ const SearchPage = async ({
                   className='pl-2 md:pl-4 basis-full sm:basis-[70%] md:basis-[50%] lg:basis-[33.333%]'
                 >
                   <BentoCard
-                    Icon={cat.Icon}
                     name={cat.name}
                     description={cat.description}
                     href={getFilterUrl({ c: cat.key })}
